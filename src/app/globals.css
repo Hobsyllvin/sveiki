@@ -1,26 +1,369 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500&display=swap");
 @import "tailwindcss";
 
+/* ── Design tokens ──────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --ink:       #1a1410;
+  --paper:     #f5f1ea;
+  --margin:    #e8e2d6;
+  --gloss:     #8a7a6a;
+  --accent:    #4a3728;
+  --rule:      #d4cdc2;
+  --note-bg:   #efe9de;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-lv:   "Lora", Georgia, "Times New Roman", serif;
+  --font-gloss: "Inter", system-ui, sans-serif;
+
+  --reading-width: 42rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --ink:     #d4cec4;
+    --paper:   #181410;
+    --margin:  #221e19;
+    --gloss:   #7a6e62;
+    --accent:  #b09070;
+    --rule:    #2e2820;
+    --note-bg: #2a2318;
   }
 }
 
+/* ── Base ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-gloss);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Homepage ───────────────────────────────────────────────── */
+.home-page {
+  max-width: var(--reading-width);
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.home-title {
+  font-family: var(--font-lv);
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+
+.home-subtitle {
+  color: var(--gloss);
+  font-size: 0.9rem;
+  margin-bottom: 2.5rem;
+}
+
+.home-course-name {
+  font-family: var(--font-lv);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gloss);
+  margin-bottom: 0.75rem;
+}
+
+.home-lesson-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.home-lesson-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+  transition: color 0.15s;
+}
+
+.home-lesson-link:hover { color: var(--accent); }
+
+.home-lesson-id {
+  font-family: var(--font-gloss);
+  font-size: 0.8rem;
+  color: var(--gloss);
+  flex-shrink: 0;
+}
+
+.home-lesson-theme {
+  font-family: var(--font-lv);
+  font-size: 1rem;
+  flex: 1;
+}
+
+.home-cefr-badge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.1em 0.45em;
+  border-radius: 2px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* ── Lesson page layout ─────────────────────────────────────── */
+.lesson-view {
+  max-width: var(--reading-width);
+  margin: 0 auto;
+  padding: 0 1.5rem 5rem;
+}
+
+.lesson-header {
+  padding: 1.5rem 0 2rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2.5rem;
+}
+
+.back-link {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--gloss);
+  text-decoration: none;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+.back-link:hover { color: var(--ink); }
+
+.lesson-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.lesson-title {
+  font-family: var(--font-lv);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.cefr-badge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.1em 0.45em;
+  border-radius: 2px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+/* ── Mode toggle ─────────────────────────────────────────────── */
+.mode-toggle {
+  display: inline-flex;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mode-btn {
+  font-family: var(--font-gloss);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  padding: 0.35em 0.85em;
+  background: transparent;
+  color: var(--gloss);
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mode-btn + .mode-btn {
+  border-left: 1px solid var(--rule);
+}
+
+.mode-btn:hover {
+  background: var(--margin);
+  color: var(--ink);
+}
+
+.mode-btn--active {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* ── Section ─────────────────────────────────────────────────── */
+.lesson-section {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-family: var(--font-lv);
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gloss);
+  letter-spacing: 0.02em;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ── Dialogue block ──────────────────────────────────────────── */
+.dialogue-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* ── Drill block ─────────────────────────────────────────────── */
+.drill-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ── Sentence block ──────────────────────────────────────────── */
+.sentence-block {
+  position: relative;
+}
+
+.speaker-label {
+  display: inline-block;
+  font-family: var(--font-gloss);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+  opacity: 0.75;
+}
+
+/* ── Interlinear token row ───────────────────────────────────── */
+.token-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.85rem;
+  align-items: flex-start;
+}
+
+/* Each pair: an inline-flex column so lv and gloss are always together */
+.token-pair {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  /* min-width ensures the pair is never narrower than its gloss */
+}
+
+.lv-word {
+  font-family: var(--font-lv);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* Tokens with notes get a subtle dotted underline */
+.lv-word.has-note {
+  text-decoration: underline dotted var(--gloss);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.lv-word.has-note:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.gloss-word {
+  font-family: var(--font-gloss);
+  font-size: 0.78rem;
+  color: var(--gloss);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* Note bubble — appears below the pair */
+.note-bubble {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 10;
+  background: var(--note-bg);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-family: var(--font-gloss);
+  padding: 0.2em 0.55em;
+  border-radius: 3px;
+  border: 1px solid var(--rule);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── Natural translation ─────────────────────────────────────── */
+.natural-toggle-row {
+  margin-top: 0.6rem;
+}
+
+.natural-toggle {
+  font-size: 0.72rem;
+  font-family: var(--font-gloss);
+  color: var(--gloss);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  letter-spacing: 0.02em;
+}
+.natural-toggle:hover { color: var(--ink); }
+
+.natural-translation-inline {
+  margin-top: 0.3rem;
+  font-family: var(--font-gloss);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--gloss);
+  line-height: 1.5;
+}
+
+/* ── Natural mode ────────────────────────────────────────────── */
+.natural-mode-sentence {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.lv-sentence {
+  font-family: var(--font-lv);
+  font-size: 1.1rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.natural-translation {
+  font-family: var(--font-gloss);
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--gloss);
+  line-height: 1.5;
+}
+
+/* ── Reduced motion ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
 }

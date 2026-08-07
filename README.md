@@ -18,6 +18,14 @@ npx tsc --noEmit   # TypeScript type check
 
 The validator reports a coloured PASS/FAIL per lesson and exits with code 1 on any failure, making it safe to use as a CI gate.
 
+## Decoding view
+
+The heart of the app is the lesson page at `/lessons/<lessonId>`. Each sentence is displayed interlinear-style: the Latvian word sits above its word-for-word gloss, pairs flowing left-to-right and wrapping as units on narrow screens so a gloss is never orphaned from its word.
+
+Three reading modes — **Decode** (full interlinear), **Natural** (Latvian + idiomatic translation), **Latvian only** (target text alone for self-testing) — switch from a pill toggle at the top of the page. All three draw from the same loaded lesson data; no refetch on mode change. Tokens with grammatical notes reveal them on tap (mobile) or hover/focus (desktop) via an accessible disclosure. Natural translations are collapsed by default in Decode mode.
+
+_[Screenshot placeholder — to be added after native-speaker review]_
+
 ## Stack
 
 Next.js 16 (App Router) · TypeScript · Tailwind CSS · Zod · deployed on Vercel
