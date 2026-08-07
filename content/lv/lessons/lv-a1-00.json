@@ -5,12 +5,11 @@
   "newLemmas": ["es", "gribēt", "pirkt", "maize", "iet", "uz", "darbs", "viņa", "mazgāties", "no", "rīts", "dzīvot", "Rīga", "kur", "tu"],
   "sections": [
     {
-      "format": "dialogue",
-      "title": "Kur tu dzīvo?",
+      "format": "drill",
+      "title": "Ievads",
       "sentences": [
         {
           "id": "s1",
-          "speaker": "A",
           "target": "Kur tu dzīvo?",
           "tokens": [
             { "lv": "Kur", "gloss": "where", "lemma": "kur", "pos": "adv" },
@@ -23,7 +22,6 @@
         },
         {
           "id": "s2",
-          "speaker": "B",
           "target": "Es dzīvoju Rīgā.",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -33,13 +31,7 @@
           "natural": "I live in Riga.",
           "audio": "lv-a1-00-s2.mp3",
           "audioApproved": false
-        }
-      ]
-    },
-    {
-      "format": "drill",
-      "title": "Jauni teikumi",
-      "sentences": [
+        },
         {
           "id": "s3",
           "target": "Es gribu pirkt maizi.",

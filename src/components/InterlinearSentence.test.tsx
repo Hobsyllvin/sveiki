@@ -102,3 +102,15 @@ describe("InterlinearSentence — natural mode", () => {
     expect(screen.queryByText("to-buy")).not.toBeInTheDocument();
   });
 });
+
+describe("InterlinearSentence — speaker label gating", () => {
+  it("drill section: does not render speaker label even when speaker field is present", () => {
+    render(<InterlinearSentence sentence={sentenceNoNotes} mode="decode" showSpeaker={false} />);
+    expect(screen.queryByText("A")).not.toBeInTheDocument();
+  });
+
+  it("dialogue section: renders speaker label when showSpeaker is true", () => {
+    render(<InterlinearSentence sentence={sentenceNoNotes} mode="decode" showSpeaker={true} />);
+    expect(screen.getByText("A")).toBeInTheDocument();
+  });
+});

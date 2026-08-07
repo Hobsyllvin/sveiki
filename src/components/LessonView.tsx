@@ -27,7 +27,6 @@ export default function LessonView({ lesson }: Props) {
       <main className="lesson-sections">
         {lesson.sections.map((section) => (
           <section key={section.title} className={`lesson-section section-${section.format}`}>
-            <h2 className="section-title">{section.title}</h2>
             <div className={section.format === "dialogue" ? "dialogue-block" : "drill-block"}>
               {section.sentences.map((sentence) => (
                 <InterlinearSentence
