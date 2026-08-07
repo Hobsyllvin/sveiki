@@ -1,0 +1,85 @@
+{
+  "lessonId": "lv-a1-00",
+  "title": "Pirmie teikumi (First sentences)",
+  "cefr": "A1",
+  "newLemmas": ["es", "gribēt", "pirkt", "maize", "iet", "uz", "darbs", "viņa", "mazgāties", "no", "rīts", "dzīvot", "Rīga", "kur", "tu"],
+  "sections": [
+    {
+      "format": "dialogue",
+      "title": "Kur tu dzīvo?",
+      "sentences": [
+        {
+          "id": "s1",
+          "speaker": "A",
+          "target": "Kur tu dzīvo?",
+          "tokens": [
+            { "lv": "Kur", "gloss": "where", "lemma": "kur", "pos": "adv" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron" },
+            { "lv": "dzīvo", "gloss": "live", "lemma": "dzīvot", "pos": "verb", "note": "2sg pres." }
+          ],
+          "natural": "Where do you live?",
+          "audio": "lv-a1-00-s1.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s2",
+          "speaker": "B",
+          "target": "Es dzīvoju Rīgā.",
+          "tokens": [
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "dzīvoju", "gloss": "live", "lemma": "dzīvot", "pos": "verb", "note": "1sg pres." },
+            { "lv": "Rīgā", "gloss": "in-Riga", "lemma": "Rīga", "pos": "propn", "note": "loc." }
+          ],
+          "natural": "I live in Riga.",
+          "audio": "lv-a1-00-s2.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "drill",
+      "title": "Jauni teikumi",
+      "sentences": [
+        {
+          "id": "s3",
+          "target": "Es gribu pirkt maizi.",
+          "tokens": [
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "gribu", "gloss": "want", "lemma": "gribēt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "pirkt", "gloss": "to-buy", "lemma": "pirkt", "pos": "verb", "note": "inf." },
+            { "lv": "maizi", "gloss": "bread", "lemma": "maize", "pos": "noun", "note": "acc." }
+          ],
+          "natural": "I want to buy bread.",
+          "audio": "lv-a1-00-s3.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s4",
+          "target": "Man jāiet uz darbu.",
+          "tokens": [
+            { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
+            { "lv": "jāiet", "gloss": "is-to-go", "lemma": "iet", "pos": "verb", "note": "debitive of iet" },
+            { "lv": "uz", "gloss": "to", "lemma": "uz", "pos": "prep", "note": "+ acc, direction" },
+            { "lv": "darbu", "gloss": "work", "lemma": "darbs", "pos": "noun", "note": "acc." }
+          ],
+          "natural": "I have to go to work.",
+          "audio": "lv-a1-00-s4.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s5",
+          "target": "Viņa mazgājas no rīta.",
+          "tokens": [
+            { "lv": "Viņa", "gloss": "she", "lemma": "viņa", "pos": "pron" },
+            { "lv": "mazgājas", "gloss": "washes-oneself", "lemma": "mazgāties", "pos": "verb", "note": "refl. 3sg" },
+            { "lv": "no", "gloss": "from", "lemma": "no", "pos": "prep", "note": "+ gen." },
+            { "lv": "rīta", "gloss": "morning", "lemma": "rīts", "pos": "noun", "note": "gen. after no" }
+          ],
+          "natural": "She washes herself in the morning.",
+          "audio": "lv-a1-00-s5.mp3",
+          "audioApproved": false
+        }
+      ]
+    }
+  ]
+}

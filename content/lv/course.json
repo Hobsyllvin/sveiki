@@ -1,0 +1,9 @@
+{
+  "language": "lv",
+  "languageName": "Latvian",
+  "glossLanguage": "en",
+  "glossingRules": "../_shared/GLOSSING_RULES.md",
+  "lessons": [
+    { "lessonId": "lv-a1-00", "theme": "first sentences / pipeline fixture", "cefr": "A1" }
+  ]
+}
