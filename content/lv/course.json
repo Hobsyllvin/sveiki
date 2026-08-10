@@ -4,6 +4,57 @@
   "glossLanguage": "en",
   "glossingRules": "../_shared/GLOSSING_RULES.md",
   "lessons": [
-    { "lessonId": "lv-a1-00", "theme": "first sentences / pipeline fixture", "cefr": "A1" }
+    {
+      "lessonId": "lv-a1-00",
+      "theme": "first sentences / pipeline fixture",
+      "cefr": "A1",
+      "newLemmas": ["es", "tu", "viņa", "kur", "dzīvot", "gribēt", "pirkt", "iet", "mazgāties", "maize", "darbs", "rīts", "Rīga", "uz", "no"]
+    },
+    {
+      "lessonId": "lv-a1-01",
+      "theme": "greetings, identity, work, interests, numbers 1–10",
+      "cefr": "A1",
+      "newLemmas": [
+        "sveiki", "labdien", "paldies", "jā", "nē",
+        "būt", "Latvija", "pilsēta", "šeit",
+        "strādāt", "mācīties", "students", "skolotājs",
+        "valoda", "latviski", "angliski", "runāt", "saprast",
+        "patikt", "lasīt", "mūzika", "sports", "ceļot",
+        "labs", "labi", "arī", "bet", "un", "vai",
+        "ļoti", "mazliet", "vēl", "tikai",
+        "viens", "divi", "trīs", "četri", "pieci", "seši", "septiņi", "astoņi", "deviņi", "desmit"
+      ]
+    },
+    {
+      "lessonId": "lv-a1-02",
+      "theme": "family, home, rooms, adjectives, time words",
+      "cefr": "A1",
+      "newLemmas": [
+        "viņš", "mēs", "jūs", "viņi",
+        "labrīt", "vārds", "lūdzu", "atvainojiet", "nākt", "tur", "ārsts", "kā",
+        "māte", "tēvs", "brālis", "māsa", "bērns", "vīrs", "sieva", "vecāki", "vectēvs", "vecmāte", "ģimene",
+        "draugs", "draudzene", "zēns", "meitene", "mīlēt",
+        "māja", "dzīvoklis", "istaba", "virtuve", "viesistaba", "guļamistaba", "pirts", "dārzs",
+        "logs", "durvis", "galds", "krēsls", "gulta", "grāmata",
+        "liels", "mazs", "jauns", "vecs", "skaists", "silts", "auksts",
+        "tagad", "vakar", "rīt", "šis", "tas",
+        "gatavot", "vajadzēt", "palīdzēt", "dzīve"
+      ]
+    },
+    {
+      "lessonId": "lv-a1-03",
+      "theme": "food, drink, market, shopping, meals",
+      "cefr": "A1",
+      "newLemmas": [
+        "ēst", "dzert", "piens", "ola", "ābols", "gaļa", "zivis", "dārzenis", "auglis",
+        "kartupelis", "tomāts", "gurķis", "burkāns", "siers", "sviests", "cukurs", "sāls",
+        "ūdens", "tēja", "kafija", "sula", "vīns", "alus",
+        "garš", "svaigs",
+        "veikals", "tirgus", "nauda", "maksāt", "cena", "lēts", "dārgs", "eiro",
+        "kase", "čeks", "cik", "daudz", "maz", "viss", "vairāk", "pietiek",
+        "kilograms", "litrs", "gabals", "pudele", "maiss",
+        "šodien", "brokastis", "pusdienas", "vakariņas"
+      ]
+    }
   ]
 }

@@ -68,18 +68,21 @@ export const DictionarySchema = z.record(z.string(), DictionaryEntrySchema);
 
 export type Dictionary = z.infer<typeof DictionarySchema>;
 
+export const CourseLessonSchema = z.object({
+  lessonId: z.string().min(1),
+  theme: z.string().min(1),
+  cefr: z.enum(["A1", "A2", "B1", "B2"]),
+  newLemmas: z.array(z.string()).optional(),
+});
+
+export type CourseLessonEntry = z.infer<typeof CourseLessonSchema>;
+
 export const CourseSchema = z.object({
   language: z.string().min(1),
   languageName: z.string().min(1),
   glossLanguage: z.string().min(1),
   glossingRules: z.string().min(1),
-  lessons: z.array(
-    z.object({
-      lessonId: z.string().min(1),
-      theme: z.string().min(1),
-      cefr: z.enum(["A1", "A2", "B1", "B2"]),
-    })
-  ),
+  lessons: z.array(CourseLessonSchema),
 });
 
 export type Course = z.infer<typeof CourseSchema>;
