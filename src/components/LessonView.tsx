@@ -12,6 +12,11 @@ interface Props {
 
 export default function LessonView({ lesson }: Props) {
   const [mode, setMode] = useState<ViewMode>("decode");
+  const [openNoteId, setOpenNoteId] = useState<string | null>(null);
+
+  const handleToggleNote = (id: string) => {
+    setOpenNoteId((prev) => (prev === id ? null : id));
+  };
 
   return (
     <div className="lesson-view">
@@ -27,13 +32,15 @@ export default function LessonView({ lesson }: Props) {
       <main className="lesson-sections">
         {lesson.sections.map((section) => (
           <section key={section.title} className={`lesson-section section-${section.format}`}>
-            <div className={section.format === "dialogue" ? "dialogue-block" : "drill-block"}>
+            <div className={`${section.format}-block`}>
               {section.sentences.map((sentence) => (
                 <InterlinearSentence
                   key={sentence.id}
                   sentence={sentence}
                   mode={mode}
                   showSpeaker={section.format === "dialogue"}
+                  openNoteId={openNoteId}
+                  onToggleNote={handleToggleNote}
                 />
               ))}
             </div>

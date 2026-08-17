@@ -1,0 +1,823 @@
+{
+  "lessonId": "lv-a1-03",
+  "title": "Kafejnīcā (At the café)",
+  "cefr": "A1",
+  "newLemmas": ["satikties", "redzēt", "šis", "jauks", "nākt", "sēdēt", "pie", "logs", "galds", "dzert", "kafija", "tēja", "garšot", "skumjs", "dzīve", "haha", "pūst", "pīlīte", "vienmēr", "vajadzēt", "kūka", "garšīgs", "ieteikt", "siers", "skanēt", "lieliski", "viesmīlis", "jūs", "vēlēties", "lūdzu", "zaļš", "ar", "govs", "piens", "auza", "skriet", "katrs", "diena", "daudz", "vasara", "braukt", "jūra", "maratons", "mežs", "spēlēt", "pludmale", "volejbols", "ā", "Jūrmala", "laukums", "tieši", "tā", "ja", "labprāt", "instruments", "ģitāra", "dziedāt", "gatavot", "zupa", "cept", "slepens", "recepte", "burkāns", "reiz", "nogaršot", "smaidīt", "varbūt", "atnest", "o", "lielisks", "teikt", "fantastisks", "vieta", "izvēle", "priecāties", "ka", "labs"],
+  "sections": [
+    {
+      "format": "narration",
+      "title": "Satikšanās",
+      "sentences": [
+        {
+          "id": "s1",
+          "speaker": "Narrator",
+          "target": "Pēteris un Anna satiekas kafejnīcā Vecrīgā.",
+          "tokens": [
+            { "lv": "Pēteris", "gloss": "Pēteris", "lemma": "Pēteris", "pos": "propn", "note": "nom." },
+            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "Anna", "gloss": "Anna", "lemma": "Anna", "pos": "propn", "note": "nom." },
+            { "lv": "satiekas", "gloss": "meet", "lemma": "satikties", "pos": "verb", "note": "refl. form, reciprocal; 3 pres." },
+            { "lv": "kafejnīcā", "gloss": "in-café", "lemma": "kafejnīca", "pos": "noun", "note": "loc." },
+            { "lv": "Vecrīgā", "gloss": "in-Vecrīga", "lemma": "Vecrīga", "pos": "propn", "note": "loc.", "punct": "." }
+          ],
+          "natural": "Pēteris and Anna meet in a café in Riga's Old Town.",
+          "audio": "lv-a1-03-s1.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "dialogue",
+      "title": "Sveicieni un vieta",
+      "sentences": [
+        {
+          "id": "s2",
+          "speaker": "Pēteris",
+          "target": "Sveika, Anna! Prieks tevi redzēt.",
+          "tokens": [
+            { "lv": "Sveika", "gloss": "hello", "lemma": "sveiks", "pos": "interj", "note": "fem. addressee", "punct": "," },
+            { "lv": "Anna", "gloss": "Anna", "lemma": "Anna", "pos": "propn", "note": "voc.", "punct": "!" },
+            { "lv": "Prieks", "gloss": "joy", "lemma": "prieks", "pos": "noun", "note": "nom.; prieks redzēt = nice to see" },
+            { "lv": "tevi", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "acc." },
+            { "lv": "redzēt", "gloss": "to-see", "lemma": "redzēt", "pos": "verb", "note": "inf.", "punct": "." }
+          ],
+          "natural": "Hello, Anna! Nice to see you.",
+          "audio": "lv-a1-03-s2.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s3",
+          "speaker": "Anna",
+          "target": "Sveiks, Pēteri! Man arī.",
+          "tokens": [
+            { "lv": "Sveiks", "gloss": "hello", "lemma": "sveiks", "pos": "interj", "note": "masc. addressee", "punct": "," },
+            { "lv": "Pēteri", "gloss": "Pēteris", "lemma": "Pēteris", "pos": "propn", "note": "voc.", "punct": "!" },
+            { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
+            { "lv": "arī", "gloss": "also", "lemma": "arī", "pos": "adv", "punct": "." }
+          ],
+          "natural": "Hello, Pēteris! You too.",
+          "audio": "lv-a1-03-s3.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s4",
+          "speaker": "Anna",
+          "target": "Šī ir ļoti jauka kafejnīca.",
+          "tokens": [
+            { "lv": "Šī", "gloss": "this", "lemma": "šis", "pos": "pron", "note": "demonstr.; fem. nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
+            { "lv": "jauka", "gloss": "nice", "lemma": "jauks", "pos": "adj", "note": "fem. nom." },
+            { "lv": "kafejnīca", "gloss": "café", "lemma": "kafejnīca", "pos": "noun", "note": "nom.", "punct": "." }
+          ],
+          "natural": "This is a very nice café.",
+          "audio": "lv-a1-03-s4.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s5",
+          "speaker": "Pēteris",
+          "target": "Jā, es šeit nāku bieži. Vai tu gribi sēdēt pie loga?",
+          "tokens": [
+            { "lv": "Jā", "gloss": "yes", "lemma": "jā", "pos": "interj", "punct": "," },
+            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "šeit", "gloss": "here", "lemma": "šeit", "pos": "adv" },
+            { "lv": "nāku", "gloss": "come", "lemma": "nākt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "bieži", "gloss": "often", "lemma": "bieži", "pos": "adv", "punct": "." },
+            { "lv": "Vai", "gloss": "whether", "lemma": "vai", "pos": "part", "note": "yes/no question particle" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
+            { "lv": "gribi", "gloss": "want", "lemma": "gribēt", "pos": "verb", "note": "2sg pres." },
+            { "lv": "sēdēt", "gloss": "to-sit", "lemma": "sēdēt", "pos": "verb", "note": "inf." },
+            { "lv": "pie", "gloss": "at", "lemma": "pie", "pos": "prep", "note": "+ gen.; here 'by'" },
+            { "lv": "loga", "gloss": "window", "lemma": "logs", "pos": "noun", "note": "gen. after pie", "punct": "?" }
+          ],
+          "natural": "Yes, I come here often. Do you want to sit by the window?",
+          "audio": "lv-a1-03-s5.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s6",
+          "speaker": "Anna",
+          "target": "Jā! Šeit ir brīvs galds.",
+          "tokens": [
+            { "lv": "Jā", "gloss": "yes", "lemma": "jā", "pos": "interj", "punct": "!" },
+            { "lv": "Šeit", "gloss": "here", "lemma": "šeit", "pos": "adv" },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "brīvs", "gloss": "free", "lemma": "brīvs", "pos": "adj", "note": "masc. nom." },
+            { "lv": "galds", "gloss": "table", "lemma": "galds", "pos": "noun", "note": "nom.", "punct": "." }
+          ],
+          "natural": "Yes! There's a free table here.",
+          "audio": "lv-a1-03-s6.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "dialogue",
+      "title": "Ko dzert",
+      "sentences": [
+        {
+          "id": "s7",
+          "speaker": "Pēteris",
+          "target": "Ko tu gribi dzert?",
+          "tokens": [
+            { "lv": "Ko", "gloss": "what", "lemma": "kas", "pos": "pron", "note": "acc." },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
+            { "lv": "gribi", "gloss": "want", "lemma": "gribēt", "pos": "verb", "note": "2sg pres." },
+            { "lv": "dzert", "gloss": "to-drink", "lemma": "dzert", "pos": "verb", "note": "inf.", "punct": "?" }
+          ],
+          "natural": "What do you want to drink?",
+          "audio": "lv-a1-03-s7.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s8",
+          "speaker": "Anna",
+          "target": "Es gribu kafiju. Un tu?",
+          "tokens": [
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "gribu", "gloss": "want", "lemma": "gribēt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "kafiju", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "acc.", "punct": "." },
+            { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom.", "punct": "?" }
+          ],
+          "natural": "I want coffee. And you?",
+          "audio": "lv-a1-03-s8.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s9",
+          "speaker": "Pēteris",
+          "target": "Es dzeru tēju. Kafija man negaršo.",
+          "tokens": [
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "dzeru", "gloss": "drink", "lemma": "dzert", "pos": "verb", "note": "1sg pres." },
+            { "lv": "tēju", "gloss": "tea", "lemma": "tēja", "pos": "noun", "note": "acc.", "punct": "." },
+            { "lv": "Kafija", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "nom." },
+            { "lv": "man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
+            { "lv": "negaršo", "gloss": "not-tastes", "lemma": "garšot", "pos": "verb", "note": "neg. 3 pres.; dat. construction", "punct": "." }
+          ],
+          "natural": "I'm drinking tea. I don't like coffee.",
+          "audio": "lv-a1-03-s9.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s10",
+          "speaker": "Anna",
+          "target": "Ko? Tev negaršo kafija? Cik skumja dzīve!",
+          "tokens": [
+            { "lv": "Ko", "gloss": "what", "lemma": "kas", "pos": "pron", "note": "acc.", "punct": "?" },
+            { "lv": "Tev", "gloss": "to-you", "lemma": "tu", "pos": "pron", "note": "dat." },
+            { "lv": "negaršo", "gloss": "not-tastes", "lemma": "garšot", "pos": "verb", "note": "neg. 3 pres.; dat. construction" },
+            { "lv": "kafija", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "nom.", "punct": "?" },
+            { "lv": "Cik", "gloss": "how", "lemma": "cik", "pos": "adv", "note": "cik + adj. = how" },
+            { "lv": "skumja", "gloss": "sad", "lemma": "skumjs", "pos": "adj", "note": "fem. nom." },
+            { "lv": "dzīve", "gloss": "life", "lemma": "dzīve", "pos": "noun", "note": "nom.", "punct": "!" }
+          ],
+          "natural": "What? You don't like coffee? What a sad life!",
+          "audio": "lv-a1-03-s10.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s11",
+          "speaker": "Pēteris",
+          "target": "Haha, tu pūt pīlītes! Tēja ir vislabākā!",
+          "tokens": [
+            { "lv": "Haha", "gloss": "haha", "lemma": "haha", "pos": "interj", "punct": "," },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
+            { "lv": "pūt", "gloss": "blow", "lemma": "pūst", "pos": "verb", "note": "2sg pres." },
+            { "lv": "pīlītes", "gloss": "little-ducks", "lemma": "pīlīte", "pos": "noun", "note": "acc. pl.; dim.; idiom = talk nonsense", "punct": "!" },
+            { "lv": "Tēja", "gloss": "tea", "lemma": "tēja", "pos": "noun", "note": "nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "vislabākā", "gloss": "best", "lemma": "labs", "pos": "adj", "note": "superl. def. fem. nom.", "punct": "!" }
+          ],
+          "natural": "Haha, you're talking nonsense! Tea is the best!",
+          "audio": "lv-a1-03-s11.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s12",
+          "speaker": "Anna",
+          "target": "No rīta man vienmēr vajag kafiju.",
+          "tokens": [
+            { "lv": "No", "gloss": "from", "lemma": "no", "pos": "prep", "note": "+ gen." },
+            { "lv": "rīta", "gloss": "morning", "lemma": "rīts", "pos": "noun", "note": "gen. after no" },
+            { "lv": "man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
+            { "lv": "vienmēr", "gloss": "always", "lemma": "vienmēr", "pos": "adv" },
+            { "lv": "vajag", "gloss": "needs", "lemma": "vajadzēt", "pos": "verb", "note": "3 pres.; man vajag = to-me needs" },
+            { "lv": "kafiju", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "acc.", "punct": "." }
+          ],
+          "natural": "In the morning I always need coffee.",
+          "audio": "lv-a1-03-s12.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "dialogue",
+      "title": "Kūkas",
+      "sentences": [
+        {
+          "id": "s13",
+          "speaker": "Pēteris",
+          "target": "Redzi? Tā ir skumja dzīve, haha! Vai tu gribi kūku? Šeit ir ļoti garšīgas kūkas. Es iesaku siera kūku.",
+          "tokens": [
+            { "lv": "Redzi", "gloss": "see", "lemma": "redzēt", "pos": "verb", "note": "2sg pres.", "punct": "?" },
+            { "lv": "Tā", "gloss": "that", "lemma": "tas", "pos": "pron", "note": "demonstr.; fem. nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "skumja", "gloss": "sad", "lemma": "skumjs", "pos": "adj", "note": "fem. nom." },
+            { "lv": "dzīve", "gloss": "life", "lemma": "dzīve", "pos": "noun", "note": "nom.", "punct": "," },
+            { "lv": "haha", "gloss": "haha", "lemma": "haha", "pos": "interj", "punct": "!" },
+            { "lv": "Vai", "gloss": "whether", "lemma": "vai", "pos": "part", "note": "yes/no question particle" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
+            { "lv": "gribi", "gloss": "want", "lemma": "gribēt", "pos": "verb", "note": "2sg pres." },
+            { "lv": "kūku", "gloss": "cake", "lemma": "kūka", "pos": "noun", "note": "acc.", "punct": "?" },
+            { "lv": "Šeit", "gloss": "here", "lemma": "šeit", "pos": "adv" },
+            { "lv": "ir", "gloss": "are", "lemma": "būt", "pos": "verb", "note": "3 pres. pl." },
+            { "lv": "ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
+            { "lv": "garšīgas", "gloss": "tasty", "lemma": "garšīgs", "pos": "adj", "note": "fem. nom. pl." },
+            { "lv": "kūkas", "gloss": "cakes", "lemma": "kūka", "pos": "noun", "note": "nom. pl.", "punct": "." },
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "iesaku", "gloss": "recommend", "lemma": "ieteikt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "siera", "gloss": "cheese", "lemma": "siers", "pos": "noun", "note": "gen.; siera kūka = cheesecake" },
+            { "lv": "kūku", "gloss": "cake", "lemma": "kūka", "pos": "noun", "note": "acc.", "punct": "." }
+          ],
+          "natural": "See? That is a sad life, haha! Do you want cake? The cakes here are very tasty. I recommend the cheesecake.",
+          "audio": "lv-a1-03-s13.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s14",
+          "speaker": "Anna",
+          "target": "Tas skan lieliski! Es ļoti mīlu kūkas.",
+          "tokens": [
+            { "lv": "Tas", "gloss": "that", "lemma": "tas", "pos": "pron", "note": "demonstr.; masc. nom." },
+            { "lv": "skan", "gloss": "sounds", "lemma": "skanēt", "pos": "verb", "note": "3 pres." },
+            { "lv": "lieliski", "gloss": "wonderful", "lemma": "lieliski", "pos": "adv", "punct": "!" },
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
+            { "lv": "mīlu", "gloss": "love", "lemma": "mīlēt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "kūkas", "gloss": "cakes", "lemma": "kūka", "pos": "noun", "note": "acc. pl.", "punct": "." }
+          ],
+          "natural": "That sounds wonderful! I love cakes.",
+          "audio": "lv-a1-03-s14.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "narration",
+      "title": "Viesmīlis nāk",
+      "sentences": [
+        {
+          "id": "s15",
+          "speaker": "Narrator",
+          "target": "Nāk viesmīlis.",
+          "tokens": [
+            { "lv": "Nāk", "gloss": "comes", "lemma": "nākt", "pos": "verb", "note": "3 pres." },
+            { "lv": "viesmīlis", "gloss": "waiter", "lemma": "viesmīlis", "pos": "noun", "note": "masc. nom.", "punct": "." }
+          ],
+          "natural": "The waiter is coming.",
+          "audio": "lv-a1-03-s15.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "dialogue",
+      "title": "Pasūtījums",
+      "sentences": [
+        {
+          "id": "s16",
+          "speaker": "Waiter",
+          "target": "Labdien! Ko jūs vēlaties?",
+          "tokens": [
+            { "lv": "Labdien", "gloss": "good-day", "lemma": "labdien", "pos": "interj", "punct": "!" },
+            { "lv": "Ko", "gloss": "what", "lemma": "kas", "pos": "pron", "note": "acc." },
+            { "lv": "jūs", "gloss": "you", "lemma": "jūs", "pos": "pron", "note": "nom. pl./polite" },
+            { "lv": "vēlaties", "gloss": "wish", "lemma": "vēlēties", "pos": "verb", "note": "refl. form, non-refl. sense; 2pl pres.", "punct": "?" }
+          ],
+          "natural": "Hello! What would you like?",
+          "audio": "lv-a1-03-s16.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s17",
+          "speaker": "Pēteris",
+          "target": "Vienu kafiju, vienu tēju un divas siera kūkas, lūdzu.",
+          "tokens": [
+            { "lv": "Vienu", "gloss": "one", "lemma": "viens", "pos": "num", "note": "acc. fem." },
+            { "lv": "kafiju", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "acc.", "punct": "," },
+            { "lv": "vienu", "gloss": "one", "lemma": "viens", "pos": "num", "note": "acc. fem." },
+            { "lv": "tēju", "gloss": "tea", "lemma": "tēja", "pos": "noun", "note": "acc." },
+            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "divas", "gloss": "two", "lemma": "divi", "pos": "num", "note": "acc. fem. pl." },
+            { "lv": "siera", "gloss": "cheese", "lemma": "siers", "pos": "noun", "note": "gen.; siera kūka = cheesecake" },
+            { "lv": "kūkas", "gloss": "cakes", "lemma": "kūka", "pos": "noun", "note": "acc. pl.", "punct": "," },
+            { "lv": "lūdzu", "gloss": "please", "lemma": "lūdzu", "pos": "part", "note": "lit. 'I ask'; fixed politeness form", "punct": "." }
+          ],
+          "natural": "One coffee, one tea and two cheesecakes, please.",
+          "audio": "lv-a1-03-s17.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s18",
+          "speaker": "Waiter",
+          "target": "Kādu tēju jūs vēlaties?",
+          "tokens": [
+            { "lv": "Kādu", "gloss": "what-kind", "lemma": "kāds", "pos": "pron", "note": "interrog.; acc. fem." },
+            { "lv": "tēju", "gloss": "tea", "lemma": "tēja", "pos": "noun", "note": "acc." },
+            { "lv": "jūs", "gloss": "you", "lemma": "jūs", "pos": "pron", "note": "nom. pl./polite" },
+            { "lv": "vēlaties", "gloss": "wish", "lemma": "vēlēties", "pos": "verb", "note": "refl. form, non-refl. sense; 2pl pres.", "punct": "?" }
+          ],
+          "natural": "Which tea would you like?",
+          "audio": "lv-a1-03-s18.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s19",
+          "speaker": "Pēteris",
+          "target": "Zaļo tēju, lūdzu.",
+          "tokens": [
+            { "lv": "Zaļo", "gloss": "green", "lemma": "zaļš", "pos": "adj", "note": "def. adj.; acc. fem." },
+            { "lv": "tēju", "gloss": "tea", "lemma": "tēja", "pos": "noun", "note": "acc.", "punct": "," },
+            { "lv": "lūdzu", "gloss": "please", "lemma": "lūdzu", "pos": "part", "note": "lit. 'I ask'; fixed politeness form", "punct": "." }
+          ],
+          "natural": "Green tea, please.",
+          "audio": "lv-a1-03-s19.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s20",
+          "speaker": "Waiter",
+          "target": "Un kafiju ar govs pienu vai auzu pienu?",
+          "tokens": [
+            { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "kafiju", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "acc." },
+            { "lv": "ar", "gloss": "with", "lemma": "ar", "pos": "prep", "note": "+ acc." },
+            { "lv": "govs", "gloss": "cow", "lemma": "govs", "pos": "noun", "note": "gen. sg." },
+            { "lv": "pienu", "gloss": "milk", "lemma": "piens", "pos": "noun", "note": "acc." },
+            { "lv": "vai", "gloss": "or", "lemma": "vai", "pos": "conj", "note": "'or' sense, not the question particle" },
+            { "lv": "auzu", "gloss": "oats", "lemma": "auza", "pos": "noun", "note": "gen. pl.; auzu piens = oat milk" },
+            { "lv": "pienu", "gloss": "milk", "lemma": "piens", "pos": "noun", "note": "acc.", "punct": "?" }
+          ],
+          "natural": "And the coffee with cow's milk or oat milk?",
+          "audio": "lv-a1-03-s20.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s21",
+          "speaker": "Anna",
+          "target": "Ar auzu pienu, lūdzu. Paldies!",
+          "tokens": [
+            { "lv": "Ar", "gloss": "with", "lemma": "ar", "pos": "prep", "note": "+ acc." },
+            { "lv": "auzu", "gloss": "oats", "lemma": "auza", "pos": "noun", "note": "gen. pl.; auzu piens = oat milk" },
+            { "lv": "pienu", "gloss": "milk", "lemma": "piens", "pos": "noun", "note": "acc.", "punct": "," },
+            { "lv": "lūdzu", "gloss": "please", "lemma": "lūdzu", "pos": "part", "note": "lit. 'I ask'; fixed politeness form", "punct": "." },
+            { "lv": "Paldies", "gloss": "thank-you", "lemma": "paldies", "pos": "interj", "punct": "!" }
+          ],
+          "natural": "With oat milk, please. Thank you!",
+          "audio": "lv-a1-03-s21.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s22",
+          "speaker": "Waiter",
+          "target": "Paldies!",
+          "tokens": [
+            { "lv": "Paldies", "gloss": "thank-you", "lemma": "paldies", "pos": "interj", "punct": "!" }
+          ],
+          "natural": "Thank you!",
+          "audio": "lv-a1-03-s22.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "dialogue",
+      "title": "Brīvajā laikā",
+      "sentences": [
+        {
+          "id": "s23",
+          "speaker": "Pēteris",
+          "target": "Ko tu dari brīvajā laikā?",
+          "tokens": [
+            { "lv": "Ko", "gloss": "what", "lemma": "kas", "pos": "pron", "note": "acc." },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
+            { "lv": "dari", "gloss": "do", "lemma": "darīt", "pos": "verb", "note": "2sg pres." },
+            { "lv": "brīvajā", "gloss": "free", "lemma": "brīvs", "pos": "adj", "note": "def. adj.; loc." },
+            { "lv": "laikā", "gloss": "in-time", "lemma": "laiks", "pos": "noun", "note": "loc.", "punct": "?" }
+          ],
+          "natural": "What do you do in your free time?",
+          "audio": "lv-a1-03-s23.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s24",
+          "speaker": "Anna",
+          "target": "Man patīk skriet. Es skrienu katru dienu.",
+          "tokens": [
+            { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
+            { "lv": "patīk", "gloss": "pleases", "lemma": "patikt", "pos": "verb", "note": "3 pres.; man patīk = to-me pleases" },
+            { "lv": "skriet", "gloss": "to-run", "lemma": "skriet", "pos": "verb", "note": "inf.", "punct": "." },
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "skrienu", "gloss": "run", "lemma": "skriet", "pos": "verb", "note": "1sg pres." },
+            { "lv": "katru", "gloss": "every", "lemma": "katrs", "pos": "pron", "note": "acc. fem." },
+            { "lv": "dienu", "gloss": "day", "lemma": "diena", "pos": "noun", "note": "acc.", "punct": "." }
+          ],
+          "natural": "I like running. I run every day.",
+          "audio": "lv-a1-03-s24.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s25",
+          "speaker": "Anna",
+          "target": "Es arī daudz peldu. Vasarā man patīk braukt uz jūru.",
+          "tokens": [
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "arī", "gloss": "also", "lemma": "arī", "pos": "adv" },
+            { "lv": "daudz", "gloss": "a-lot", "lemma": "daudz", "pos": "adv" },
+            { "lv": "peldu", "gloss": "swim", "lemma": "peldēt", "pos": "verb", "note": "1sg pres.", "punct": "." },
+            { "lv": "Vasarā", "gloss": "in-summer", "lemma": "vasara", "pos": "noun", "note": "loc." },
+            { "lv": "man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
+            { "lv": "patīk", "gloss": "pleases", "lemma": "patikt", "pos": "verb", "note": "3 pres.; man patīk = to-me pleases" },
+            { "lv": "braukt", "gloss": "to-ride", "lemma": "braukt", "pos": "verb", "note": "inf.; travel by vehicle" },
+            { "lv": "uz", "gloss": "to", "lemma": "uz", "pos": "prep", "note": "+ acc, direction" },
+            { "lv": "jūru", "gloss": "sea", "lemma": "jūra", "pos": "noun", "note": "acc.", "punct": "." }
+          ],
+          "natural": "I also swim a lot. In summer I like going to the sea.",
+          "audio": "lv-a1-03-s25.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s26",
+          "speaker": "Pēteris",
+          "target": "Cik jauki! Vai tu skrien maratonu?",
+          "tokens": [
+            { "lv": "Cik", "gloss": "how", "lemma": "cik", "pos": "adv", "note": "cik + adv. = how" },
+            { "lv": "jauki", "gloss": "nice", "lemma": "jauki", "pos": "adv", "punct": "!" },
+            { "lv": "Vai", "gloss": "whether", "lemma": "vai", "pos": "part", "note": "yes/no question particle" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
+            { "lv": "skrien", "gloss": "run", "lemma": "skriet", "pos": "verb", "note": "2sg pres." },
+            { "lv": "maratonu", "gloss": "marathon", "lemma": "maratons", "pos": "noun", "note": "acc.", "punct": "?" }
+          ],
+          "natural": "How nice! Do you run marathons?",
+          "audio": "lv-a1-03-s26.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s27",
+          "speaker": "Anna",
+          "target": "Nē, es skrienu tikai priekam! Un tu?",
+          "tokens": [
+            { "lv": "Nē", "gloss": "no", "lemma": "nē", "pos": "interj", "punct": "," },
+            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "skrienu", "gloss": "run", "lemma": "skriet", "pos": "verb", "note": "1sg pres." },
+            { "lv": "tikai", "gloss": "only", "lemma": "tikai", "pos": "adv" },
+            { "lv": "priekam", "gloss": "joy", "lemma": "prieks", "pos": "noun", "note": "dat. of purpose = for fun", "punct": "!" },
+            { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom.", "punct": "?" }
+          ],
+          "natural": "No, I run just for fun! And you?",
+          "audio": "lv-a1-03-s27.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s28",
+          "speaker": "Pēteris",
+          "target": "Man arī patīk skriet. Es skrienu mežā. Vasarā es spēlēju pludmales volejbolu pie jūras.",
+          "tokens": [
+            { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
+            { "lv": "arī", "gloss": "also", "lemma": "arī", "pos": "adv" },
+            { "lv": "patīk", "gloss": "pleases", "lemma": "patikt", "pos": "verb", "note": "3 pres.; man patīk = to-me pleases" },
+            { "lv": "skriet", "gloss": "to-run", "lemma": "skriet", "pos": "verb", "note": "inf.", "punct": "." },
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "skrienu", "gloss": "run", "lemma": "skriet", "pos": "verb", "note": "1sg pres." },
+            { "lv": "mežā", "gloss": "in-forest", "lemma": "mežs", "pos": "noun", "note": "loc.", "punct": "." },
+            { "lv": "Vasarā", "gloss": "in-summer", "lemma": "vasara", "pos": "noun", "note": "loc." },
+            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "spēlēju", "gloss": "play", "lemma": "spēlēt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "pludmales", "gloss": "beach", "lemma": "pludmale", "pos": "noun", "note": "gen.; modifies volejbolu" },
+            { "lv": "volejbolu", "gloss": "volleyball", "lemma": "volejbols", "pos": "noun", "note": "acc." },
+            { "lv": "pie", "gloss": "at", "lemma": "pie", "pos": "prep", "note": "+ gen.; here 'by'" },
+            { "lv": "jūras", "gloss": "sea", "lemma": "jūra", "pos": "noun", "note": "gen. after pie", "punct": "." }
+          ],
+          "natural": "I like running too. I run in the forest. In summer I play beach volleyball by the sea.",
+          "audio": "lv-a1-03-s28.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s29",
+          "speaker": "Anna",
+          "target": "Ā, Jūrmalā? Tur ir jauki laukumi!",
+          "tokens": [
+            { "lv": "Ā", "gloss": "ah", "lemma": "ā", "pos": "interj", "punct": "," },
+            { "lv": "Jūrmalā", "gloss": "in-Jūrmala", "lemma": "Jūrmala", "pos": "propn", "note": "loc.", "punct": "?" },
+            { "lv": "Tur", "gloss": "there", "lemma": "tur", "pos": "adv" },
+            { "lv": "ir", "gloss": "are", "lemma": "būt", "pos": "verb", "note": "3 pres. pl." },
+            { "lv": "jauki", "gloss": "nice", "lemma": "jauks", "pos": "adj", "note": "masc. nom. pl.; not the adv. jauki" },
+            { "lv": "laukumi", "gloss": "courts", "lemma": "laukums", "pos": "noun", "note": "nom. pl.; sports courts", "punct": "!" }
+          ],
+          "natural": "Ah, in Jūrmala? There are nice courts there!",
+          "audio": "lv-a1-03-s29.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s30",
+          "speaker": "Pēteris",
+          "target": "Jā, tieši tā! Nāc arī tu, ja tev ir laiks!",
+          "tokens": [
+            { "lv": "Jā", "gloss": "yes", "lemma": "jā", "pos": "interj", "punct": "," },
+            { "lv": "tieši", "gloss": "exactly", "lemma": "tieši", "pos": "adv" },
+            { "lv": "tā", "gloss": "so", "lemma": "tā", "pos": "adv", "note": "tieši tā = exactly so", "punct": "!" },
+            { "lv": "Nāc", "gloss": "come", "lemma": "nākt", "pos": "verb", "note": "2sg imper." },
+            { "lv": "arī", "gloss": "also", "lemma": "arī", "pos": "adv" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom.", "punct": "," },
+            { "lv": "ja", "gloss": "if", "lemma": "ja", "pos": "conj" },
+            { "lv": "tev", "gloss": "to-you", "lemma": "tu", "pos": "pron", "note": "dat." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres.; tev ir = you have" },
+            { "lv": "laiks", "gloss": "time", "lemma": "laiks", "pos": "noun", "note": "nom.", "punct": "!" }
+          ],
+          "natural": "Yes, exactly! You come too, if you have time!",
+          "audio": "lv-a1-03-s30.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s31",
+          "speaker": "Anna",
+          "target": "Jā, labprāt! Ko vēl tu dari? Vai tu spēlē kādu instrumentu?",
+          "tokens": [
+            { "lv": "Jā", "gloss": "yes", "lemma": "jā", "pos": "interj", "punct": "," },
+            { "lv": "labprāt", "gloss": "gladly", "lemma": "labprāt", "pos": "adv", "punct": "!" },
+            { "lv": "Ko", "gloss": "what", "lemma": "kas", "pos": "pron", "note": "acc." },
+            { "lv": "vēl", "gloss": "else", "lemma": "vēl", "pos": "adv", "note": "'else' sense here, not 'still'" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
+            { "lv": "dari", "gloss": "do", "lemma": "darīt", "pos": "verb", "note": "2sg pres.", "punct": "?" },
+            { "lv": "Vai", "gloss": "whether", "lemma": "vai", "pos": "part", "note": "yes/no question particle" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
+            { "lv": "spēlē", "gloss": "play", "lemma": "spēlēt", "pos": "verb", "note": "2sg pres." },
+            { "lv": "kādu", "gloss": "some", "lemma": "kāds", "pos": "pron", "note": "indef. sense; acc. masc." },
+            { "lv": "instrumentu", "gloss": "instrument", "lemma": "instruments", "pos": "noun", "note": "acc.", "punct": "?" }
+          ],
+          "natural": "Yes, gladly! What else do you do? Do you play an instrument?",
+          "audio": "lv-a1-03-s31.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "dialogue",
+      "title": "Mūzika un gatavošana",
+      "sentences": [
+        {
+          "id": "s32",
+          "speaker": "Pēteris",
+          "target": "Jā, es spēlēju ģitāru. Un es dziedu.",
+          "tokens": [
+            { "lv": "Jā", "gloss": "yes", "lemma": "jā", "pos": "interj", "punct": "," },
+            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "spēlēju", "gloss": "play", "lemma": "spēlēt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "ģitāru", "gloss": "guitar", "lemma": "ģitāra", "pos": "noun", "note": "acc.", "punct": "." },
+            { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "dziedu", "gloss": "sing", "lemma": "dziedāt", "pos": "verb", "note": "1sg pres.", "punct": "." }
+          ],
+          "natural": "Yes, I play guitar. And I sing.",
+          "audio": "lv-a1-03-s32.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s33",
+          "speaker": "Anna",
+          "target": "Cik jauki! Es nedziedu, bet es labi gatavoju.",
+          "tokens": [
+            { "lv": "Cik", "gloss": "how", "lemma": "cik", "pos": "adv", "note": "cik + adv. = how" },
+            { "lv": "jauki", "gloss": "nice", "lemma": "jauki", "pos": "adv", "punct": "!" },
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "nedziedu", "gloss": "not-sing", "lemma": "dziedāt", "pos": "verb", "note": "neg. 1sg pres.", "punct": "," },
+            { "lv": "bet", "gloss": "but", "lemma": "bet", "pos": "conj" },
+            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "labi", "gloss": "well", "lemma": "labi", "pos": "adv" },
+            { "lv": "gatavoju", "gloss": "cook", "lemma": "gatavot", "pos": "verb", "note": "1sg pres.", "punct": "." }
+          ],
+          "natural": "How nice! I don't sing, but I cook well.",
+          "audio": "lv-a1-03-s33.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s34",
+          "speaker": "Pēteris",
+          "target": "Ko tu gatavo?",
+          "tokens": [
+            { "lv": "Ko", "gloss": "what", "lemma": "kas", "pos": "pron", "note": "acc." },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
+            { "lv": "gatavo", "gloss": "cook", "lemma": "gatavot", "pos": "verb", "note": "2sg pres.", "punct": "?" }
+          ],
+          "natural": "What do you cook?",
+          "audio": "lv-a1-03-s34.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s35",
+          "speaker": "Anna",
+          "target": "Man patīk gatavot zupu, un es cepu kūkas.",
+          "tokens": [
+            { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
+            { "lv": "patīk", "gloss": "pleases", "lemma": "patikt", "pos": "verb", "note": "3 pres.; man patīk = to-me pleases" },
+            { "lv": "gatavot", "gloss": "to-cook", "lemma": "gatavot", "pos": "verb", "note": "inf." },
+            { "lv": "zupu", "gloss": "soup", "lemma": "zupa", "pos": "noun", "note": "acc.", "punct": "," },
+            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "cepu", "gloss": "bake", "lemma": "cept", "pos": "verb", "note": "1sg pres.; also 'fry'" },
+            { "lv": "kūkas", "gloss": "cakes", "lemma": "kūka", "pos": "noun", "note": "acc. pl.", "punct": "." }
+          ],
+          "natural": "I like cooking soup, and I bake cakes.",
+          "audio": "lv-a1-03-s35.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s36",
+          "speaker": "Pēteris",
+          "target": "Siera kūkas?",
+          "tokens": [
+            { "lv": "Siera", "gloss": "cheese", "lemma": "siers", "pos": "noun", "note": "gen.; siera kūka = cheesecake" },
+            { "lv": "kūkas", "gloss": "cakes", "lemma": "kūka", "pos": "noun", "note": "pl.; case ambiguous (elliptical)", "punct": "?" }
+          ],
+          "natural": "Cheesecakes?",
+          "audio": "lv-a1-03-s36.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s37",
+          "speaker": "Anna",
+          "target": "Arī. Bet mana slepenā recepte ir burkānu kūka.",
+          "tokens": [
+            { "lv": "Arī", "gloss": "also", "lemma": "arī", "pos": "adv", "punct": "." },
+            { "lv": "Bet", "gloss": "but", "lemma": "bet", "pos": "conj" },
+            { "lv": "mana", "gloss": "my", "lemma": "mans", "pos": "pron", "note": "fem. nom." },
+            { "lv": "slepenā", "gloss": "secret", "lemma": "slepens", "pos": "adj", "note": "def. adj.; fem. nom." },
+            { "lv": "recepte", "gloss": "recipe", "lemma": "recepte", "pos": "noun", "note": "nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "burkānu", "gloss": "carrots", "lemma": "burkāns", "pos": "noun", "note": "gen. pl.; burkānu kūka = carrot cake" },
+            { "lv": "kūka", "gloss": "cake", "lemma": "kūka", "pos": "noun", "note": "nom.", "punct": "." }
+          ],
+          "natural": "Those too. But my secret recipe is carrot cake.",
+          "audio": "lv-a1-03-s37.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s38",
+          "speaker": "Pēteris",
+          "target": "Ā, lieliski! Es gribu to reiz nogaršot.",
+          "tokens": [
+            { "lv": "Ā", "gloss": "ah", "lemma": "ā", "pos": "interj", "punct": "," },
+            { "lv": "lieliski", "gloss": "wonderful", "lemma": "lieliski", "pos": "adv", "punct": "!" },
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "gribu", "gloss": "want", "lemma": "gribēt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "to", "gloss": "that", "lemma": "tas", "pos": "pron", "note": "demonstr.; acc." },
+            { "lv": "reiz", "gloss": "once", "lemma": "reiz", "pos": "adv", "note": "here 'sometime'" },
+            { "lv": "nogaršot", "gloss": "to-taste", "lemma": "nogaršot", "pos": "verb", "note": "inf.; perfective of garšot", "punct": "." }
+          ],
+          "natural": "Ah, wonderful! I want to taste it sometime.",
+          "audio": "lv-a1-03-s38.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "narration",
+      "title": "Anna smaida",
+      "sentences": [
+        {
+          "id": "s39",
+          "speaker": "Narrator",
+          "target": "Anna smaida.",
+          "tokens": [
+            { "lv": "Anna", "gloss": "Anna", "lemma": "Anna", "pos": "propn", "note": "nom." },
+            { "lv": "smaida", "gloss": "smiles", "lemma": "smaidīt", "pos": "verb", "note": "3 pres.", "punct": "." }
+          ],
+          "natural": "Anna smiles.",
+          "audio": "lv-a1-03-s39.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "dialogue",
+      "title": "Varbūt kādu dienu",
+      "sentences": [
+        {
+          "id": "s40",
+          "speaker": "Anna",
+          "target": "Varbūt kādu dienu.",
+          "tokens": [
+            { "lv": "Varbūt", "gloss": "maybe", "lemma": "varbūt", "pos": "adv" },
+            { "lv": "kādu", "gloss": "some", "lemma": "kāds", "pos": "pron", "note": "indef. sense; acc. fem." },
+            { "lv": "dienu", "gloss": "day", "lemma": "diena", "pos": "noun", "note": "acc.", "punct": "." }
+          ],
+          "natural": "Maybe one day.",
+          "audio": "lv-a1-03-s40.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "narration",
+      "title": "Viesmīlis atnes",
+      "sentences": [
+        {
+          "id": "s41",
+          "speaker": "Narrator",
+          "target": "Viesmīlis nāk un atnes tēju, kafiju un kūkas.",
+          "tokens": [
+            { "lv": "Viesmīlis", "gloss": "waiter", "lemma": "viesmīlis", "pos": "noun", "note": "masc. nom." },
+            { "lv": "nāk", "gloss": "comes", "lemma": "nākt", "pos": "verb", "note": "3 pres." },
+            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "atnes", "gloss": "brings", "lemma": "atnest", "pos": "verb", "note": "3 pres." },
+            { "lv": "tēju", "gloss": "tea", "lemma": "tēja", "pos": "noun", "note": "acc.", "punct": "," },
+            { "lv": "kafiju", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "acc." },
+            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "kūkas", "gloss": "cakes", "lemma": "kūka", "pos": "noun", "note": "acc. pl.", "punct": "." }
+          ],
+          "natural": "The waiter comes and brings the tea, coffee and cakes.",
+          "audio": "lv-a1-03-s41.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "dialogue",
+      "title": "Nobeigums",
+      "sentences": [
+        {
+          "id": "s42",
+          "speaker": "Anna",
+          "target": "O, siera kūka ir lieliska! Man ļoti garšo.",
+          "tokens": [
+            { "lv": "O", "gloss": "oh", "lemma": "o", "pos": "interj", "punct": "," },
+            { "lv": "siera", "gloss": "cheese", "lemma": "siers", "pos": "noun", "note": "gen.; siera kūka = cheesecake" },
+            { "lv": "kūka", "gloss": "cake", "lemma": "kūka", "pos": "noun", "note": "nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "lieliska", "gloss": "wonderful", "lemma": "lielisks", "pos": "adj", "note": "fem. nom.", "punct": "!" },
+            { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
+            { "lv": "ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
+            { "lv": "garšo", "gloss": "tastes", "lemma": "garšot", "pos": "verb", "note": "3 pres.; man garšo = to-me tastes", "punct": "." }
+          ],
+          "natural": "Oh, the cheesecake is wonderful! I like it a lot.",
+          "audio": "lv-a1-03-s42.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s43",
+          "speaker": "Pēteris",
+          "target": "Redzi? Es tev saku — tās ir fantastiskas.",
+          "tokens": [
+            { "lv": "Redzi", "gloss": "see", "lemma": "redzēt", "pos": "verb", "note": "2sg pres.", "punct": "?" },
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "tev", "gloss": "to-you", "lemma": "tu", "pos": "pron", "note": "dat." },
+            { "lv": "saku", "gloss": "say", "lemma": "teikt", "pos": "verb", "note": "1sg pres.", "punct": " —" },
+            { "lv": "tās", "gloss": "those", "lemma": "tas", "pos": "pron", "note": "demonstr.; fem. nom. pl." },
+            { "lv": "ir", "gloss": "are", "lemma": "būt", "pos": "verb", "note": "3 pres. pl." },
+            { "lv": "fantastiskas", "gloss": "fantastic", "lemma": "fantastisks", "pos": "adj", "note": "fem. nom. pl.", "punct": "." }
+          ],
+          "natural": "See? I'm telling you — they're fantastic.",
+          "audio": "lv-a1-03-s43.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s44",
+          "speaker": "Anna",
+          "target": "Jā, šī ir ļoti jauka vieta. Laba izvēle!",
+          "tokens": [
+            { "lv": "Jā", "gloss": "yes", "lemma": "jā", "pos": "interj", "punct": "," },
+            { "lv": "šī", "gloss": "this", "lemma": "šis", "pos": "pron", "note": "demonstr.; fem. nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
+            { "lv": "jauka", "gloss": "nice", "lemma": "jauks", "pos": "adj", "note": "fem. nom." },
+            { "lv": "vieta", "gloss": "place", "lemma": "vieta", "pos": "noun", "note": "nom.", "punct": "." },
+            { "lv": "Laba", "gloss": "good", "lemma": "labs", "pos": "adj", "note": "fem. nom." },
+            { "lv": "izvēle", "gloss": "choice", "lemma": "izvēle", "pos": "noun", "note": "nom.", "punct": "!" }
+          ],
+          "natural": "Yes, this is a very nice place. Good choice!",
+          "audio": "lv-a1-03-s44.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s45",
+          "speaker": "Pēteris",
+          "target": "Es priecājos, ka tev patīk.",
+          "tokens": [
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "priecājos", "gloss": "rejoice", "lemma": "priecāties", "pos": "verb", "note": "refl. form, non-refl. sense; 1sg pres.", "punct": "," },
+            { "lv": "ka", "gloss": "that", "lemma": "ka", "pos": "conj", "note": "complementizer" },
+            { "lv": "tev", "gloss": "to-you", "lemma": "tu", "pos": "pron", "note": "dat." },
+            { "lv": "patīk", "gloss": "pleases", "lemma": "patikt", "pos": "verb", "note": "3 pres.; tev patīk = to-you pleases", "punct": "." }
+          ],
+          "natural": "I'm glad you like it.",
+          "audio": "lv-a1-03-s45.mp3",
+          "audioApproved": false
+        }
+      ]
+    }
+  ]
+}

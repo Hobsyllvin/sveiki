@@ -24,15 +24,22 @@ function checkSchema(lessonPath: string): CheckResult {
   return { pass: true, messages: [] };
 }
 
-function checkTokenization(lesson: Lesson): CheckResult {
+// Exact reconstruction: target must equal tokens' (lv + punct) joined by single
+// spaces, whitespace-normalized. Punctuation attaches to the token it follows
+// (see GLOSSING_RULES.md); a free-standing em dash is represented as a leading
+// space on `punct` (e.g. "saku" + " —"), since the join already supplies the
+// space before the next token.
+export function checkTokenization(lesson: Lesson): CheckResult {
   const messages: string[] = [];
-  const strip = (s: string) => s.replace(/[.?!,]/g, "").trim();
+  const normalize = (s: string) => s.replace(/\s+/g, " ").trim();
 
   for (const section of lesson.sections) {
     for (const sentence of section.sentences) {
-      const reconstructed = sentence.tokens.map((t) => t.lv).join(" ");
-      const normalizedTarget = strip(sentence.target);
-      const normalizedReconstructed = strip(reconstructed);
+      const reconstructed = sentence.tokens
+        .map((t) => t.lv + (t.punct ?? ""))
+        .join(" ");
+      const normalizedTarget = normalize(sentence.target);
+      const normalizedReconstructed = normalize(reconstructed);
       if (normalizedTarget !== normalizedReconstructed) {
         messages.push(
           `  tokenization [${sentence.id}]: tokens reconstruct to "${normalizedReconstructed}" but target is "${normalizedTarget}"`
@@ -124,6 +131,15 @@ function checkRecycling(_lesson: Lesson): CheckResult {
   return { pass: true, messages: [] };
 }
 
+export function findLanguageDirs(contentRoot: string): string[] {
+  return fs
+    .readdirSync(contentRoot)
+    .filter((d) => !d.startsWith("_"))
+    .map((d) => path.join(contentRoot, d))
+    .filter((d) => fs.statSync(d).isDirectory())
+    .filter((d) => fs.existsSync(path.join(d, "course.json")));
+}
+
 function loadDictionary(langDir: string): Dictionary {
   const dictPath = path.join(langDir, "dictionary.json");
   const raw = JSON.parse(fs.readFileSync(dictPath, "utf-8"));
@@ -194,11 +210,7 @@ function main() {
 
   let allPassed = true;
 
-  const langDirs = fs
-    .readdirSync(CONTENT_ROOT)
-    .filter((d) => !d.startsWith("_"))
-    .map((d) => path.join(CONTENT_ROOT, d))
-    .filter((d) => fs.statSync(d).isDirectory());
+  const langDirs = findLanguageDirs(CONTENT_ROOT);
 
   for (const langDir of langDirs) {
     const lang = path.basename(langDir);

@@ -1,720 +1,335 @@
 {
   "lessonId": "lv-a1-01",
-  "title": "Sveiki! Valodas un darbs (Greetings, languages and work)",
+  "title": "Mani sauc… (Introductions and numbers)",
   "cefr": "A1",
-  "newLemmas": [
-    "sveiki",
-    "labdien",
-    "paldies",
-    "jā",
-    "nē",
-    "būt",
-    "Latvija",
-    "pilsēta",
-    "šeit",
-    "strādāt",
-    "mācīties",
-    "students",
-    "skolotājs",
-    "valoda",
-    "latviski",
-    "angliski",
-    "runāt",
-    "saprast",
-    "patikt",
-    "lasīt",
-    "mūzika",
-    "sports",
-    "ceļot",
-    "labs",
-    "labi",
-    "arī",
-    "bet",
-    "un",
-    "vai",
-    "ļoti",
-    "mazliet",
-    "vēl",
-    "tikai",
-    "viens",
-    "divi",
-    "trīs",
-    "četri",
-    "pieci",
-    "seši",
-    "septiņi",
-    "astoņi",
-    "deviņi",
-    "desmit"
-  ],
+  "newLemmas": ["labdien", "saukt", "Pēteris", "kā", "sveiki", "Anna", "prieks", "iepazīties", "iet", "ļoti", "labi", "paldies", "un", "arī", "vai", "būt", "no", "Latvija", "nē", "es", "Lietuva", "bet", "šeit", "Rīga", "cik", "ilgi", "tu", "dzīvot", "desmit", "mēnesis", "vēl", "mācīties", "latviski", "runāt", "saprast", "tikai", "mazliet", "skolotājs", "strādāt", "pilsēta", "jauki", "studente", "kāds", "tavs", "telefons", "numurs", "mans", "divi", "pieci", "viens", "četri", "astoņi", "nulle", "trīs", "deviņi", "seši", "septiņi", "uz", "redzēšanās"],
   "sections": [
     {
       "format": "dialogue",
-      "title": "Saruna pilsētā",
+      "title": "Iepazīšanās",
       "sentences": [
         {
           "id": "s1",
           "speaker": "Pēteris",
-          "target": "Labdien! Vai tu runā latviski?",
+          "target": "Labdien! Mani sauc Pēteris.",
           "tokens": [
-            {
-              "lv": "Labdien",
-              "gloss": "good-day",
-              "lemma": "labdien",
-              "pos": "interj"
-            },
-            {
-              "lv": "Vai",
-              "gloss": "whether",
-              "lemma": "vai",
-              "pos": "part",
-              "note": "yes/no question particle"
-            },
-            {
-              "lv": "tu",
-              "gloss": "you",
-              "lemma": "tu",
-              "pos": "pron"
-            },
-            {
-              "lv": "runā",
-              "gloss": "speak",
-              "lemma": "runāt",
-              "pos": "verb",
-              "note": "2sg pres."
-            },
-            {
-              "lv": "latviski",
-              "gloss": "in-Latvian",
-              "lemma": "latviski",
-              "pos": "adv"
-            }
+            { "lv": "Labdien", "gloss": "good-day", "lemma": "labdien", "pos": "interj", "punct": "!" },
+            { "lv": "Mani", "gloss": "me", "lemma": "es", "pos": "pron", "note": "acc." },
+            { "lv": "sauc", "gloss": "call", "lemma": "saukt", "pos": "verb", "note": "3 pres.; mani sauc = I am called" },
+            { "lv": "Pēteris", "gloss": "Pēteris", "lemma": "Pēteris", "pos": "propn", "note": "nom.", "punct": "." }
           ],
-          "natural": "Good day! Do you speak Latvian?",
+          "natural": "Hello! My name is Pēteris.",
           "audio": "lv-a1-01-s1.mp3",
           "audioApproved": false
         },
         {
           "id": "s2",
-          "speaker": "Anna",
-          "target": "Sveiki! Jā, mazliet. Es mācos latviski.",
+          "speaker": "Pēteris",
+          "target": "Kā tevi sauc?",
           "tokens": [
-            {
-              "lv": "Sveiki",
-              "gloss": "hello",
-              "lemma": "sveiki",
-              "pos": "interj"
-            },
-            {
-              "lv": "Jā",
-              "gloss": "yes",
-              "lemma": "jā",
-              "pos": "interj"
-            },
-            {
-              "lv": "mazliet",
-              "gloss": "a-little",
-              "lemma": "mazliet",
-              "pos": "adv"
-            },
-            {
-              "lv": "Es",
-              "gloss": "I",
-              "lemma": "es",
-              "pos": "pron"
-            },
-            {
-              "lv": "mācos",
-              "gloss": "learn",
-              "lemma": "mācīties",
-              "pos": "verb",
-              "note": "refl. form, non-refl. meaning; 1sg pres.; colloq."
-            },
-            {
-              "lv": "latviski",
-              "gloss": "in-Latvian",
-              "lemma": "latviski",
-              "pos": "adv"
-            }
+            { "lv": "Kā", "gloss": "how", "lemma": "kā", "pos": "adv" },
+            { "lv": "tevi", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "acc." },
+            { "lv": "sauc", "gloss": "call", "lemma": "saukt", "pos": "verb", "note": "3 pres.", "punct": "?" }
           ],
-          "natural": "Hello! Yes, a little. I'm learning Latvian.",
+          "natural": "What's your name?",
           "audio": "lv-a1-01-s2.mp3",
           "audioApproved": false
         },
         {
           "id": "s3",
-          "speaker": "Pēteris",
-          "target": "Ļoti labi! Vai tu esi no Latvijas?",
+          "speaker": "Anna",
+          "target": "Sveiki! Mani sauc Anna.",
           "tokens": [
-            {
-              "lv": "Ļoti",
-              "gloss": "very",
-              "lemma": "ļoti",
-              "pos": "adv"
-            },
-            {
-              "lv": "labi",
-              "gloss": "well",
-              "lemma": "labi",
-              "pos": "adv",
-              "note": "adv.; distinct lemma from labs (adj.)"
-            },
-            {
-              "lv": "Vai",
-              "gloss": "whether",
-              "lemma": "vai",
-              "pos": "part",
-              "note": "yes/no question particle"
-            },
-            {
-              "lv": "tu",
-              "gloss": "you",
-              "lemma": "tu",
-              "pos": "pron"
-            },
-            {
-              "lv": "esi",
-              "gloss": "are",
-              "lemma": "būt",
-              "pos": "verb",
-              "note": "2sg pres. of būt"
-            },
-            {
-              "lv": "no",
-              "gloss": "from",
-              "lemma": "no",
-              "pos": "prep",
-              "note": "+ gen."
-            },
-            {
-              "lv": "Latvijas",
-              "gloss": "Latvia",
-              "lemma": "Latvija",
-              "pos": "propn",
-              "note": "gen. after no"
-            }
+            { "lv": "Sveiki", "gloss": "hello", "lemma": "sveiki", "pos": "interj", "punct": "!" },
+            { "lv": "Mani", "gloss": "me", "lemma": "es", "pos": "pron", "note": "acc." },
+            { "lv": "sauc", "gloss": "call", "lemma": "saukt", "pos": "verb", "note": "3 pres." },
+            { "lv": "Anna", "gloss": "Anna", "lemma": "Anna", "pos": "propn", "note": "nom.", "punct": "." }
           ],
-          "natural": "Very good! Are you from Latvia?",
+          "natural": "Hello! My name is Anna.",
           "audio": "lv-a1-01-s3.mp3",
           "audioApproved": false
         },
         {
           "id": "s4",
           "speaker": "Anna",
-          "target": "Nē, bet es dzīvoju šeit, Rīgā.",
+          "target": "Prieks iepazīties!",
           "tokens": [
-            {
-              "lv": "Nē",
-              "gloss": "no",
-              "lemma": "nē",
-              "pos": "interj"
-            },
-            {
-              "lv": "bet",
-              "gloss": "but",
-              "lemma": "bet",
-              "pos": "conj"
-            },
-            {
-              "lv": "es",
-              "gloss": "I",
-              "lemma": "es",
-              "pos": "pron"
-            },
-            {
-              "lv": "dzīvoju",
-              "gloss": "live",
-              "lemma": "dzīvot",
-              "pos": "verb",
-              "note": "1sg pres."
-            },
-            {
-              "lv": "šeit",
-              "gloss": "here",
-              "lemma": "šeit",
-              "pos": "adv"
-            },
-            {
-              "lv": "Rīgā",
-              "gloss": "in-Riga",
-              "lemma": "Rīga",
-              "pos": "propn",
-              "note": "loc."
-            }
+            { "lv": "Prieks", "gloss": "joy", "lemma": "prieks", "pos": "noun", "note": "nom." },
+            { "lv": "iepazīties", "gloss": "to-get-acquainted", "lemma": "iepazīties", "pos": "verb", "note": "inf.; refl.", "punct": "!" }
           ],
-          "natural": "No, but I live here, in Riga.",
+          "natural": "Nice to meet you!",
           "audio": "lv-a1-01-s4.mp3",
           "audioApproved": false
         },
         {
           "id": "s5",
           "speaker": "Pēteris",
-          "target": "Kur tu strādā?",
+          "target": "Prieks! Kā tev iet?",
           "tokens": [
-            {
-              "lv": "Kur",
-              "gloss": "where",
-              "lemma": "kur",
-              "pos": "adv"
-            },
-            {
-              "lv": "tu",
-              "gloss": "you",
-              "lemma": "tu",
-              "pos": "pron"
-            },
-            {
-              "lv": "strādā",
-              "gloss": "work",
-              "lemma": "strādāt",
-              "pos": "verb",
-              "note": "2sg pres."
-            }
+            { "lv": "Prieks", "gloss": "joy", "lemma": "prieks", "pos": "noun", "note": "nom.", "punct": "!" },
+            { "lv": "Kā", "gloss": "how", "lemma": "kā", "pos": "adv" },
+            { "lv": "tev", "gloss": "to-you", "lemma": "tu", "pos": "pron", "note": "dat." },
+            { "lv": "iet", "gloss": "goes", "lemma": "iet", "pos": "verb", "note": "3 pres.", "punct": "?" }
           ],
-          "natural": "Where do you work?",
+          "natural": "Likewise! How are you?",
           "audio": "lv-a1-01-s5.mp3",
           "audioApproved": false
         },
         {
           "id": "s6",
           "speaker": "Anna",
-          "target": "Es esmu skolotāja. Es strādāju šeit, pilsētā.",
+          "target": "Ļoti labi, paldies. Un tev?",
           "tokens": [
-            {
-              "lv": "Es",
-              "gloss": "I",
-              "lemma": "es",
-              "pos": "pron"
-            },
-            {
-              "lv": "esmu",
-              "gloss": "am",
-              "lemma": "būt",
-              "pos": "verb",
-              "note": "1sg pres. of būt"
-            },
-            {
-              "lv": "skolotāja",
-              "gloss": "teacher",
-              "lemma": "skolotājs",
-              "pos": "noun",
-              "note": "fem. nom.; masc. lemma by course convention"
-            },
-            {
-              "lv": "Es",
-              "gloss": "I",
-              "lemma": "es",
-              "pos": "pron"
-            },
-            {
-              "lv": "strādāju",
-              "gloss": "work",
-              "lemma": "strādāt",
-              "pos": "verb",
-              "note": "1sg pres."
-            },
-            {
-              "lv": "šeit",
-              "gloss": "here",
-              "lemma": "šeit",
-              "pos": "adv"
-            },
-            {
-              "lv": "pilsētā",
-              "gloss": "in-city",
-              "lemma": "pilsēta",
-              "pos": "noun",
-              "note": "loc."
-            }
+            { "lv": "Ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
+            { "lv": "labi", "gloss": "well", "lemma": "labi", "pos": "adv", "punct": "," },
+            { "lv": "paldies", "gloss": "thanks", "lemma": "paldies", "pos": "interj", "punct": "." },
+            { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "tev", "gloss": "to-you", "lemma": "tu", "pos": "pron", "note": "dat.", "punct": "?" }
           ],
-          "natural": "I am a teacher. I work here, in the city.",
+          "natural": "Very well, thank you. And you?",
           "audio": "lv-a1-01-s6.mp3",
           "audioApproved": false
         },
         {
           "id": "s7",
           "speaker": "Pēteris",
-          "target": "Es esmu students. Es mācos valodas.",
+          "target": "Arī labi, paldies.",
           "tokens": [
-            {
-              "lv": "Es",
-              "gloss": "I",
-              "lemma": "es",
-              "pos": "pron"
-            },
-            {
-              "lv": "esmu",
-              "gloss": "am",
-              "lemma": "būt",
-              "pos": "verb",
-              "note": "1sg pres. of būt"
-            },
-            {
-              "lv": "students",
-              "gloss": "student",
-              "lemma": "students",
-              "pos": "noun",
-              "note": "nom."
-            },
-            {
-              "lv": "Es",
-              "gloss": "I",
-              "lemma": "es",
-              "pos": "pron"
-            },
-            {
-              "lv": "mācos",
-              "gloss": "learn",
-              "lemma": "mācīties",
-              "pos": "verb",
-              "note": "refl. form, non-reflexive meaning; 1sg pres."
-            },
-            {
-              "lv": "valodas",
-              "gloss": "languages",
-              "lemma": "valoda",
-              "pos": "noun",
-              "note": "acc. pl."
-            }
+            { "lv": "Arī", "gloss": "also", "lemma": "arī", "pos": "adv" },
+            { "lv": "labi", "gloss": "well", "lemma": "labi", "pos": "adv", "punct": "," },
+            { "lv": "paldies", "gloss": "thanks", "lemma": "paldies", "pos": "interj", "punct": "." }
           ],
-          "natural": "I am a student. I study languages.",
+          "natural": "Also well, thanks.",
           "audio": "lv-a1-01-s7.mp3",
           "audioApproved": false
-        },
+        }
+      ]
+    },
+    {
+      "format": "dialogue",
+      "title": "No kurienes un cik ilgi",
+      "sentences": [
         {
           "id": "s8",
-          "speaker": "Anna",
-          "target": "Vai tu saproti angliski?",
+          "speaker": "Pēteris",
+          "target": "Vai tu esi no Latvijas?",
           "tokens": [
-            {
-              "lv": "Vai",
-              "gloss": "whether",
-              "lemma": "vai",
-              "pos": "part",
-              "note": "yes/no question particle"
-            },
-            {
-              "lv": "tu",
-              "gloss": "you",
-              "lemma": "tu",
-              "pos": "pron"
-            },
-            {
-              "lv": "saproti",
-              "gloss": "understand",
-              "lemma": "saprast",
-              "pos": "verb",
-              "note": "2sg pres."
-            },
-            {
-              "lv": "angliski",
-              "gloss": "in-English",
-              "lemma": "angliski",
-              "pos": "adv"
-            }
+            { "lv": "Vai", "gloss": "whether", "lemma": "vai", "pos": "part", "note": "yes/no question particle" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron" },
+            { "lv": "esi", "gloss": "are", "lemma": "būt", "pos": "verb", "note": "2sg pres." },
+            { "lv": "no", "gloss": "from", "lemma": "no", "pos": "prep", "note": "+ gen." },
+            { "lv": "Latvijas", "gloss": "Latvia", "lemma": "Latvija", "pos": "propn", "note": "gen. after no", "punct": "?" }
           ],
-          "natural": "Do you understand English?",
+          "natural": "Are you from Latvia?",
           "audio": "lv-a1-01-s8.mp3",
           "audioApproved": false
         },
         {
           "id": "s9",
-          "speaker": "Pēteris",
-          "target": "Jā, es saprotu angliski un mazliet latviski. Paldies!",
+          "speaker": "Anna",
+          "target": "Nē, es esmu no Lietuvas.",
           "tokens": [
-            {
-              "lv": "Jā",
-              "gloss": "yes",
-              "lemma": "jā",
-              "pos": "interj"
-            },
-            {
-              "lv": "es",
-              "gloss": "I",
-              "lemma": "es",
-              "pos": "pron"
-            },
-            {
-              "lv": "saprotu",
-              "gloss": "understand",
-              "lemma": "saprast",
-              "pos": "verb",
-              "note": "1sg pres."
-            },
-            {
-              "lv": "angliski",
-              "gloss": "in-English",
-              "lemma": "angliski",
-              "pos": "adv"
-            },
-            {
-              "lv": "un",
-              "gloss": "and",
-              "lemma": "un",
-              "pos": "conj"
-            },
-            {
-              "lv": "mazliet",
-              "gloss": "a-little",
-              "lemma": "mazliet",
-              "pos": "adv"
-            },
-            {
-              "lv": "latviski",
-              "gloss": "in-Latvian",
-              "lemma": "latviski",
-              "pos": "adv"
-            },
-            {
-              "lv": "Paldies",
-              "gloss": "thanks",
-              "lemma": "paldies",
-              "pos": "interj"
-            }
+            { "lv": "Nē", "gloss": "no", "lemma": "nē", "pos": "interj", "punct": "," },
+            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "esmu", "gloss": "am", "lemma": "būt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "no", "gloss": "from", "lemma": "no", "pos": "prep", "note": "+ gen." },
+            { "lv": "Lietuvas", "gloss": "Lithuania", "lemma": "Lietuva", "pos": "propn", "note": "gen. after no", "punct": "." }
           ],
-          "natural": "Yes, I understand English and a little Latvian. Thank you!",
+          "natural": "No, I'm from Lithuania.",
           "audio": "lv-a1-01-s9.mp3",
           "audioApproved": false
-        }
-      ]
-    },
-    {
-      "format": "drill",
-      "title": "Intereses",
-      "sentences": [
+        },
         {
-          "id": "d1",
-          "target": "Man patīk mūzika un sports.",
+          "id": "s10",
+          "speaker": "Anna",
+          "target": "Bet es dzīvoju šeit, Rīgā.",
           "tokens": [
-            {
-              "lv": "Man",
-              "gloss": "to-me",
-              "lemma": "es",
-              "pos": "pron",
-              "note": "dat. experiencer"
-            },
-            {
-              "lv": "patīk",
-              "gloss": "pleases",
-              "lemma": "patikt",
-              "pos": "verb",
-              "note": "3 pres., dat. construction"
-            },
-            {
-              "lv": "mūzika",
-              "gloss": "music",
-              "lemma": "mūzika",
-              "pos": "noun",
-              "note": "nom."
-            },
-            {
-              "lv": "un",
-              "gloss": "and",
-              "lemma": "un",
-              "pos": "conj"
-            },
-            {
-              "lv": "sports",
-              "gloss": "sport",
-              "lemma": "sports",
-              "pos": "noun",
-              "note": "nom."
-            }
+            { "lv": "Bet", "gloss": "but", "lemma": "bet", "pos": "conj" },
+            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "dzīvoju", "gloss": "live", "lemma": "dzīvot", "pos": "verb", "note": "1sg pres." },
+            { "lv": "šeit", "gloss": "here", "lemma": "šeit", "pos": "adv", "punct": "," },
+            { "lv": "Rīgā", "gloss": "in-Riga", "lemma": "Rīga", "pos": "propn", "note": "loc.", "punct": "." }
           ],
-          "natural": "I like music and sports.",
-          "audio": "lv-a1-01-d1.mp3",
+          "natural": "But I live here, in Riga.",
+          "audio": "lv-a1-01-s10.mp3",
           "audioApproved": false
         },
         {
-          "id": "d2",
-          "target": "Man patīk arī lasīt un ceļot.",
+          "id": "s11",
+          "speaker": "Pēteris",
+          "target": "Cik ilgi tu dzīvo Rīgā?",
           "tokens": [
-            {
-              "lv": "Man",
-              "gloss": "to-me",
-              "lemma": "es",
-              "pos": "pron",
-              "note": "dat. experiencer"
-            },
-            {
-              "lv": "patīk",
-              "gloss": "pleases",
-              "lemma": "patikt",
-              "pos": "verb",
-              "note": "3 pres., dat. construction"
-            },
-            {
-              "lv": "arī",
-              "gloss": "also",
-              "lemma": "arī",
-              "pos": "adv"
-            },
-            {
-              "lv": "lasīt",
-              "gloss": "to-read",
-              "lemma": "lasīt",
-              "pos": "verb",
-              "note": "inf."
-            },
-            {
-              "lv": "un",
-              "gloss": "and",
-              "lemma": "un",
-              "pos": "conj"
-            },
-            {
-              "lv": "ceļot",
-              "gloss": "to-travel",
-              "lemma": "ceļot",
-              "pos": "verb",
-              "note": "inf."
-            }
+            { "lv": "Cik", "gloss": "how-much", "lemma": "cik", "pos": "adv" },
+            { "lv": "ilgi", "gloss": "long", "lemma": "ilgi", "pos": "adv" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron" },
+            { "lv": "dzīvo", "gloss": "live", "lemma": "dzīvot", "pos": "verb", "note": "2sg pres." },
+            { "lv": "Rīgā", "gloss": "in-Riga", "lemma": "Rīga", "pos": "propn", "note": "loc.", "punct": "?" }
           ],
-          "natural": "I like to read and to travel too.",
-          "audio": "lv-a1-01-d2.mp3",
+          "natural": "How long have you lived in Riga?",
+          "audio": "lv-a1-01-s11.mp3",
           "audioApproved": false
         },
         {
-          "id": "d3",
-          "target": "Es saprotu tikai mazliet, bet es vēl mācos.",
+          "id": "s12",
+          "speaker": "Anna",
+          "target": "Es dzīvoju šeit desmit mēnešus.",
           "tokens": [
-            {
-              "lv": "Es",
-              "gloss": "I",
-              "lemma": "es",
-              "pos": "pron"
-            },
-            {
-              "lv": "saprotu",
-              "gloss": "understand",
-              "lemma": "saprast",
-              "pos": "verb",
-              "note": "1sg pres."
-            },
-            {
-              "lv": "tikai",
-              "gloss": "only",
-              "lemma": "tikai",
-              "pos": "adv"
-            },
-            {
-              "lv": "mazliet",
-              "gloss": "a-little",
-              "lemma": "mazliet",
-              "pos": "adv"
-            },
-            {
-              "lv": "bet",
-              "gloss": "but",
-              "lemma": "bet",
-              "pos": "conj"
-            },
-            {
-              "lv": "es",
-              "gloss": "I",
-              "lemma": "es",
-              "pos": "pron"
-            },
-            {
-              "lv": "vēl",
-              "gloss": "still",
-              "lemma": "vēl",
-              "pos": "adv"
-            },
-            {
-              "lv": "mācos",
-              "gloss": "learn",
-              "lemma": "mācīties",
-              "pos": "verb",
-              "note": "refl. form, non-reflexive meaning; 1sg pres."
-            }
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "dzīvoju", "gloss": "live", "lemma": "dzīvot", "pos": "verb", "note": "1sg pres." },
+            { "lv": "šeit", "gloss": "here", "lemma": "šeit", "pos": "adv" },
+            { "lv": "desmit", "gloss": "ten", "lemma": "desmit", "pos": "num" },
+            { "lv": "mēnešus", "gloss": "months", "lemma": "mēnesis", "pos": "noun", "note": "acc. pl., duration", "punct": "." }
           ],
-          "natural": "I only understand a little, but I'm still learning.",
-          "audio": "lv-a1-01-d3.mp3",
+          "natural": "I've lived here ten months.",
+          "audio": "lv-a1-01-s12.mp3",
           "audioApproved": false
         }
       ]
     },
     {
-      "format": "drill",
-      "title": "Skaitļi 1–10",
+      "format": "dialogue",
+      "title": "Valoda un darbs",
       "sentences": [
         {
-          "id": "n1",
-          "target": "Viens, divi, trīs, četri, pieci.",
+          "id": "s13",
+          "speaker": "Anna",
+          "target": "Es vēl mācos latviski.",
           "tokens": [
-            {
-              "lv": "Viens",
-              "gloss": "one",
-              "lemma": "viens",
-              "pos": "num"
-            },
-            {
-              "lv": "divi",
-              "gloss": "two",
-              "lemma": "divi",
-              "pos": "num"
-            },
-            {
-              "lv": "trīs",
-              "gloss": "three",
-              "lemma": "trīs",
-              "pos": "num"
-            },
-            {
-              "lv": "četri",
-              "gloss": "four",
-              "lemma": "četri",
-              "pos": "num"
-            },
-            {
-              "lv": "pieci",
-              "gloss": "five",
-              "lemma": "pieci",
-              "pos": "num"
-            }
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "vēl", "gloss": "still", "lemma": "vēl", "pos": "adv" },
+            { "lv": "mācos", "gloss": "learn", "lemma": "mācīties", "pos": "verb", "note": "refl. form, non-refl. meaning; 1sg" },
+            { "lv": "latviski", "gloss": "in-Latvian", "lemma": "latviski", "pos": "adv", "punct": "." }
           ],
-          "natural": "One, two, three, four, five.",
-          "audio": "lv-a1-01-n1.mp3",
+          "natural": "I'm still learning Latvian.",
+          "audio": "lv-a1-01-s13.mp3",
           "audioApproved": false
         },
         {
-          "id": "n2",
-          "target": "Seši, septiņi, astoņi, deviņi, desmit.",
+          "id": "s14",
+          "speaker": "Pēteris",
+          "target": "Tu labi runā latviski!",
           "tokens": [
-            {
-              "lv": "Seši",
-              "gloss": "six",
-              "lemma": "seši",
-              "pos": "num"
-            },
-            {
-              "lv": "septiņi",
-              "gloss": "seven",
-              "lemma": "septiņi",
-              "pos": "num"
-            },
-            {
-              "lv": "astoņi",
-              "gloss": "eight",
-              "lemma": "astoņi",
-              "pos": "num"
-            },
-            {
-              "lv": "deviņi",
-              "gloss": "nine",
-              "lemma": "deviņi",
-              "pos": "num"
-            },
-            {
-              "lv": "desmit",
-              "gloss": "ten",
-              "lemma": "desmit",
-              "pos": "num"
-            }
+            { "lv": "Tu", "gloss": "you", "lemma": "tu", "pos": "pron" },
+            { "lv": "labi", "gloss": "well", "lemma": "labi", "pos": "adv" },
+            { "lv": "runā", "gloss": "speak", "lemma": "runāt", "pos": "verb", "note": "2sg pres." },
+            { "lv": "latviski", "gloss": "in-Latvian", "lemma": "latviski", "pos": "adv", "punct": "!" }
           ],
-          "natural": "Six, seven, eight, nine, ten.",
-          "audio": "lv-a1-01-n2.mp3",
+          "natural": "You speak Latvian well!",
+          "audio": "lv-a1-01-s14.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s15",
+          "speaker": "Anna",
+          "target": "Paldies! Bet es saprotu tikai mazliet.",
+          "tokens": [
+            { "lv": "Paldies", "gloss": "thanks", "lemma": "paldies", "pos": "interj", "punct": "!" },
+            { "lv": "Bet", "gloss": "but", "lemma": "bet", "pos": "conj" },
+            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "saprotu", "gloss": "understand", "lemma": "saprast", "pos": "verb", "note": "1sg pres." },
+            { "lv": "tikai", "gloss": "only", "lemma": "tikai", "pos": "adv" },
+            { "lv": "mazliet", "gloss": "a-little", "lemma": "mazliet", "pos": "adv", "punct": "." }
+          ],
+          "natural": "Thanks! But I understand only a little.",
+          "audio": "lv-a1-01-s15.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s16",
+          "speaker": "Pēteris",
+          "target": "Es esmu skolotājs. Es strādāju šeit, pilsētā.",
+          "tokens": [
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "esmu", "gloss": "am", "lemma": "būt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "skolotājs", "gloss": "teacher", "lemma": "skolotājs", "pos": "noun", "note": "masc. nom.", "punct": "." },
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "strādāju", "gloss": "work", "lemma": "strādāt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "šeit", "gloss": "here", "lemma": "šeit", "pos": "adv", "punct": "," },
+            { "lv": "pilsētā", "gloss": "in-city", "lemma": "pilsēta", "pos": "noun", "note": "loc.", "punct": "." }
+          ],
+          "natural": "I'm a teacher. I work here, in the city.",
+          "audio": "lv-a1-01-s16.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s17",
+          "speaker": "Anna",
+          "target": "Ļoti jauki! Es esmu studente.",
+          "tokens": [
+            { "lv": "Ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
+            { "lv": "jauki", "gloss": "nice", "lemma": "jauki", "pos": "adv", "punct": "!" },
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "esmu", "gloss": "am", "lemma": "būt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "studente", "gloss": "student", "lemma": "studente", "pos": "noun", "note": "fem. nom.", "punct": "." }
+          ],
+          "natural": "Very nice! I'm a student.",
+          "audio": "lv-a1-01-s17.mp3",
+          "audioApproved": false
+        }
+      ]
+    },
+    {
+      "format": "dialogue",
+      "title": "Telefona numuri",
+      "sentences": [
+        {
+          "id": "s18",
+          "speaker": "Anna",
+          "target": "Kāds ir tavs telefona numurs?",
+          "tokens": [
+            { "lv": "Kāds", "gloss": "what-kind", "lemma": "kāds", "pos": "pron", "note": "masc. nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "tavs", "gloss": "your", "lemma": "tavs", "pos": "pron", "note": "masc. nom." },
+            { "lv": "telefona", "gloss": "telephone", "lemma": "telefons", "pos": "noun", "note": "gen., modifies numurs" },
+            { "lv": "numurs", "gloss": "number", "lemma": "numurs", "pos": "noun", "note": "nom.", "punct": "?" }
+          ],
+          "natural": "What's your phone number?",
+          "audio": "lv-a1-01-s18.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s19",
+          "speaker": "Pēteris",
+          "target": "Mans numurs ir divi pieci, viens četri astoņi, nulle trīs deviņi.",
+          "tokens": [
+            { "lv": "Mans", "gloss": "my", "lemma": "mans", "pos": "pron", "note": "masc. nom." },
+            { "lv": "numurs", "gloss": "number", "lemma": "numurs", "pos": "noun", "note": "nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "divi", "gloss": "two", "lemma": "divi", "pos": "num" },
+            { "lv": "pieci", "gloss": "five", "lemma": "pieci", "pos": "num", "punct": "," },
+            { "lv": "viens", "gloss": "one", "lemma": "viens", "pos": "num" },
+            { "lv": "četri", "gloss": "four", "lemma": "četri", "pos": "num" },
+            { "lv": "astoņi", "gloss": "eight", "lemma": "astoņi", "pos": "num", "punct": "," },
+            { "lv": "nulle", "gloss": "zero", "lemma": "nulle", "pos": "num" },
+            { "lv": "trīs", "gloss": "three", "lemma": "trīs", "pos": "num" },
+            { "lv": "deviņi", "gloss": "nine", "lemma": "deviņi", "pos": "num", "punct": "." }
+          ],
+          "natural": "My number is 25 148 039.",
+          "audio": "lv-a1-01-s19.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s20",
+          "speaker": "Anna",
+          "target": "Un mans numurs ir divi seši, septiņi viens pieci, nulle trīs četri. Uz redzēšanos!",
+          "tokens": [
+            { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "mans", "gloss": "my", "lemma": "mans", "pos": "pron", "note": "masc. nom." },
+            { "lv": "numurs", "gloss": "number", "lemma": "numurs", "pos": "noun", "note": "nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "divi", "gloss": "two", "lemma": "divi", "pos": "num" },
+            { "lv": "seši", "gloss": "six", "lemma": "seši", "pos": "num", "punct": "," },
+            { "lv": "septiņi", "gloss": "seven", "lemma": "septiņi", "pos": "num" },
+            { "lv": "viens", "gloss": "one", "lemma": "viens", "pos": "num" },
+            { "lv": "pieci", "gloss": "five", "lemma": "pieci", "pos": "num", "punct": "," },
+            { "lv": "nulle", "gloss": "zero", "lemma": "nulle", "pos": "num" },
+            { "lv": "trīs", "gloss": "three", "lemma": "trīs", "pos": "num" },
+            { "lv": "četri", "gloss": "four", "lemma": "četri", "pos": "num", "punct": "." },
+            { "lv": "Uz", "gloss": "to", "lemma": "uz", "pos": "prep", "note": "+ acc.; uz redzēšanos = goodbye" },
+            { "lv": "redzēšanos", "gloss": "seeing", "lemma": "redzēšanās", "pos": "noun", "note": "acc.", "punct": "!" }
+          ],
+          "natural": "And my number is 26 715 034. See you!",
+          "audio": "lv-a1-01-s20.mp3",
           "audioApproved": false
         }
       ]

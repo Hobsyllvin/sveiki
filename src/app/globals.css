@@ -234,6 +234,13 @@ body {
   gap: 2rem;
 }
 
+/* ── Narration block ─────────────────────────────────────────── */
+.narration-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
 /* ── Sentence block ──────────────────────────────────────────── */
 .sentence-block {
   position: relative;
@@ -268,6 +275,11 @@ body {
   /* min-width ensures the pair is never narrower than its gloss */
 }
 
+/* Wraps lv-word + trailing punctuation so both sit on the pair's top row */
+.lv-line {
+  white-space: nowrap;
+}
+
 .lv-word {
   font-family: var(--font-lv);
   font-size: 1.15rem;
@@ -275,6 +287,14 @@ body {
   color: var(--ink);
   line-height: 1.3;
   white-space: nowrap;
+}
+
+.lv-punct {
+  font-family: var(--font-lv);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
 }
 
 /* Tokens with notes get a subtle dotted underline */

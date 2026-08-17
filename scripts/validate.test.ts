@@ -3,7 +3,8 @@ import { LessonSchema, CourseSchema } from "../src/lib/content/schema";
 import type { Lesson, Dictionary, Course } from "../src/lib/content/schema";
 import fs from "fs";
 import path from "path";
-import { checkVocabularyCoverage } from "./validate";
+import { checkVocabularyCoverage, checkTokenization, findLanguageDirs } from "./validate";
+import os from "os";
 
 const FIXTURE_PATH = path.join(
   process.cwd(),
@@ -22,20 +23,6 @@ function loadDictionary(): Dictionary {
 
 function loadCourse(): Course {
   return JSON.parse(fs.readFileSync(COURSE_PATH, "utf-8"));
-}
-
-function checkTokenization(lesson: Lesson): string[] {
-  const messages: string[] = [];
-  const strip = (s: string) => s.replace(/[.?!,]/g, "").trim();
-  for (const section of lesson.sections) {
-    for (const sentence of section.sentences) {
-      const reconstructed = sentence.tokens.map((t) => t.lv).join(" ");
-      if (strip(sentence.target) !== strip(reconstructed)) {
-        messages.push(`[${sentence.id}] tokenization mismatch`);
-      }
-    }
-  }
-  return messages;
 }
 
 function checkDictionary(lesson: Lesson, dictionary: Dictionary): string[] {
@@ -66,7 +53,9 @@ describe("validate fixture lesson", () => {
 
   it("passes tokenization check", () => {
     const lesson = loadFixture();
-    expect(checkTokenization(lesson)).toEqual([]);
+    const result = checkTokenization(lesson);
+    expect(result.pass).toBe(true);
+    expect(result.messages).toEqual([]);
   });
 
   it("passes dictionary check", () => {
@@ -134,8 +123,110 @@ describe("broken lesson: missing token", () => {
           : sec
       ),
     };
-    const errors = checkTokenization(badLesson);
-    expect(errors.length).toBeGreaterThan(0);
+    const result = checkTokenization(badLesson);
+    expect(result.pass).toBe(false);
+    expect(result.messages.length).toBeGreaterThan(0);
+  });
+});
+
+describe("tokenization check (check 2): punctuation", () => {
+  it("passes when punct fields reconstruct sentence-final and internal punctuation exactly", () => {
+    const lesson: Lesson = {
+      lessonId: "lv-a1-00",
+      title: "Test",
+      cefr: "A1",
+      newLemmas: ["kur", "tu", "dzīvot"],
+      sections: [
+        {
+          format: "drill",
+          title: "T",
+          sentences: [
+            {
+              id: "s1",
+              target: "Kur tu dzīvo?",
+              tokens: [
+                { lv: "Kur", gloss: "where", lemma: "kur", pos: "adv" },
+                { lv: "tu", gloss: "you", lemma: "tu", pos: "pron" },
+                { lv: "dzīvo", gloss: "live", lemma: "dzīvot", pos: "verb", punct: "?" },
+              ],
+              natural: "Where do you live?",
+              audio: "lv-a1-00-s1.mp3",
+              audioApproved: false,
+            },
+          ],
+        },
+      ],
+    };
+    const result = checkTokenization(lesson);
+    expect(result.pass).toBe(true);
+    expect(result.messages).toEqual([]);
+  });
+
+  it("passes for a free-standing em dash represented as a leading space on punct", () => {
+    const lesson: Lesson = {
+      lessonId: "lv-a1-00",
+      title: "Test",
+      cefr: "A1",
+      newLemmas: ["es", "tu", "teikt", "tas", "būt", "fantastisks"],
+      sections: [
+        {
+          format: "dialogue",
+          title: "T",
+          sentences: [
+            {
+              id: "s1",
+              target: "Es tev saku — tās ir fantastiskas.",
+              tokens: [
+                { lv: "Es", gloss: "I", lemma: "es", pos: "pron" },
+                { lv: "tev", gloss: "to-you", lemma: "tu", pos: "pron", note: "dat." },
+                { lv: "saku", gloss: "say", lemma: "teikt", pos: "verb", note: "1sg pres.", punct: " —" },
+                { lv: "tās", gloss: "those", lemma: "tas", pos: "pron", note: "demonstr." },
+                { lv: "ir", gloss: "are", lemma: "būt", pos: "verb" },
+                { lv: "fantastiskas", gloss: "fantastic", lemma: "fantastisks", pos: "adj", punct: "." },
+              ],
+              natural: "I'm telling you — they're fantastic.",
+              audio: "lv-a1-00-s1.mp3",
+              audioApproved: false,
+            },
+          ],
+        },
+      ],
+    };
+    const result = checkTokenization(lesson);
+    expect(result.pass).toBe(true);
+    expect(result.messages).toEqual([]);
+  });
+
+  it("fails when punct is missing from a token that has trailing punctuation in target", () => {
+    const lesson: Lesson = {
+      lessonId: "lv-a1-00",
+      title: "Test",
+      cefr: "A1",
+      newLemmas: ["kur", "tu", "dzīvot"],
+      sections: [
+        {
+          format: "drill",
+          title: "T",
+          sentences: [
+            {
+              id: "s1",
+              target: "Kur tu dzīvo?",
+              tokens: [
+                { lv: "Kur", gloss: "where", lemma: "kur", pos: "adv" },
+                { lv: "tu", gloss: "you", lemma: "tu", pos: "pron" },
+                { lv: "dzīvo", gloss: "live", lemma: "dzīvot", pos: "verb" },
+              ],
+              natural: "Where do you live?",
+              audio: "lv-a1-00-s1.mp3",
+              audioApproved: false,
+            },
+          ],
+        },
+      ],
+    };
+    const result = checkTokenization(lesson);
+    expect(result.pass).toBe(false);
+    expect(result.messages[0]).toMatch(/dzīvo.*dzīvo\?/);
   });
 });
 
@@ -291,5 +382,28 @@ describe("vocab coverage check (check 4)", () => {
     };
     const result = checkVocabularyCoverage(goodLesson, twoLessonCourse);
     expect(result.pass).toBe(true);
+  });
+});
+
+describe("findLanguageDirs", () => {
+  it("skips underscore dirs, files, and dirs without course.json", () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "valoda-langdirs-"));
+
+    fs.mkdirSync(path.join(root, "lv"));
+    fs.writeFileSync(path.join(root, "lv", "course.json"), "{}");
+    fs.mkdirSync(path.join(root, "_shared"));
+    fs.writeFileSync(path.join(root, "_shared", "course.json"), "{}");
+    fs.mkdirSync(path.join(root, "drafts"));
+    fs.writeFileSync(path.join(root, "drafts", "lv-a1-01.md"), "# draft");
+    fs.writeFileSync(path.join(root, "README.md"), "not a dir");
+
+    expect(findLanguageDirs(root)).toEqual([path.join(root, "lv")]);
+
+    fs.rmSync(root, { recursive: true, force: true });
+  });
+
+  it("finds the real lv content dir without throwing on sibling draft dirs", () => {
+    const dirs = findLanguageDirs(path.join(process.cwd(), "content"));
+    expect(dirs).toContain(path.join(process.cwd(), "content", "lv"));
   });
 });

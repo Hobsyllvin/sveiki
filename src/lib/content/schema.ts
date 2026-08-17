@@ -21,6 +21,15 @@ export const TokenSchema = z.object({
     "interj",
   ]),
   note: z.string().max(60).optional(),
+  // Punctuation immediately following this token in the source sentence, no space
+  // between (e.g. "?", "?!"). A leading space is allowed only for a free-standing
+  // em dash used as a mid-sentence break (see GLOSSING_RULES.md). lv itself stays
+  // punctuation-free.
+  punct: z
+    .string()
+    .max(3)
+    .regex(/^ ?[.,!?—]{1,2}$/, "punct must be 1-2 punctuation marks, optionally preceded by a single space for a free-standing em dash")
+    .optional(),
 });
 
 export type Token = z.infer<typeof TokenSchema>;
@@ -38,7 +47,7 @@ export const SentenceSchema = z.object({
 export type Sentence = z.infer<typeof SentenceSchema>;
 
 export const SectionSchema = z.object({
-  format: z.enum(["dialogue", "drill", "story"]),
+  format: z.enum(["dialogue", "drill", "narration"]),
   title: z.string().min(1),
   sentences: z.array(SentenceSchema).min(1),
 });
@@ -60,6 +69,8 @@ export type Lesson = z.infer<typeof LessonSchema>;
 export const DictionaryEntrySchema = z.object({
   glosses: z.array(z.string()).min(1),
   note: z.string().optional(),
+  seeAlso: z.array(z.string()).optional(),
+  needsNativeReview: z.boolean().optional(),
 });
 
 export type DictionaryEntry = z.infer<typeof DictionaryEntrySchema>;

@@ -96,8 +96,10 @@ Gloss the literal spatial/basic meaning even when English would idiomatically di
 
 Short, telegraphic, for the curious learner and the reviewer — not required reading:
 
-- Case: `"acc."`, `"gen. after no"`, `"loc."`
+- Case: `"acc."`, `"gen. after no"`, `"loc."`, `"voc."`
 - Verb form: `"1sg pres."`, `"inf."`, `"debitive of iet"`, `"refl. 3sg"`
+- Gender on role nouns (R15): `"masc."`, `"fem."`
+- Adjective and pronoun form: `"def. adj."`, `"demonstr."`
 
 ## R13 — Dictionary consistency
 
@@ -105,6 +107,76 @@ Short, telegraphic, for the curious learner and the reviewer — not required re
 - A lemma is always glossed identically across the whole course unless the dictionary
   explicitly lists multiple senses (`uz`, `kas`). New lemma = new dictionary entry =
   human review before merge.
+
+## R14 — Vocative case
+
+Latvian address forms drop or alter the noun ending. Gloss the **base form** and mark the
+case in `note` as `"voc."`.
+
+- `Pēteri!` → `Pēteris` (lemma `Pēteris`, note `"voc."`)
+- `skolotāj!` → `teacher` (lemma `skolotājs`, note `"voc."`)
+- `Anna!` → `Anna` (lemma `Anna`, note `"voc."`) — form unchanged, still marked
+
+Rationale: the vocative carries no meaning English can render. Marking it in the gloss
+would add noise; the `note` keeps it visible to the curious learner without cluttering
+the decode line.
+
+Edge cases:
+
+- An unchanged form (`Anna`, `Marta`) still gets `"voc."` when it is an address, so the
+  reviewer can see the decoder recognised the construction rather than missed it.
+- A name in subject position is **not** vocative and takes no note: `Anna smaida.` → `Anna smiles`.
+- Vocative and greeting are separate tokens: `Sveika, Marta!` → `hello` + `Marta`,
+  only the second carrying `"voc."`.
+
+## R15 — Gendered profession and role nouns
+
+Latvian marks gender on many role nouns. Gloss both genders with the **same neutral
+English word** and put the gender in `note`.
+
+- `skolotājs` → `teacher` (note `"masc."`) / `skolotāja` → `teacher` (note `"fem."`)
+- `students` → `student` (note `"masc."`) / `studente` → `student` (note `"fem."`)
+- `draugs` → `friend` (note `"masc."`) / `draudzene` → `friend` (note `"fem."`)
+
+The dictionary treats the two genders as **separate lemmas** with identical glosses,
+cross-referenced with `seeAlso`:
+
+```json
+"skolotājs": { "glosses": ["teacher"], "note": "masc.", "seeAlso": ["skolotāja"] },
+"skolotāja": { "glosses": ["teacher"], "note": "fem.", "seeAlso": ["skolotājs"] }
+```
+
+Rationale: English has no gendered equivalent, and duplicating gender in the gloss
+(`teacher-fem`) would break R2's person-free principle and make the same role read as
+two different words.
+
+Edge cases:
+
+- Do **not** collapse the pair into one lemma. `skolotāja` is not an inflected form of
+  `skolotājs`; they are distinct words and each needs its own dictionary entry.
+- Beware the syncretism: `skolotāja` is both the feminine nominative *and* the masculine
+  genitive singular of `skolotājs`. Choose the lemma from the sentence's syntax, not the
+  surface form alone.
+- Where a role noun has no gender pair in use (`ārsts` covering both), a single lemma
+  with no gender note is correct until the counterpart actually appears.
+
+## Punctuation
+
+Punctuation is a data convention, not a numbered gloss rule — it never appears in `gloss`.
+
+- Punctuation lives in the token's optional `punct` field, attached to the **preceding**
+  word — the token it immediately follows in the source sentence with no space.
+  `dzīvo` + `punct: "?"` → renders `dzīvo?`. Combined punctuation (`?!`) is one `punct` value.
+- `lv` stays punctuation-free — it is the pure word form, so lemma lookup and dictionary
+  checks are unaffected by punctuation placement.
+- Tokenization is checked by exact reconstruction: `lv + (punct ?? "")` for every token,
+  joined with single spaces and whitespace-normalized, must equal `target` exactly.
+- **Em dash convention**: a free-standing em dash used as a mid-sentence break (spaces on
+  both sides, e.g. `Es tev saku — tās ir fantastiskas`) is *not* attached punctuation in
+  the usual sense — there is no word it glues to without a space. It is represented as
+  `punct` on the **preceding** token with a **leading space**: `saku` → `punct: " —"`.
+  The join's separator space supplies the space before the next token, so `"saku"` +
+  `" —"` + `" "` + `"tās"` reconstructs `saku — tās` exactly.
 
 ## Worked micro-examples
 
@@ -115,3 +187,5 @@ Short, telegraphic, for the curious learner and the reviewer — not required re
 | Viņa mazgājas no rīta. | she washes-oneself from morning | R5, R8 |
 | Es dzīvoju Rīgā. | I live in-Riga | R2, R4, R11 |
 | Kā tev iet? | how to-you goes | R4, R9 |
+| Sveiks, Pēteri! | hello Pēteris | R14 |
+| Es esmu studente. | I am student | R2, R3, R15 |
