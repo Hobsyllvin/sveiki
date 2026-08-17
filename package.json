@@ -8,9 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "validate": "tsx scripts/validate.ts",
-    "generate": "tsx scripts/generate-lesson.ts",
+    "verify-drafts": "tsx scripts/verify-against-draft.ts",
     "critic": "tsx scripts/critic.ts",
-    "roundtrip": "tsx scripts/roundtrip.ts",
     "test": "vitest run"
   },
   "dependencies": {
