@@ -70,7 +70,6 @@ export const DictionaryEntrySchema = z.object({
   glosses: z.array(z.string()).min(1),
   note: z.string().optional(),
   seeAlso: z.array(z.string()).optional(),
-  needsNativeReview: z.boolean().optional(),
 });
 
 export type DictionaryEntry = z.infer<typeof DictionaryEntrySchema>;

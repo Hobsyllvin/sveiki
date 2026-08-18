@@ -354,7 +354,7 @@
           "tokens": [
             { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },
             { "lv": "kafiju", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "acc." },
-            { "lv": "ar", "gloss": "with", "lemma": "ar", "pos": "prep", "note": "+ acc." },
+            { "lv": "ar", "gloss": "with", "lemma": "ar", "pos": "prep", "note": "+ acc. sg.; dat. in pl." },
             { "lv": "govs", "gloss": "cow", "lemma": "govs", "pos": "noun", "note": "gen. sg." },
             { "lv": "pienu", "gloss": "milk", "lemma": "piens", "pos": "noun", "note": "acc." },
             { "lv": "vai", "gloss": "or", "lemma": "vai", "pos": "conj", "note": "'or' sense, not the question particle" },
@@ -370,11 +370,11 @@
           "speaker": "Anna",
           "target": "Ar auzu pienu, lūdzu. Paldies!",
           "tokens": [
-            { "lv": "Ar", "gloss": "with", "lemma": "ar", "pos": "prep", "note": "+ acc." },
+            { "lv": "Ar", "gloss": "with", "lemma": "ar", "pos": "prep", "note": "+ acc. sg.; dat. in pl." },
             { "lv": "auzu", "gloss": "oats", "lemma": "auza", "pos": "noun", "note": "gen. pl.; auzu piens = oat milk" },
             { "lv": "pienu", "gloss": "milk", "lemma": "piens", "pos": "noun", "note": "acc.", "punct": "," },
             { "lv": "lūdzu", "gloss": "please", "lemma": "lūdzu", "pos": "part", "note": "lit. 'I ask'; fixed politeness form", "punct": "." },
-            { "lv": "Paldies", "gloss": "thank-you", "lemma": "paldies", "pos": "interj", "punct": "!" }
+            { "lv": "Paldies", "gloss": "thanks", "lemma": "paldies", "pos": "interj", "punct": "!" }
           ],
           "natural": "With oat milk, please. Thank you!",
           "audio": "lv-a1-03-s21.mp3",
@@ -385,7 +385,7 @@
           "speaker": "Waiter",
           "target": "Paldies!",
           "tokens": [
-            { "lv": "Paldies", "gloss": "thank-you", "lemma": "paldies", "pos": "interj", "punct": "!" }
+            { "lv": "Paldies", "gloss": "thanks", "lemma": "paldies", "pos": "interj", "punct": "!" }
           ],
           "natural": "Thank you!",
           "audio": "lv-a1-03-s22.mp3",
@@ -405,8 +405,8 @@
             { "lv": "Ko", "gloss": "what", "lemma": "kas", "pos": "pron", "note": "acc." },
             { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
             { "lv": "dari", "gloss": "do", "lemma": "darīt", "pos": "verb", "note": "2sg pres." },
-            { "lv": "brīvajā", "gloss": "free", "lemma": "brīvs", "pos": "adj", "note": "def. adj.; loc." },
-            { "lv": "laikā", "gloss": "in-time", "lemma": "laiks", "pos": "noun", "note": "loc.", "punct": "?" }
+            { "lv": "brīvajā", "gloss": "in-free", "lemma": "brīvs", "pos": "adj", "note": "def. adj.; masc. loc." },
+            { "lv": "laikā", "gloss": "time", "lemma": "laiks", "pos": "noun", "note": "loc.", "punct": "?" }
           ],
           "natural": "What do you do in your free time?",
           "audio": "lv-a1-03-s23.mp3",
@@ -474,7 +474,7 @@
             { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
             { "lv": "skrienu", "gloss": "run", "lemma": "skriet", "pos": "verb", "note": "1sg pres." },
             { "lv": "tikai", "gloss": "only", "lemma": "tikai", "pos": "adv" },
-            { "lv": "priekam", "gloss": "joy", "lemma": "prieks", "pos": "noun", "note": "dat. of purpose = for fun", "punct": "!" },
+            { "lv": "priekam", "gloss": "for-joy", "lemma": "prieks", "pos": "noun", "note": "dat. of purpose", "punct": "!" },
             { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },
             { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom.", "punct": "?" }
           ],

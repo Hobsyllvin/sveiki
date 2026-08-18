@@ -3,7 +3,16 @@ import { LessonSchema, CourseSchema } from "../src/lib/content/schema";
 import type { Lesson, Dictionary, Course } from "../src/lib/content/schema";
 import fs from "fs";
 import path from "path";
-import { checkVocabularyCoverage, checkTokenization, findLanguageDirs } from "./validate";
+import {
+  checkVocabularyCoverage,
+  checkTokenization,
+  findLanguageDirs,
+  checkNewLemmasMatchCourse,
+  checkNoDuplicateDeclarations,
+  checkGlossUniqueness,
+  checkSenseDisclosure,
+  checkRecycling,
+} from "./validate";
 import os from "os";
 
 const FIXTURE_PATH = path.join(
@@ -405,5 +414,237 @@ describe("findLanguageDirs", () => {
   it("finds the real lv content dir without throwing on sibling draft dirs", () => {
     const dirs = findLanguageDirs(path.join(process.cwd(), "content"));
     expect(dirs).toContain(path.join(process.cwd(), "content", "lv"));
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Phase 3 rules. Each exists because a real defect passed the previous gate.
+// ---------------------------------------------------------------------------
+
+type TokenSpec = { lv: string; gloss: string; lemma: string; note?: string };
+
+function mkLesson(
+  lessonId: string,
+  sentences: TokenSpec[][],
+  newLemmas: string[] = []
+): Lesson {
+  return {
+    lessonId,
+    title: "T",
+    cefr: "A1",
+    newLemmas,
+    sections: [
+      {
+        format: "drill",
+        title: "T",
+        sentences: sentences.map((tokens, i) => ({
+          id: `s${i + 1}`,
+          target: tokens.map((t) => t.lv).join(" "),
+          tokens: tokens.map((t) => ({ ...t, pos: "noun" as const })),
+          natural: "n",
+          audio: `${lessonId}-s${i + 1}.mp3`,
+          audioApproved: false,
+        })),
+      },
+    ],
+  };
+}
+
+function mkCourse(lessons: { lessonId: string; newLemmas: string[] }[]): Course {
+  return CourseSchema.parse({
+    language: "lv",
+    languageName: "Latvian",
+    glossLanguage: "en",
+    glossingRules: "../_shared/GLOSSING_RULES.md",
+    lessons: lessons.map((l) => ({ ...l, theme: "t", cefr: "A1" })),
+  });
+}
+
+describe("rule 1a — newLemmas must agree with course.json", () => {
+  const course = mkCourse([{ lessonId: "lv-a1-01", newLemmas: ["a", "b"] }]);
+
+  it("passes when the two lists match as sets, ignoring order", () => {
+    const lesson = mkLesson("lv-a1-01", [[{ lv: "a", gloss: "a", lemma: "a" }]], ["b", "a"]);
+    expect(checkNewLemmasMatchCourse(lesson, course).pass).toBe(true);
+  });
+
+  it("fails when the lesson re-declares a lemma course.json does not list for it", () => {
+    // The real lv-a1-01 defect: 7 lemmas already taught in lv-a1-00.
+    const lesson = mkLesson("lv-a1-01", [[{ lv: "a", gloss: "a", lemma: "a" }]], ["a", "b", "es"]);
+    const result = checkNewLemmasMatchCourse(lesson, course);
+    expect(result.pass).toBe(false);
+    expect(result.messages[0]).toMatch(/not in course\.json/);
+    expect(result.messages[0]).toMatch(/es/);
+  });
+
+  it("fails when the lesson omits a lemma course.json declares for it", () => {
+    // The real lv-a1-02 defect: 8 omitted lemmas bypassed the new-lemma review gate.
+    const lesson = mkLesson("lv-a1-01", [[{ lv: "a", gloss: "a", lemma: "a" }]], ["a"]);
+    const result = checkNewLemmasMatchCourse(lesson, course);
+    expect(result.pass).toBe(false);
+    expect(result.messages[0]).toMatch(/not in the lesson file/);
+    expect(result.messages[0]).toMatch(/\bb\b/);
+  });
+
+  it("passes on all real lessons", () => {
+    const course = loadCourse();
+    for (const entry of course.lessons) {
+      const lesson: Lesson = JSON.parse(
+        fs.readFileSync(path.join(process.cwd(), `content/lv/lessons/${entry.lessonId}.json`), "utf-8")
+      );
+      expect(checkNewLemmasMatchCourse(lesson, course).messages).toEqual([]);
+    }
+  });
+});
+
+describe("rule 1b — no lemma declared new twice", () => {
+  it("fails when a later lesson re-introduces an earlier lemma", () => {
+    const course = mkCourse([
+      { lessonId: "lv-a1-00", newLemmas: ["es", "tu"] },
+      { lessonId: "lv-a1-01", newLemmas: ["sveiki", "es"] },
+    ]);
+    const result = checkNoDuplicateDeclarations(course);
+    expect(result.pass).toBe(false);
+    expect(result.messages[0]).toMatch(/"es".*lv-a1-01.*already introduced in lv-a1-00/);
+  });
+
+  it("passes on the real course", () => {
+    expect(checkNoDuplicateDeclarations(loadCourse()).messages).toEqual([]);
+  });
+});
+
+describe("rule 2 — course-wide gloss uniqueness", () => {
+  it("catches one surface form glossed two ways across lessons (the paldies defect)", () => {
+    const dictionary: Dictionary = { paldies: { glosses: ["thanks", "thank-you"] } };
+    const lessons = [
+      mkLesson("lv-a1-01", [[{ lv: "Paldies", gloss: "thanks", lemma: "paldies" }]]),
+      mkLesson("lv-a1-03", [[{ lv: "Paldies", gloss: "thank-you", lemma: "paldies" }]]),
+    ];
+    const result = checkGlossUniqueness(lessons, dictionary);
+    expect(result.pass).toBe(false);
+    expect(result.messages[0]).toMatch(/paldies/);
+    expect(result.messages[0]).toMatch(/"thanks".*vs.*"thank-you"|"thank-you".*vs.*"thanks"/);
+  });
+
+  it("ignores case when comparing surface forms", () => {
+    const dictionary: Dictionary = { paldies: { glosses: ["thanks", "thank-you"] } };
+    const lessons = [
+      mkLesson("lv-a1-01", [
+        [{ lv: "Paldies", gloss: "thanks", lemma: "paldies" }],
+        [{ lv: "paldies", gloss: "thank-you", lemma: "paldies" }],
+      ]),
+    ];
+    expect(checkGlossUniqueness(lessons, dictionary).pass).toBe(false);
+  });
+
+  it("does not fire on inflection-driven gloss differences across different forms", () => {
+    // kūka -> cake/cakes and Rīga -> Riga/in-Riga are required by the method,
+    // not drift: different surface forms, so each form still has one gloss.
+    const dictionary: Dictionary = {
+      kūka: { glosses: ["cake", "cakes"] },
+      Rīga: { glosses: ["Riga", "in-Riga"] },
+    };
+    const lessons = [
+      mkLesson("lv-a1-03", [
+        [
+          { lv: "kūku", gloss: "cake", lemma: "kūka" },
+          { lv: "kūkas", gloss: "cakes", lemma: "kūka" },
+          { lv: "Rīga", gloss: "Riga", lemma: "Rīga" },
+          { lv: "Rīgā", gloss: "in-Riga", lemma: "Rīga" },
+        ],
+      ]),
+    ];
+    expect(checkGlossUniqueness(lessons, dictionary).messages).toEqual([]);
+  });
+
+  it("exempts a form whose dictionary note documents distinct senses (cik, vai)", () => {
+    const dictionary: Dictionary = {
+      cik: { glosses: ["how-much", "how"], note: "cik ilgi = how long; cik + adj./adv. = how" },
+      vai: {
+        glosses: ["whether", "or"],
+        note: "Vai tu nāc? = whether (question particle); X vai Y = or (conjunction)",
+      },
+    };
+    const lessons = [
+      mkLesson("lv-a1-01", [
+        [
+          { lv: "Cik", gloss: "how-much", lemma: "cik", note: "how much" },
+          { lv: "Cik", gloss: "how", lemma: "cik", note: "cik ilgi = how long" },
+          { lv: "vai", gloss: "whether", lemma: "vai", note: "q. particle" },
+          { lv: "vai", gloss: "or", lemma: "vai", note: "conj." },
+        ],
+      ]),
+    ];
+    expect(checkGlossUniqueness(lessons, dictionary).messages).toEqual([]);
+  });
+
+  it("passes on the real course content", () => {
+    const course = loadCourse();
+    const lessons = course.lessons.map(
+      (e) =>
+        JSON.parse(
+          fs.readFileSync(path.join(process.cwd(), `content/lv/lessons/${e.lessonId}.json`), "utf-8")
+        ) as Lesson
+    );
+    expect(checkGlossUniqueness(lessons, loadDictionary()).messages).toEqual([]);
+  });
+});
+
+describe("rule 3 — sense-selection disclosure", () => {
+  const dictionary: Dictionary = {
+    cik: { glosses: ["how-much", "how"], note: "cik ilgi = how long; cik + adj./adv. = how" },
+  };
+
+  it("warns without failing when an ambiguous lemma's token carries no note (the Cik defect)", () => {
+    const lessons = [mkLesson("lv-a1-01", [[{ lv: "Cik", gloss: "how-much", lemma: "cik" }]])];
+    const result = checkSenseDisclosure(lessons, dictionary);
+    // Warning-only until the deferred note-granularity pass lands.
+    expect(result.pass).toBe(true);
+    expect(result.warnings?.length).toBe(1);
+    expect(result.warnings?.[0]).toMatch(/cik/);
+    expect(result.warnings?.[0]).toMatch(/carry no note/);
+  });
+
+  it("is silent when every token of the ambiguous lemma discloses its sense", () => {
+    const lessons = [
+      mkLesson("lv-a1-01", [[{ lv: "Cik", gloss: "how", lemma: "cik", note: "cik ilgi = how long" }]]),
+    ];
+    expect(checkSenseDisclosure(lessons, dictionary).warnings).toEqual([]);
+  });
+
+  it("is silent for a single-gloss lemma, and for a multi-gloss lemma with no sense rule in its note", () => {
+    const dict: Dictionary = {
+      maize: { glosses: ["bread"] },
+      dzert: { glosses: ["to-drink", "drink"], note: "no sense rule here" },
+    };
+    const lessons = [
+      mkLesson("lv-a1-01", [
+        [
+          { lv: "maizi", gloss: "bread", lemma: "maize" },
+          { lv: "dzert", gloss: "to-drink", lemma: "dzert" },
+        ],
+      ]),
+    ];
+    expect(checkSenseDisclosure(lessons, dict).warnings).toEqual([]);
+  });
+});
+
+describe("recycling report", () => {
+  it("reports lemmas appearing exactly once and never fails the build", () => {
+    const lessons = [
+      mkLesson("lv-a1-01", [
+        [
+          { lv: "maizi", gloss: "bread", lemma: "maize" },
+          { lv: "maize", gloss: "bread", lemma: "maize" },
+          { lv: "zupa", gloss: "soup", lemma: "zupa" },
+        ],
+      ]),
+    ];
+    const result = checkRecycling(lessons);
+    expect(result.pass).toBe(true);
+    expect(result.messages).toEqual([]);
+    expect(result.warnings?.[0]).toMatch(/1 of 2 lemmas appear exactly once/);
+    expect(result.warnings?.[0]).toMatch(/zupa/);
+    expect(result.warnings?.[0]).not.toMatch(/maize/);
   });
 });

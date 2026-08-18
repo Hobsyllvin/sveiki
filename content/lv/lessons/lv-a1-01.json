@@ -2,7 +2,7 @@
   "lessonId": "lv-a1-01",
   "title": "Mani sauc… (Introductions and numbers)",
   "cefr": "A1",
-  "newLemmas": ["labdien", "saukt", "Pēteris", "kā", "sveiki", "Anna", "prieks", "iepazīties", "iet", "ļoti", "labi", "paldies", "un", "arī", "vai", "būt", "no", "Latvija", "nē", "es", "Lietuva", "bet", "šeit", "Rīga", "cik", "ilgi", "tu", "dzīvot", "desmit", "mēnesis", "vēl", "mācīties", "latviski", "runāt", "saprast", "tikai", "mazliet", "skolotājs", "strādāt", "pilsēta", "jauki", "studente", "kāds", "tavs", "telefons", "numurs", "mans", "divi", "pieci", "viens", "četri", "astoņi", "nulle", "trīs", "deviņi", "seši", "septiņi", "uz", "redzēšanās"],
+  "newLemmas": ["labdien","saukt","Pēteris","kā","sveiki","Anna","prieks","iepazīties","ļoti","labi","paldies","un","arī","vai","būt","Latvija","nē","Lietuva","bet","šeit","cik","ilgi","desmit","mēnesis","vēl","mācīties","latviski","runāt","saprast","tikai","mazliet","skolotājs","strādāt","pilsēta","jauki","studente","kāds","tavs","telefons","numurs","mans","divi","pieci","viens","četri","astoņi","nulle","trīs","deviņi","seši","septiņi","redzēšanās"],
   "sections": [
     {
       "format": "dialogue",
@@ -159,7 +159,7 @@
           "speaker": "Pēteris",
           "target": "Cik ilgi tu dzīvo Rīgā?",
           "tokens": [
-            { "lv": "Cik", "gloss": "how-much", "lemma": "cik", "pos": "adv" },
+            { "lv": "Cik", "gloss": "how", "lemma": "cik", "pos": "adv", "note": "cik ilgi = how long" },
             { "lv": "ilgi", "gloss": "long", "lemma": "ilgi", "pos": "adv" },
             { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron" },
             { "lv": "dzīvo", "gloss": "live", "lemma": "dzīvot", "pos": "verb", "note": "2sg pres." },
@@ -198,7 +198,7 @@
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
             { "lv": "vēl", "gloss": "still", "lemma": "vēl", "pos": "adv" },
             { "lv": "mācos", "gloss": "learn", "lemma": "mācīties", "pos": "verb", "note": "refl. form, non-refl. meaning; 1sg" },
-            { "lv": "latviski", "gloss": "in-Latvian", "lemma": "latviski", "pos": "adv", "punct": "." }
+            { "lv": "latviski", "gloss": "Latvian", "lemma": "latviski", "pos": "adv", "punct": "." }
           ],
           "natural": "I'm still learning Latvian.",
           "audio": "lv-a1-01-s13.mp3",
@@ -212,7 +212,7 @@
             { "lv": "Tu", "gloss": "you", "lemma": "tu", "pos": "pron" },
             { "lv": "labi", "gloss": "well", "lemma": "labi", "pos": "adv" },
             { "lv": "runā", "gloss": "speak", "lemma": "runāt", "pos": "verb", "note": "2sg pres." },
-            { "lv": "latviski", "gloss": "in-Latvian", "lemma": "latviski", "pos": "adv", "punct": "!" }
+            { "lv": "latviski", "gloss": "Latvian", "lemma": "latviski", "pos": "adv", "punct": "!" }
           ],
           "natural": "You speak Latvian well!",
           "audio": "lv-a1-01-s14.mp3",

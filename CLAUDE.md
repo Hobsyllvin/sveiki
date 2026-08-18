@@ -36,7 +36,7 @@ src/lib/content/
 - Never add presentation/layout information (colors, CSS classes, HTML) to content JSON files.
 - All content changes must pass `npm run validate` before commit.
 - New lemmas require a `dictionary.json` entry; flag them explicitly in commit messages for human review.
-- Latvian language content is DRAFT until reviewed by a native speaker; never mark `audioApproved: true` automatically.
+- Never mark `audioApproved: true` automatically.
 
 ## Common commands
 

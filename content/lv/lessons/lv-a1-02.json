@@ -2,7 +2,7 @@
   "lessonId": "lv-a1-02",
   "title": "No kuras valsts? (Origins, family and free time)",
   "cefr": "A1",
-  "newLemmas": ["sveiks", "Marta", "kurš", "valsts", "Igaunija", "tagad", "Vecrīga", "centrs", "tur", "skaists", "igauniski", "lietuviski", "poliski", "jau", "kas", "darīt", "veikals", "kafejnīca", "tas", "interesants", "brālis", "māsa", "Vācija", "viņš", "ārsts", "skola", "ģimene", "Tallina", "Viļņa", "viņi", "mīlēt", "brīvs", "laiks", "peldēt", "bieži"],
+  "newLemmas": ["sveiks","Marta","kurš","valsts","Igaunija","tagad","Vecrīga","centrs","tur","skaists","igauniski","lietuviski","poliski","jau","kas","darīt","veikals","kafejnīca","tas","interesants","brālis","māsa","Vācija","viņš","ārsts","skola","ģimene","Tallina","Viļņa","viņi","mīlēt","brīvs","laiks","peldēt","bieži","jā","valoda","angliski","patikt","lasīt","mūzika","sports","ceļot"],
   "sections": [
     {
       "format": "dialogue",
@@ -212,11 +212,11 @@
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
             { "lv": "runāju", "gloss": "speak", "lemma": "runāt", "pos": "verb", "note": "1sg pres." },
-            { "lv": "igauniski", "gloss": "in-Estonian", "lemma": "igauniski", "pos": "adv", "punct": "," },
-            { "lv": "angliski", "gloss": "in-English", "lemma": "angliski", "pos": "adv" },
+            { "lv": "igauniski", "gloss": "Estonian", "lemma": "igauniski", "pos": "adv", "punct": "," },
+            { "lv": "angliski", "gloss": "English", "lemma": "angliski", "pos": "adv" },
             { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
             { "lv": "mazliet", "gloss": "a-little", "lemma": "mazliet", "pos": "adv" },
-            { "lv": "latviski", "gloss": "in-Latvian", "lemma": "latviski", "pos": "adv", "punct": "." }
+            { "lv": "latviski", "gloss": "Latvian", "lemma": "latviski", "pos": "adv", "punct": "." }
           ],
           "natural": "I speak Estonian, English and a little Latvian.",
           "audio": "lv-a1-02-s13.mp3",
@@ -229,10 +229,10 @@
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
             { "lv": "runāju", "gloss": "speak", "lemma": "runāt", "pos": "verb", "note": "1sg pres." },
-            { "lv": "lietuviski", "gloss": "in-Lithuanian", "lemma": "lietuviski", "pos": "adv", "punct": "," },
-            { "lv": "poliski", "gloss": "in-Polish", "lemma": "poliski", "pos": "adv" },
+            { "lv": "lietuviski", "gloss": "Lithuanian", "lemma": "lietuviski", "pos": "adv", "punct": "," },
+            { "lv": "poliski", "gloss": "Polish", "lemma": "poliski", "pos": "adv" },
             { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
-            { "lv": "latviski", "gloss": "in-Latvian", "lemma": "latviski", "pos": "adv", "punct": "." }
+            { "lv": "latviski", "gloss": "Latvian", "lemma": "latviski", "pos": "adv", "punct": "." }
           ],
           "natural": "I speak Lithuanian, Polish and Latvian.",
           "audio": "lv-a1-02-s14.mp3",
@@ -488,8 +488,8 @@
             { "lv": "Ko", "gloss": "what", "lemma": "kas", "pos": "pron", "note": "acc." },
             { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron" },
             { "lv": "dari", "gloss": "do", "lemma": "darīt", "pos": "verb", "note": "2sg pres." },
-            { "lv": "brīvajā", "gloss": "free", "lemma": "brīvs", "pos": "adj", "note": "def. adj., loc." },
-            { "lv": "laikā", "gloss": "in-time", "lemma": "laiks", "pos": "noun", "note": "loc.", "punct": "?" }
+            { "lv": "brīvajā", "gloss": "in-free", "lemma": "brīvs", "pos": "adj", "note": "def. adj.; masc. loc." },
+            { "lv": "laikā", "gloss": "time", "lemma": "laiks", "pos": "noun", "note": "loc.", "punct": "?" }
           ],
           "natural": "What do you do in your free time?",
           "audio": "lv-a1-02-s29.mp3",

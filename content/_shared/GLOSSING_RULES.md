@@ -39,10 +39,22 @@ Latvian has no articles, so the decode line has none either.
 
 - **Locative** absorbs into the gloss with `in-`/`at-`: `Rīgā` → `in-Riga`, `tirgū` → `in-market`.
   (The locative *is* the preposition; hiding it would lose meaning.)
+- **Locative noun phrases containing a modifier**: the `in-` attaches to the **leftmost element**
+  of the phrase; the head noun is glossed bare with `note: "loc."`.
+  `brīvajā laikā` → `in-free` + `time`, not `free` + `in-time`.
+  Absorbing onto the head noun would strand the modifier outside the phrase it modifies.
+  An *unmodified* locative is unaffected: `laikā` on its own is still `in-time`.
+- **The `in-` prefix marks locative absorption only.** Manner adverbs in `-iski` are glossed with
+  the bare language name and take no note: `latviski` → `Latvian`, `angliski` → `English`.
+  They carry no case ending, so mirroring English "in Latvian" would make the decode line
+  misreport the morphology. (Applies to language adverbs; `lieliski` "wonderful" is unrelated.)
 - **All other cases** (accusative, dative, genitive, instrumental) are NOT marked in the gloss.
   The bare meaning is glossed; the case goes in `note`: `maizi` → `bread`, note `"acc."`.
 - **Dative experiencers** are glossed with `to-`: `man` → `to-me`, `tev` → `to-you`, `viņai` → `to-her`.
   This is meaning-critical (see R6) and reads naturally in decode.
+- **Dative of purpose** is glossed with `for-`, parallel to the experiencer `to-`:
+  `priekam` → `for-joy`, note `"dat. of purpose"`. Without it the dative collapses to a bare
+  noun and the purpose reading survives only in the note.
 
 ## R5 — Reflexive verbs: invariant `-oneself`
 
