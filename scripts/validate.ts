@@ -277,6 +277,46 @@ export function checkRecycling(lessons: Lesson[]): CheckResult {
   };
 }
 
+// Check 7 — audio coverage. Warning-only: content is valid before any audio
+// exists, and stays valid while a lesson waits for its TTS pass.
+export function checkAudioCoverage(lessons: Lesson[], audioDir: string): CheckResult {
+  const expected = new Map<string, string>();
+  for (const lesson of lessons) {
+    for (const section of lesson.sections) {
+      for (const sentence of section.sentences) {
+        expected.set(sentence.audio, `${lesson.lessonId}/${sentence.id}`);
+      }
+    }
+  }
+
+  const present = new Set(
+    fs.existsSync(audioDir) ? fs.readdirSync(audioDir).filter((f) => f.endsWith(".mp3")) : []
+  );
+
+  const summarize = (items: string[]) => {
+    const shown = items.slice(0, 3).join(", ");
+    return items.length > 3 ? `${shown} (+${items.length - 3} more)` : shown;
+  };
+
+  const warnings: string[] = [];
+  const missing = [...expected].filter(([file]) => !present.has(file));
+  if (missing.length > 0) {
+    warnings.push(
+      `  audio coverage: ${missing.length} of ${expected.size} sentence(s) have no audio file yet: ` +
+        summarize(missing.map(([file, where]) => `${file} (${where})`))
+    );
+  }
+
+  const orphans = [...present].filter((file) => !expected.has(file)).sort();
+  if (orphans.length > 0) {
+    warnings.push(
+      `  audio coverage: ${orphans.length} audio file(s) match no sentence: ${summarize(orphans)}`
+    );
+  }
+
+  return { pass: true, messages: [], warnings };
+}
+
 export function findLanguageDirs(contentRoot: string): string[] {
   return fs
     .readdirSync(contentRoot)
@@ -353,13 +393,19 @@ function validateLessonFile(
 
 // Course-wide checks need every lesson, so they run once per language rather
 // than per lesson — and on the full set even when --lesson narrows the per-lesson run.
-function validateCourseWide(lessons: Lesson[], dictionary: Dictionary, course: Course): boolean {
+function validateCourseWide(
+  lessons: Lesson[],
+  dictionary: Dictionary,
+  course: Course,
+  langDir: string
+): boolean {
   console.log(bold(`\nCourse-wide checks...`));
   const passed = report([
     checkNoDuplicateDeclarations(course),
     checkGlossUniqueness(lessons, dictionary),
     checkSenseDisclosure(lessons, dictionary),
     checkRecycling(lessons),
+    checkAudioCoverage(lessons, path.join(langDir, "audio")),
   ]);
   console.log(passed ? green(`  PASS: course-wide`) : red(`  FAIL: course-wide`));
   return passed;
@@ -412,7 +458,7 @@ function main() {
       .filter((r) => r.success)
       .map((r) => r.data as Lesson);
 
-    if (!validateCourseWide(parsedLessons, dictionary, course)) allPassed = false;
+    if (!validateCourseWide(parsedLessons, dictionary, course, langDir)) allPassed = false;
   }
 
   console.log(allPassed ? green("\n✓ All checks passed") : red("\n✗ Validation failed"));

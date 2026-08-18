@@ -78,6 +78,45 @@ export const DictionarySchema = z.record(z.string(), DictionaryEntrySchema);
 
 export type Dictionary = z.infer<typeof DictionarySchema>;
 
+// Voice mapping is configuration, not content: it lives in content/<lang>/voices.json
+// and never enters lesson JSON, which stays pure language data.
+export const VoiceSchema = z.object({
+  name: z.string().min(1),
+  prompt: z.string().min(1),
+});
+
+export type Voice = z.infer<typeof VoiceSchema>;
+
+export const VoicesSchema = z.object({
+  defaults: z.object({
+    languageCode: z.string().min(1),
+    modelName: z.string().min(1),
+    audioEncoding: z.literal("MP3"),
+    speakingRate: z.number().positive(),
+    pitch: z.number(),
+  }),
+  speakers: z.record(z.string(), VoiceSchema),
+  fallback: VoiceSchema,
+});
+
+export type Voices = z.infer<typeof VoicesSchema>;
+
+// Derived data about generated audio: hash of the exact synthesis inputs (so an
+// edited sentence or a changed voice regenerates, and nothing else does), plus
+// duration for the player. Never mirrored into lesson JSON.
+export const AudioManifestEntrySchema = z.object({
+  hash: z.string().length(64),
+  voice: z.string().min(1),
+  durationSeconds: z.number().positive(),
+  generatedAt: z.string().min(1),
+});
+
+export type AudioManifestEntry = z.infer<typeof AudioManifestEntrySchema>;
+
+export const AudioManifestSchema = z.record(z.string(), AudioManifestEntrySchema);
+
+export type AudioManifest = z.infer<typeof AudioManifestSchema>;
+
 export const CourseLessonSchema = z.object({
   lessonId: z.string().min(1),
   theme: z.string().min(1),

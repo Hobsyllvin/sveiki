@@ -12,6 +12,7 @@ import {
   checkGlossUniqueness,
   checkSenseDisclosure,
   checkRecycling,
+  checkAudioCoverage,
 } from "./validate";
 import os from "os";
 
@@ -646,5 +647,59 @@ describe("recycling report", () => {
     expect(result.warnings?.[0]).toMatch(/1 of 2 lemmas appear exactly once/);
     expect(result.warnings?.[0]).toMatch(/zupa/);
     expect(result.warnings?.[0]).not.toMatch(/maize/);
+  });
+});
+
+describe("check 7 — audio coverage", () => {
+  const lessons = [
+    mkLesson("lv-a1-01", [
+      [{ lv: "maize", gloss: "bread", lemma: "maize" }],
+      [{ lv: "zupa", gloss: "soup", lemma: "zupa" }],
+    ]),
+  ];
+
+  function withAudioDir(files: string[], run: (dir: string) => void) {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "valoda-audio-"));
+    files.forEach((f) => fs.writeFileSync(path.join(dir, f), "x"));
+    try {
+      run(dir);
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  }
+
+  it("never fails the build, even with no audio at all", () => {
+    withAudioDir([], (dir) => {
+      const result = checkAudioCoverage(lessons, dir);
+      expect(result.pass).toBe(true);
+      expect(result.messages).toEqual([]);
+      expect(result.warnings?.[0]).toMatch(/2 of 2 sentence\(s\) have no audio file yet/);
+    });
+  });
+
+  it("tolerates a missing audio directory", () => {
+    const result = checkAudioCoverage(lessons, path.join(os.tmpdir(), "valoda-audio-does-not-exist"));
+    expect(result.pass).toBe(true);
+    expect(result.warnings?.[0]).toMatch(/no audio file yet/);
+  });
+
+  it("is silent when every sentence has audio and nothing is orphaned", () => {
+    withAudioDir(["lv-a1-01-s1.mp3", "lv-a1-01-s2.mp3"], (dir) => {
+      expect(checkAudioCoverage(lessons, dir).warnings).toEqual([]);
+    });
+  });
+
+  it("warns about orphaned audio files", () => {
+    withAudioDir(["lv-a1-01-s1.mp3", "lv-a1-01-s2.mp3", "lv-a1-01-s9.mp3"], (dir) => {
+      const warnings = checkAudioCoverage(lessons, dir).warnings ?? [];
+      expect(warnings).toHaveLength(1);
+      expect(warnings[0]).toMatch(/1 audio file\(s\) match no sentence: lv-a1-01-s9\.mp3/);
+    });
+  });
+
+  it("ignores non-mp3 files such as the manifest", () => {
+    withAudioDir(["lv-a1-01-s1.mp3", "lv-a1-01-s2.mp3", "manifest.json", ".gitkeep"], (dir) => {
+      expect(checkAudioCoverage(lessons, dir).warnings).toEqual([]);
+    });
   });
 });

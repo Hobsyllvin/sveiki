@@ -1,0 +1,17 @@
+{
+  "defaults": {
+    "languageCode": "lv-LV",
+    "modelName": "gemini-3.1-flash-tts-preview",
+    "audioEncoding": "MP3",
+    "speakingRate": 1,
+    "pitch": 0
+  },
+  "speakers": {
+    "Anna":     { "name": "Archernar", "prompt": "Read aloud in a warm, welcoming tone with a natural voice." },
+    "Marta":    { "name": "Autonoe",   "prompt": "Read aloud in a warm, welcoming tone with a natural voice." },
+    "Pēteris":  { "name": "Umbriel",   "prompt": "Read aloud in a natural, conversational tone." },
+    "Waiter":   { "name": "Schedar",   "prompt": "Say aloud in a welcoming way. Keep natural conversational tone as a waiter. Not as much singsang." },
+    "Narrator": { "name": "Enceladus", "prompt": "Read aloud in a natural voice as the narrator." }
+  },
+  "fallback": { "name": "Umbriel", "prompt": "Read aloud in a natural, conversational tone." }
+}

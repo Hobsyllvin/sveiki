@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "validate": "tsx scripts/validate.ts",
+    "audio": "tsx scripts/generate-audio.ts",
     "verify-drafts": "tsx scripts/verify-against-draft.ts",
     "critic": "tsx scripts/critic.ts",
     "test": "vitest run"
