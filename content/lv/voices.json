@@ -1,17 +1,16 @@
 {
   "defaults": {
-    "languageCode": "lv-LV",
-    "modelName": "gemini-3.1-flash-tts-preview",
-    "audioEncoding": "MP3",
-    "speakingRate": 1,
-    "pitch": 0
+    "model": "gemini-3.1-flash-tts-preview",
+    "sampleRate": 24000,
+    "channels": 1,
+    "outputFormat": "mp3"
   },
   "speakers": {
-    "Anna":     { "name": "Archernar", "prompt": "Read aloud in a warm, welcoming tone with a natural voice." },
-    "Marta":    { "name": "Autonoe",   "prompt": "Read aloud in a warm, welcoming tone with a natural voice." },
-    "Pēteris":  { "name": "Umbriel",   "prompt": "Read aloud in a natural, conversational tone." },
-    "Waiter":   { "name": "Schedar",   "prompt": "Say aloud in a welcoming way. Keep natural conversational tone as a waiter. Not as much singsang." },
-    "Narrator": { "name": "Enceladus", "prompt": "Read aloud in a natural voice as the narrator." }
+    "Anna":     { "voiceName": "Achernar",  "prompt": "Read aloud in a warm, welcoming tone with a natural voice" },
+    "Marta":    { "voiceName": "Vindemiatrix",   "prompt": "Read aloud in a slightly low, friendly tone with a natural voice" },
+    "Pēteris":  { "voiceName": "Umbriel",   "prompt": "Read aloud in a natural, conversational tone" },
+    "Waiter":   { "voiceName": "Schedar",   "prompt": "Say aloud in a welcoming way. Keep natural conversational tone as a waiter. Not as much singsang" },
+    "Narrator": { "voiceName": "Enceladus", "prompt": "Read aloud in a natural voice as the narrator" }
   },
-  "fallback": { "name": "Umbriel", "prompt": "Read aloud in a natural, conversational tone." }
+  "fallback": { "voiceName": "Umbriel", "prompt": "Read aloud in a natural, conversational tone" }
 }

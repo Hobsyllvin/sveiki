@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import { spawn, spawnSync } from "child_process";
 import {
   LessonSchema,
   VoicesSchema,
@@ -16,22 +17,35 @@ import type {
 } from "../src/lib/content/schema";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
-const TTS_ENDPOINT = "https://texttospeech.googleapis.com/v1beta1/text:synthesize";
-const REQUEST_DELAY_MS = 250;
-const MAX_ATTEMPTS = 5;
+const API_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
+// The free tier allows 10 TTS requests per minute per model. Requests are paced
+// to stay under it rather than sprinting into a 429 and then thrashing on retries.
+const DEFAULT_REQUESTS_PER_MINUTE = 10;
+const MAX_ATTEMPTS = 6;
+// A 429 can ask for a ~60s wait; the cap keeps a pathological hint from stalling
+// the run indefinitely.
+const MAX_BACKOFF_MS = 90_000;
+// One second of mono 16-bit 24kHz PCM is ~48KB. A failed request still returns
+// HTTP 200 with a small JSON body, so anything this short is an error, not audio.
+const MIN_PCM_BYTES = 5_000;
 
 const green = (s: string) => `\x1b[32m${s}\x1b[0m`;
 const red = (s: string) => `\x1b[31m${s}\x1b[0m`;
 const yellow = (s: string) => `\x1b[33m${s}\x1b[0m`;
 const bold = (s: string) => `\x1b[1m${s}\x1b[0m`;
 
-export type SynthesisRequest = {
-  input: { text: string; prompt: string };
-  voice: { languageCode: string; modelName: string; name: string };
-  audioConfig: { audioEncoding: "MP3"; speakingRate: number; pitch: number };
+export type TtsRequest = {
+  contents: { parts: { text: string }[] }[];
+  generationConfig: {
+    responseModalities: ["AUDIO"];
+    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: string } } };
+  };
 };
 
 export class AuthError extends Error {}
+// The per-day quota resets hours away, so there is nothing to retry: the run
+// stops and reports rather than sleeping or failing every remaining sentence.
+export class DailyQuotaError extends Error {}
 
 export function resolveVoice(
   voices: Voices,
@@ -41,19 +55,27 @@ export function resolveVoice(
   return mapping ? { voice: mapping, mapped: true } : { voice: voices.fallback, mapped: false };
 }
 
-// The request body IS the hash input: text, voice, prompt and audioConfig all
-// live in it, so any change that would alter the audio changes the hash.
-export function buildRequest(target: string, voice: Voice, voices: Voices): SynthesisRequest {
-  const { languageCode, modelName, audioEncoding, speakingRate, pitch } = voices.defaults;
+// Steering is part of the prompt text, not a separate parameter: the model reads
+// everything before the colon as direction and everything after as the line.
+export function promptedText(voice: Voice, target: string): string {
+  return `${voice.prompt}: ${target}`;
+}
+
+export function buildRequest(target: string, voice: Voice): TtsRequest {
   return {
-    input: { text: target, prompt: voice.prompt },
-    voice: { languageCode, modelName, name: voice.name },
-    audioConfig: { audioEncoding, speakingRate, pitch },
+    contents: [{ parts: [{ text: promptedText(voice, target) }] }],
+    generationConfig: {
+      responseModalities: ["AUDIO"],
+      speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice.voiceName } } },
+    },
   };
 }
 
-export function inputHash(request: SynthesisRequest): string {
-  return crypto.createHash("sha256").update(JSON.stringify(request)).digest("hex");
+// Hashes exactly the inputs that determine the audio, so an edited sentence or a
+// changed voice/prompt/model regenerates and nothing else does.
+export function inputHash(target: string, voice: Voice, model: string): string {
+  const inputs = JSON.stringify({ model, voiceName: voice.voiceName, prompt: voice.prompt, target });
+  return crypto.createHash("sha256").update(inputs).digest("hex");
 }
 
 // TTS output is not deterministic, so an unchanged sentence must reuse its
@@ -94,145 +116,230 @@ export function unmappedSpeakers(
     }
   }
   return [...found.entries()]
-    .map(([speaker, where]) => ({
-      speaker,
-      count: where.length,
-      examples: where.slice(0, 3),
-    }))
+    .map(([speaker, where]) => ({ speaker, count: where.length, examples: where.slice(0, 3) }))
     .sort((a, b) => b.count - a.count);
 }
 
-// --- MP3 duration -----------------------------------------------------------
-// Frame-header parsing rather than a decoder or ffmpeg: durations are summed
-// per frame, so VBR output is measured correctly. Returning null means "no
-// decodable frames", which is also how a truncated download is caught.
+// --- Response handling ------------------------------------------------------
 
-const L3_BITRATES_MPEG1 = [
-  0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 0,
-];
-const L3_BITRATES_MPEG2 = [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, 0];
-const SAMPLE_RATES: Record<number, number[]> = {
-  3: [44100, 48000, 32000], // MPEG 1
-  2: [22050, 24000, 16000], // MPEG 2
-  0: [11025, 12000, 8000], // MPEG 2.5
+type TtsResponse = {
+  candidates?: { content?: { parts?: { inlineData?: { mimeType?: string; data?: string } }[] } }[];
+  error?: { message?: string };
+  promptFeedback?: { blockReason?: string };
 };
 
-function id3v2Size(buffer: Buffer): number {
-  if (buffer.length < 10 || buffer.toString("ascii", 0, 3) !== "ID3") return 0;
-  const size =
-    (buffer[6] << 21) | (buffer[7] << 14) | (buffer[8] << 7) | buffer[9];
-  const footer = (buffer[5] & 0x10) !== 0 ? 10 : 0;
-  return 10 + size + footer;
-}
+// A rejected request still comes back HTTP 200 with a small JSON body, so the
+// payload is checked for existence and plausible size before anything is written.
+export function extractPcm(response: unknown): Buffer {
+  const json = response as TtsResponse;
+  const inline = json.candidates?.[0]?.content?.parts?.find((p) => p.inlineData)?.inlineData;
 
-export function mp3DurationSeconds(buffer: Buffer): number | null {
-  let offset = id3v2Size(buffer);
-  let seconds = 0;
-  let frames = 0;
-
-  while (offset + 4 <= buffer.length) {
-    const [b0, b1, b2] = [buffer[offset], buffer[offset + 1], buffer[offset + 2]];
-    const isSync = b0 === 0xff && (b1 & 0xe0) === 0xe0;
-    const version = (b1 >> 3) & 0x03;
-    const layer = (b1 >> 1) & 0x03;
-    const bitrateIndex = (b2 >> 4) & 0x0f;
-    const sampleRateIndex = (b2 >> 2) & 0x03;
-
-    if (!isSync || version === 1 || layer !== 1 || sampleRateIndex === 3) {
-      offset++;
-      continue;
-    }
-
-    const bitrate =
-      (version === 3 ? L3_BITRATES_MPEG1 : L3_BITRATES_MPEG2)[bitrateIndex] * 1000;
-    const sampleRate = SAMPLE_RATES[version][sampleRateIndex];
-    if (bitrate === 0) {
-      offset++;
-      continue;
-    }
-
-    const samplesPerFrame = version === 3 ? 1152 : 576;
-    const padding = (b2 >> 1) & 0x01;
-    const frameLength = Math.floor((samplesPerFrame / 8) * (bitrate / sampleRate)) + padding;
-    if (frameLength <= 0) {
-      offset++;
-      continue;
-    }
-
-    seconds += samplesPerFrame / sampleRate;
-    frames++;
-    offset += frameLength;
+  if (!inline?.data) {
+    const reason =
+      json.error?.message ??
+      json.promptFeedback?.blockReason ??
+      `no inlineData in response: ${JSON.stringify(json).slice(0, 300)}`;
+    throw new Error(`response contained no audio — ${reason}`);
   }
 
-  return frames === 0 ? null : Math.round(seconds * 1000) / 1000;
+  const pcm = Buffer.from(inline.data, "base64");
+  if (pcm.length < MIN_PCM_BYTES) {
+    throw new Error(
+      `decoded PCM is implausibly small (${pcm.length} bytes, expected >= ${MIN_PCM_BYTES}) — mimeType "${inline.mimeType ?? "unknown"}"`
+    );
+  }
+  return pcm;
+}
+
+// --- ffmpeg -----------------------------------------------------------------
+
+export function requireFfmpeg(): void {
+  for (const binary of ["ffmpeg", "ffprobe"]) {
+    const probe = spawnSync(binary, ["-version"], { stdio: "ignore" });
+    if (probe.error || probe.status !== 0) {
+      throw new Error(
+        `${binary} is not on PATH. The Gemini TTS API returns raw PCM, so ${binary} is required to produce mp3. Install with: brew install ffmpeg`
+      );
+    }
+  }
+}
+
+export function probeDurationSeconds(filePath: string): number {
+  const probe = spawnSync(
+    "ffprobe",
+    ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", filePath],
+    { encoding: "utf-8" }
+  );
+  const duration = Number.parseFloat((probe.stdout ?? "").trim());
+  if (!Number.isFinite(duration) || duration <= 0) {
+    throw new Error(`ffprobe could not read a duration from ${path.basename(filePath)}`);
+  }
+  return Math.round(duration * 1000) / 1000;
+}
+
+function runFfmpeg(pcm: Buffer, destination: string, sampleRate: number, channels: number) {
+  return new Promise<void>((resolve, reject) => {
+    const ffmpeg = spawn("ffmpeg", [
+      "-hide_banner",
+      "-loglevel", "error",
+      "-f", "s16le",
+      "-ar", String(sampleRate),
+      "-ac", String(channels),
+      "-i", "pipe:0",
+      "-y", destination,
+    ]);
+
+    let stderr = "";
+    ffmpeg.stderr.on("data", (chunk) => (stderr += chunk.toString()));
+    ffmpeg.on("error", reject);
+    ffmpeg.on("close", (code) =>
+      code === 0 ? resolve() : reject(new Error(`ffmpeg exited ${code}: ${stderr.slice(0, 400)}`))
+    );
+
+    // EPIPE if ffmpeg died early; the close handler reports the real reason.
+    ffmpeg.stdin.on("error", () => {});
+    ffmpeg.stdin.end(pcm);
+  });
+}
+
+// Converted to a temp path and moved only on success, so a failed or interrupted
+// run can never leave a zero-byte or truncated mp3 that later looks generated.
+export async function pcmToMp3(
+  pcm: Buffer,
+  destination: string,
+  sampleRate: number,
+  channels: number
+): Promise<number> {
+  const temp = `${destination}.part.mp3`;
+  try {
+    await runFfmpeg(pcm, temp, sampleRate, channels);
+    const size = fs.statSync(temp).size;
+    if (size === 0) throw new Error("ffmpeg produced a zero-byte file");
+    const duration = probeDurationSeconds(temp);
+    fs.renameSync(temp, destination);
+    return duration;
+  } catch (error) {
+    fs.rmSync(temp, { force: true });
+    throw error;
+  }
 }
 
 // --- Synthesis --------------------------------------------------------------
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function authMessage(status: number, body: string): string {
-  const blocked = body.includes("API_KEY_SERVICE_BLOCKED");
-  const disabled = body.includes("has not been used in project") || body.includes("SERVICE_DISABLED");
-  const hint = blocked
-    ? "The key is restricted and does not allow texttospeech.googleapis.com — add Cloud Text-to-Speech API to the key's API restrictions in the Google Cloud console."
-    : disabled
-      ? "The Cloud Text-to-Speech API is not enabled for this project — enable it in the Google Cloud console."
-      : "Check that GOOGLE_TTS_API_KEY in .env.local is a valid, unexpired key for a project with Cloud Text-to-Speech enabled.";
-  return `TTS auth failed (HTTP ${status}). ${hint}\n${body}`;
+// A quota 429 states how long to wait, either as a structured RetryInfo detail or
+// in the message text. Blind exponential backoff ignores it and gives up early:
+// the API may ask for ~60s while doubling from 1s never gets there.
+// Go-style durations, as the API emits them: "56.12s", "1m30s", "17h42m36.7s".
+export function parseDurationMs(value: string): number | null {
+  const match = value.trim().match(/^(?:(\d+)h)?(?:(\d+)m)?(?:([\d.]+)s)?$/);
+  if (!match || (!match[1] && !match[2] && !match[3])) return null;
+  const seconds =
+    Number(match[1] ?? 0) * 3600 + Number(match[2] ?? 0) * 60 + Number(match[3] ?? 0);
+  return Number.isFinite(seconds) && seconds > 0 ? Math.ceil(seconds * 1000) : null;
 }
 
-async function synthesize(request: SynthesisRequest, apiKey: string): Promise<Buffer> {
+export function parseRetryDelayMs(body: string): number | null {
+  try {
+    const json = JSON.parse(body) as {
+      error?: { details?: { "@type"?: string; retryDelay?: string }[] };
+    };
+    const info = json.error?.details?.find((d) => d["@type"]?.endsWith("RetryInfo"));
+    const hinted = info?.retryDelay ? parseDurationMs(info.retryDelay) : null;
+    if (hinted) return hinted;
+  } catch {
+    // Truncated or non-JSON body — fall through to the text hint.
+  }
+  const text = body.match(/retry in ([\dhm.]+s)/i)?.[1];
+  return text ? parseDurationMs(text) : null;
+}
+
+// A per-minute 429 is worth waiting out; a per-day one is not.
+export function isDailyQuotaExhausted(body: string): boolean {
+  return /per_model_per_day|RequestsPerDay/i.test(body);
+}
+
+export function formatDuration(ms: number): string {
+  const total = Math.round(ms / 1000);
+  const [h, m] = [Math.floor(total / 3600), Math.floor((total % 3600) / 60)];
+  return h > 0 ? `${h}h${m}m` : m > 0 ? `${m}m${total % 60}s` : `${total}s`;
+}
+
+// Spaces out request starts so a run stays under the per-minute quota.
+let lastRequestAt = 0;
+async function pace(minIntervalMs: number): Promise<void> {
+  const wait = lastRequestAt + minIntervalMs - Date.now();
+  if (wait > 0) await sleep(wait);
+  lastRequestAt = Date.now();
+}
+
+async function synthesize(
+  request: TtsRequest,
+  model: string,
+  apiKey: string,
+  minIntervalMs: number
+): Promise<Buffer> {
   let lastError = "";
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    const response = await fetch(`${TTS_ENDPOINT}?key=${apiKey}`, {
+    await pace(minIntervalMs);
+    const response = await fetch(`${API_BASE}/${model}:generateContent`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "x-goog-api-key": apiKey, "Content-Type": "application/json" },
       body: JSON.stringify(request),
     });
 
-    if (response.ok) {
-      const json = (await response.json()) as { audioContent?: string };
-      if (!json.audioContent) throw new Error("TTS response contained no audioContent");
-      const buffer = Buffer.from(json.audioContent, "base64");
-      if (buffer.length === 0) throw new Error("TTS returned zero bytes of audio");
-      return buffer;
-    }
+    if (response.ok) return extractPcm(await response.json());
 
-    const body = (await response.text()).slice(0, 800);
+    const body = (await response.text()).slice(0, 1200);
 
     if (response.status === 401 || response.status === 403) {
-      throw new AuthError(authMessage(response.status, body));
+      throw new AuthError(
+        `auth failed (HTTP ${response.status}) — check GEMINI_API_KEY in .env.local is a valid key with the Gemini API enabled.\n${body}`
+      );
+    }
+    if (response.status === 404) {
+      const voiceName =
+        request.generationConfig.speechConfig.voiceConfig.prebuiltVoiceConfig.voiceName;
+      throw new Error(
+        `HTTP 404 — unknown model "${model}" or unknown voiceName "${voiceName}". Voice names are case-sensitive and must be an accepted prebuilt voice.\n${body}`
+      );
     }
     if (response.status !== 429 && response.status < 500) {
-      throw new Error(`TTS request failed (HTTP ${response.status}): ${body}`);
+      throw new Error(`request failed (HTTP ${response.status}): ${body}`);
     }
 
+    if (response.status === 429 && isDailyQuotaExhausted(body)) {
+      const resetsIn = parseRetryDelayMs(body);
+      const limit = body.match(/limit:\s*(\d+)/)?.[1];
+      throw new DailyQuotaError(
+        `daily TTS quota exhausted${limit ? ` (limit: ${limit} requests/day)` : ""}` +
+          `${resetsIn ? `, resets in ${formatDuration(resetsIn)}` : ""}.`
+      );
+    }
+
+    const reason = response.status === 429 ? "rate limited" : `HTTP ${response.status}`;
     lastError = `HTTP ${response.status}: ${body}`;
     if (attempt < MAX_ATTEMPTS) {
-      const backoff = 1000 * 2 ** (attempt - 1) + Math.floor(Math.random() * 250);
-      console.log(yellow(`    retrying in ${backoff}ms (attempt ${attempt}/${MAX_ATTEMPTS}) — ${lastError}`));
+      const exponential = 1000 * 2 ** (attempt - 1);
+      const hinted = parseRetryDelayMs(body) ?? 0;
+      // Honour the server's own wait, plus a second of slack so the retry does
+      // not land exactly as the window rolls over.
+      const backoff = Math.min(
+        Math.max(exponential, hinted > 0 ? hinted + 1000 : 0) + Math.floor(Math.random() * 250),
+        MAX_BACKOFF_MS
+      );
+      console.log(
+        yellow(
+          `    ${reason} — retrying in ${(backoff / 1000).toFixed(1)}s (attempt ${attempt}/${MAX_ATTEMPTS})`
+        )
+      );
       await sleep(backoff);
     }
   }
 
-  throw new Error(`TTS request failed after ${MAX_ATTEMPTS} attempts — ${lastError}`);
-}
-
-// Written to a temp path and moved on success, so an interrupted or truncated
-// download can never leave a half-written mp3 that later looks generated.
-function writeAudio(destination: string, buffer: Buffer): number {
-  const duration = mp3DurationSeconds(buffer);
-  if (duration === null) {
-    throw new Error(
-      `refusing to write ${path.basename(destination)}: ${buffer.length} bytes contain no decodable MP3 frames`
-    );
-  }
-  const temp = `${destination}.part`;
-  fs.writeFileSync(temp, buffer);
-  fs.renameSync(temp, destination);
-  return duration;
+  throw new Error(`request failed after ${MAX_ATTEMPTS} attempts — ${lastError}`);
 }
 
 // --- Loading ----------------------------------------------------------------
@@ -294,16 +401,28 @@ async function main() {
   const lessonId = lessonFlagIdx !== -1 ? argv[lessonFlagIdx + 1] : null;
   const all = argv.includes("--all");
   const force = argv.includes("--force");
+  const rpmFlagIdx = argv.indexOf("--rpm");
+  const rpm =
+    rpmFlagIdx !== -1 ? Number.parseInt(argv[rpmFlagIdx + 1], 10) : DEFAULT_REQUESTS_PER_MINUTE;
 
   if (!lessonId && !all) {
-    console.error(red("usage: npm run audio -- --lesson <lessonId> | --all [--force]"));
+    console.error(
+      red("usage: npm run audio -- --lesson <lessonId> | --all [--force] [--rpm <n>]")
+    );
     process.exit(1);
   }
+  if (!Number.isFinite(rpm) || rpm <= 0) {
+    console.error(red(`--rpm must be a positive number (got "${argv[rpmFlagIdx + 1]}")`));
+    process.exit(1);
+  }
+  const minIntervalMs = Math.ceil(60_000 / rpm);
+
+  requireFfmpeg();
 
   if (fs.existsSync(".env.local")) process.loadEnvFile(".env.local");
-  const apiKey = process.env.GOOGLE_TTS_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    console.error(red("GOOGLE_TTS_API_KEY is not set — add it to .env.local"));
+    console.error(red("GEMINI_API_KEY is not set — add it to .env.local"));
     process.exit(1);
   }
 
@@ -313,6 +432,7 @@ async function main() {
   fs.mkdirSync(audioDir, { recursive: true });
 
   const voices = loadVoices(langDir);
+  const { model, sampleRate, channels } = voices.defaults;
   const allLessons = loadLessons(path.join(langDir, "lessons"));
   const manifest = loadManifest(manifestPath);
 
@@ -322,7 +442,7 @@ async function main() {
     for (const { speaker, count, examples } of unmapped) {
       console.log(
         yellow(
-          `  ${speaker} — ${count} sentence(s), fallback "${voices.fallback.name}": ${examples.join(", ")}`
+          `  ${speaker} — ${count} sentence(s), fallback "${voices.fallback.voiceName}": ${examples.join(", ")}`
         )
       );
     }
@@ -336,6 +456,8 @@ async function main() {
 
   let generated = 0;
   let skipped = 0;
+  let remaining = 0;
+  let quotaBlocked = "";
   const failures: string[] = [];
   const misnamed: string[] = [];
 
@@ -345,14 +467,15 @@ async function main() {
     for (const sentence of lessonSentences(lesson)) {
       const expected = expectedAudioName(lesson.lessonId, sentence.id);
       if (sentence.audio !== expected) {
-        misnamed.push(`${lesson.lessonId}/${sentence.id}: audio "${sentence.audio}" (expected "${expected}")`);
+        misnamed.push(
+          `${lesson.lessonId}/${sentence.id}: audio "${sentence.audio}" (expected "${expected}")`
+        );
       }
 
       const filename = sentence.audio;
       const destination = path.join(audioDir, filename);
       const { voice } = resolveVoice(voices, sentence.speaker);
-      const request = buildRequest(sentence.target, voice, voices);
-      const hash = inputHash(request);
+      const hash = inputHash(sentence.target, voice, model);
 
       const existing = manifest[filename];
       if (!shouldRegenerate(existing, hash, fs.existsSync(destination), force)) {
@@ -361,19 +484,31 @@ async function main() {
         continue;
       }
 
+      if (quotaBlocked) {
+        remaining++;
+        continue;
+      }
+
       try {
-        const buffer = await synthesize(request, apiKey);
-        const durationSeconds = writeAudio(destination, buffer);
+        const pcm = await synthesize(
+          buildRequest(sentence.target, voice),
+          model,
+          apiKey,
+          minIntervalMs
+        );
+        const durationSeconds = await pcmToMp3(pcm, destination, sampleRate, channels);
         manifest[filename] = {
           hash,
-          voice: voice.name,
+          voice: voice.voiceName,
           durationSeconds,
           generatedAt: new Date().toISOString(),
         };
         writeManifest(manifestPath, manifest);
         generated++;
         console.log(
-          green(`  wrote    ${filename} (${voice.name}, ${durationSeconds}s, ${buffer.length} bytes)`)
+          green(
+            `  wrote    ${filename} (${voice.voiceName}, ${durationSeconds}s, ${fs.statSync(destination).size} bytes)`
+          )
         );
       } catch (error) {
         if (error instanceof AuthError) {
@@ -381,12 +516,16 @@ async function main() {
           console.error(red("\nAborting: every request would fail the same way."));
           process.exit(1);
         }
+        if (error instanceof DailyQuotaError) {
+          quotaBlocked = error.message;
+          remaining++;
+          console.error(red(`  QUOTA    ${filename} — ${error.message}`));
+          continue;
+        }
         const message = error instanceof Error ? error.message : String(error);
         failures.push(`${filename}: ${message}`);
         console.error(red(`  FAILED   ${filename} — ${message}`));
       }
-
-      await sleep(REQUEST_DELAY_MS);
     }
   }
 
@@ -397,7 +536,16 @@ async function main() {
   console.log(`  generated: ${generated}`);
   console.log(`  skipped:   ${skipped}`);
   console.log(`  failed:    ${failures.length}`);
+  if (remaining > 0) console.log(yellow(`  remaining: ${remaining} (quota)`));
   console.log(`  audio dir: ${files.length} mp3, ${(totalBytes / 1024 / 1024).toFixed(2)} MB`);
+
+  if (quotaBlocked) {
+    console.log(yellow(`\n  ${quotaBlocked}`));
+    console.log(
+      yellow(`  ${remaining} sentence(s) not attempted. Re-run this command after the reset —`)
+    );
+    console.log(yellow("  completed sentences are skipped, so it resumes where it stopped."));
+  }
 
   if (misnamed.length > 0) {
     console.log(yellow(`\n  audio filenames not matching <lessonId>-<sentenceId>.mp3 (not renamed):`));

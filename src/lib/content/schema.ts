@@ -81,19 +81,22 @@ export type Dictionary = z.infer<typeof DictionarySchema>;
 // Voice mapping is configuration, not content: it lives in content/<lang>/voices.json
 // and never enters lesson JSON, which stays pure language data.
 export const VoiceSchema = z.object({
-  name: z.string().min(1),
-  prompt: z.string().min(1),
+  voiceName: z.string().min(1),
+  // Steering for the TTS model, joined as `${prompt}: ${target}`. No trailing
+  // punctuation: the colon is added by the generator.
+  prompt: z.string().min(1).regex(/[^.:!?]$/, "prompt must not end in punctuation"),
 });
 
 export type Voice = z.infer<typeof VoiceSchema>;
 
 export const VoicesSchema = z.object({
   defaults: z.object({
-    languageCode: z.string().min(1),
-    modelName: z.string().min(1),
-    audioEncoding: z.literal("MP3"),
-    speakingRate: z.number().positive(),
-    pitch: z.number(),
+    model: z.string().min(1),
+    // The Gemini TTS API returns raw PCM at a fixed rate; these describe that
+    // payload so ffmpeg can be told how to interpret it.
+    sampleRate: z.number().int().positive(),
+    channels: z.number().int().positive(),
+    outputFormat: z.literal("mp3"),
   }),
   speakers: z.record(z.string(), VoiceSchema),
   fallback: VoiceSchema,
