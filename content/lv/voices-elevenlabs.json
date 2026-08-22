@@ -1,0 +1,8 @@
+{
+  "defaults": {
+    "model": "eleven_v3",
+    "outputFormat": "mp3_44100_128"
+  },
+  "speakers": {},
+  "fallback": { "voiceId": "UgBBYS2sOqTuMpoF3BR0" }
+}

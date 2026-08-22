@@ -79,30 +79,37 @@ export const DictionarySchema = z.record(z.string(), DictionaryEntrySchema);
 export type Dictionary = z.infer<typeof DictionarySchema>;
 
 // Voice mapping is configuration, not content: it lives in content/<lang>/voices.json
-// and never enters lesson JSON, which stays pure language data.
-export const VoiceSchema = z.object({
-  voiceName: z.string().min(1),
-  // Steering for the TTS model, joined as `${prompt}: ${target}`. No trailing
-  // punctuation: the colon is added by the generator.
-  prompt: z.string().min(1).regex(/[^.:!?]$/, "prompt must not end in punctuation"),
+// and never enters lesson JSON, which stays pure language data. Keys are snake_case
+// because they are passed straight through to the Text to Dialogue request body.
+// No fallback voice: an unmapped speaker aborts the run rather than being silently
+// voiced as somebody else in a scene generated as one take.
+export const DialogueVoicesSchema = z.object({
+  model_id: z.string().min(1),
+  language_code: z.string().min(1),
+  speakers: z.record(z.string(), z.string().min(1)),
 });
 
-export type Voice = z.infer<typeof VoiceSchema>;
+export type DialogueVoices = z.infer<typeof DialogueVoicesSchema>;
 
-export const VoicesSchema = z.object({
+// Per-sentence ElevenLabs synthesis keeps its own config and audio folder:
+// content/<lang>/voices-elevenlabs.json and content/<lang>/audio-elevenlabs/.
+// Only eleven_v3 and eleven_v3_conversational support Latvian.
+export const ElevenVoiceSchema = z.object({
+  voiceId: z.string().min(1),
+});
+
+export type ElevenVoice = z.infer<typeof ElevenVoiceSchema>;
+
+export const ElevenVoicesSchema = z.object({
   defaults: z.object({
     model: z.string().min(1),
-    // The Gemini TTS API returns raw PCM at a fixed rate; these describe that
-    // payload so ffmpeg can be told how to interpret it.
-    sampleRate: z.number().int().positive(),
-    channels: z.number().int().positive(),
-    outputFormat: z.literal("mp3"),
+    outputFormat: z.string().min(1),
   }),
-  speakers: z.record(z.string(), VoiceSchema),
-  fallback: VoiceSchema,
+  speakers: z.record(z.string(), ElevenVoiceSchema),
+  fallback: ElevenVoiceSchema,
 });
 
-export type Voices = z.infer<typeof VoicesSchema>;
+export type ElevenVoices = z.infer<typeof ElevenVoicesSchema>;
 
 // Derived data about generated audio: hash of the exact synthesis inputs (so an
 // edited sentence or a changed voice regenerates, and nothing else does), plus

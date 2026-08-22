@@ -1,16 +1,10 @@
 {
-  "defaults": {
-    "model": "gemini-3.1-flash-tts-preview",
-    "sampleRate": 24000,
-    "channels": 1,
-    "outputFormat": "mp3"
-  },
+  "model_id": "eleven_v3",
+  "language_code": "lv",
   "speakers": {
-    "Anna":     { "voiceName": "Achernar",  "prompt": "Read aloud in a warm, welcoming tone with a natural voice" },
-    "Marta":    { "voiceName": "Vindemiatrix",   "prompt": "Read aloud in a slightly low, friendly tone with a natural voice" },
-    "Pēteris":  { "voiceName": "Umbriel",   "prompt": "Read aloud in a natural, conversational tone" },
-    "Waiter":   { "voiceName": "Schedar",   "prompt": "Say aloud in a welcoming way. Keep natural conversational tone as a waiter. Not as much singsang" },
-    "Narrator": { "voiceName": "Enceladus", "prompt": "Read aloud in a natural voice as the narrator" }
-  },
-  "fallback": { "voiceName": "Umbriel", "prompt": "Read aloud in a natural, conversational tone" }
+    "Anna": "EXAVITQu4vr4xnSDxMaL",
+    "Pēteris": "CwhRBWXzGAHq8TQ4Fs17",
+    "Narrator": "FGY2WhTYpPnrIDTdsKH5",
+    "Waiter": "IKne3meq5aSn9XLyUdCD"
+  }
 }
