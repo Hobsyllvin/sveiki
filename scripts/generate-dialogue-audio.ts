@@ -204,7 +204,7 @@ async function main() {
   if (!apiKey) fail("ELEVENLABS_API_KEY is not set — add it to .env.local");
 
   const langDir = path.join(CONTENT_ROOT, "lv");
-  const audioDir = path.join(langDir, "audio");
+  const audioDir = path.join(langDir, "audio-elevenlabs");
   const lessonPath = path.join(langDir, "lessons", `${lessonId}.json`);
   const scriptPath = path.join(langDir, "audio-scripts", `${lessonId}.md`);
 
