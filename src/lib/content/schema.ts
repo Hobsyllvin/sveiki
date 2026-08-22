@@ -55,9 +55,11 @@ export const SectionSchema = z.object({
 export type Section = z.infer<typeof SectionSchema>;
 
 export const LessonSchema = z.object({
+  // Curriculum lessons are numbered; the "-test" suffix marks a fixture that is
+  // exercised by the pipeline but teaches nothing and introduces no lemmas.
   lessonId: z
     .string()
-    .regex(/^[a-z]{2}-[a-z]\d-\d{2}$/, "lessonId must match pattern: lv-a1-00"),
+    .regex(/^[a-z]{2}-[a-z]\d-(\d{2}|test)$/, "lessonId must match pattern: lv-a1-00 or lv-a1-test"),
   title: z.string().min(1),
   cefr: z.enum(["A1", "A2", "B1", "B2"]),
   newLemmas: z.array(z.string()),

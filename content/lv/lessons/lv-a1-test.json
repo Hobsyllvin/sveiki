@@ -1,0 +1,110 @@
+{
+  "lessonId": "lv-a1-test",
+  "title": "Balsu tests (voice and tag test)",
+  "cefr": "A1",
+  "newLemmas": [],
+  "sections": [
+    {
+      "format": "dialogue",
+      "title": "Balsu tests",
+      "sentences": [
+        {
+          "id": "s1",
+          "speaker": "Narrator",
+          "target": "Viesmīlis nāk un atnes tēju, kafiju un kūkas.",
+          "tokens": [
+            { "lv": "Viesmīlis", "gloss": "waiter", "lemma": "viesmīlis", "pos": "noun", "note": "masc. nom." },
+            { "lv": "nāk", "gloss": "comes", "lemma": "nākt", "pos": "verb", "note": "3 pres." },
+            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "atnes", "gloss": "brings", "lemma": "atnest", "pos": "verb", "note": "3 pres." },
+            { "lv": "tēju", "gloss": "tea", "lemma": "tēja", "pos": "noun", "note": "acc.", "punct": "," },
+            { "lv": "kafiju", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "acc." },
+            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "kūkas", "gloss": "cakes", "lemma": "kūka", "pos": "noun", "note": "acc. pl.", "punct": "." }
+          ],
+          "natural": "The waiter comes and brings the tea, coffee and cakes.",
+          "audio": "lv-a1-test-s1.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s2",
+          "speaker": "Pēteris",
+          "target": "Redzi? Tā ir skumja dzīve, haha! Vai tu gribi kūku? Šeit ir ļoti garšīgas kūkas. Es iesaku siera kūku.",
+          "tokens": [
+            { "lv": "Redzi", "gloss": "see", "lemma": "redzēt", "pos": "verb", "note": "2sg pres.", "punct": "?" },
+            { "lv": "Tā", "gloss": "that", "lemma": "tas", "pos": "pron", "note": "demonstr.; fem. nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "skumja", "gloss": "sad", "lemma": "skumjs", "pos": "adj", "note": "fem. nom." },
+            { "lv": "dzīve", "gloss": "life", "lemma": "dzīve", "pos": "noun", "note": "nom.", "punct": "," },
+            { "lv": "haha", "gloss": "haha", "lemma": "haha", "pos": "interj", "punct": "!" },
+            { "lv": "Vai", "gloss": "whether", "lemma": "vai", "pos": "part", "note": "yes/no question particle" },
+            { "lv": "tu", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "nom." },
+            { "lv": "gribi", "gloss": "want", "lemma": "gribēt", "pos": "verb", "note": "2sg pres." },
+            { "lv": "kūku", "gloss": "cake", "lemma": "kūka", "pos": "noun", "note": "acc.", "punct": "?" },
+            { "lv": "Šeit", "gloss": "here", "lemma": "šeit", "pos": "adv" },
+            { "lv": "ir", "gloss": "are", "lemma": "būt", "pos": "verb", "note": "3 pres. pl." },
+            { "lv": "ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
+            { "lv": "garšīgas", "gloss": "tasty", "lemma": "garšīgs", "pos": "adj", "note": "fem. nom. pl." },
+            { "lv": "kūkas", "gloss": "cakes", "lemma": "kūka", "pos": "noun", "note": "nom. pl.", "punct": "." },
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "iesaku", "gloss": "recommend", "lemma": "ieteikt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "siera", "gloss": "cheese", "lemma": "siers", "pos": "noun", "note": "gen.; siera kūka = cheesecake" },
+            { "lv": "kūku", "gloss": "cake", "lemma": "kūka", "pos": "noun", "note": "acc.", "punct": "." }
+          ],
+          "natural": "See? That is a sad life, haha! Do you want cake? The cakes here are very tasty. I recommend the cheesecake.",
+          "audio": "lv-a1-test-s2.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s3",
+          "speaker": "Anna",
+          "target": "Es strādāju kafejnīcā. Tas ir interesants darbs. Un mans numurs ir divi seši, septiņi viens pieci, nulle trīs četri. Uz redzēšanos!",
+          "tokens": [
+            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
+            { "lv": "strādāju", "gloss": "work", "lemma": "strādāt", "pos": "verb", "note": "1sg pres." },
+            { "lv": "kafejnīcā", "gloss": "in-café", "lemma": "kafejnīca", "pos": "noun", "note": "loc.", "punct": "." },
+            { "lv": "Tas", "gloss": "that", "lemma": "tas", "pos": "pron", "note": "demonstr., masc. nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "interesants", "gloss": "interesting", "lemma": "interesants", "pos": "adj", "note": "masc. nom." },
+            { "lv": "darbs", "gloss": "work", "lemma": "darbs", "pos": "noun", "note": "nom.", "punct": "." },
+            { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "mans", "gloss": "my", "lemma": "mans", "pos": "pron", "note": "masc. nom." },
+            { "lv": "numurs", "gloss": "number", "lemma": "numurs", "pos": "noun", "note": "nom." },
+            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
+            { "lv": "divi", "gloss": "two", "lemma": "divi", "pos": "num" },
+            { "lv": "seši", "gloss": "six", "lemma": "seši", "pos": "num", "punct": "," },
+            { "lv": "septiņi", "gloss": "seven", "lemma": "septiņi", "pos": "num" },
+            { "lv": "viens", "gloss": "one", "lemma": "viens", "pos": "num" },
+            { "lv": "pieci", "gloss": "five", "lemma": "pieci", "pos": "num", "punct": "," },
+            { "lv": "nulle", "gloss": "zero", "lemma": "nulle", "pos": "num" },
+            { "lv": "trīs", "gloss": "three", "lemma": "trīs", "pos": "num" },
+            { "lv": "četri", "gloss": "four", "lemma": "četri", "pos": "num", "punct": "." },
+            { "lv": "Uz", "gloss": "to", "lemma": "uz", "pos": "prep", "note": "+ acc.; uz redzēšanos = goodbye" },
+            { "lv": "redzēšanos", "gloss": "seeing", "lemma": "redzēšanās", "pos": "noun", "note": "acc.", "punct": "!" }
+          ],
+          "natural": "I work in a café. It's interesting work. And my number is 26 715 034. See you!",
+          "audio": "lv-a1-test-s3.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s4",
+          "speaker": "Waiter",
+          "target": "Un kafiju ar govs pienu vai auzu pienu?",
+          "tokens": [
+            { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },
+            { "lv": "kafiju", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "acc." },
+            { "lv": "ar", "gloss": "with", "lemma": "ar", "pos": "prep", "note": "+ acc. sg.; dat. in pl." },
+            { "lv": "govs", "gloss": "cow", "lemma": "govs", "pos": "noun", "note": "gen. sg." },
+            { "lv": "pienu", "gloss": "milk", "lemma": "piens", "pos": "noun", "note": "acc." },
+            { "lv": "vai", "gloss": "or", "lemma": "vai", "pos": "conj", "note": "'or' sense, not the question particle" },
+            { "lv": "auzu", "gloss": "oats", "lemma": "auza", "pos": "noun", "note": "gen. pl.; auzu piens = oat milk" },
+            { "lv": "pienu", "gloss": "milk", "lemma": "piens", "pos": "noun", "note": "acc.", "punct": "?" }
+          ],
+          "natural": "And the coffee with cow's milk or oat milk?",
+          "audio": "lv-a1-test-s4.mp3",
+          "audioApproved": false
+        }
+      ]
+    }
+  ]
+}

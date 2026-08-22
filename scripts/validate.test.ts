@@ -16,9 +16,11 @@ import {
 } from "./validate";
 import os from "os";
 
+// lv-a1-test is the pipeline fixture: real content copied from lessons 01-03,
+// registered last in course.json so it introduces nothing.
 const FIXTURE_PATH = path.join(
   process.cwd(),
-  "content/lv/lessons/lv-a1-00.json"
+  "content/lv/lessons/lv-a1-test.json"
 );
 const DICTIONARY_PATH = path.join(process.cwd(), "content/lv/dictionary.json");
 const COURSE_PATH = path.join(process.cwd(), "content/lv/course.json");
@@ -279,17 +281,22 @@ describe("vocab coverage check (check 4)", () => {
 
   it("fails when a token uses a lemma introduced only in a later lesson", () => {
     const lesson = loadFixture();
-    // Build a course where the fixture lesson is lesson 0,
-    // and a second lesson introduces a lemma "future_lemma".
-    // Then test a lesson that uses "future_lemma" but is ALSO lesson 0.
+    // Build a course where the fixture lesson is lesson 0 and declares every
+    // lemma it uses, so the only coverage error can be the injected one, and a
+    // second lesson introduces "future_lemma" too late to be allowed.
+    const fixtureLemmas = [
+      ...new Set(
+        lesson.sections.flatMap((s) => s.sentences).flatMap((s) => s.tokens.map((t) => t.lemma))
+      ),
+    ];
     const courseWithFutureLemma: Course = {
       ...loadCourse(),
       lessons: [
         {
-          lessonId: "lv-a1-00",
-          theme: "first sentences",
+          lessonId: lesson.lessonId,
+          theme: "fixture",
           cefr: "A1",
-          newLemmas: ["es", "tu", "viņa", "kur", "dzīvot", "gribēt", "pirkt", "iet", "mazgāties", "maize", "darbs", "rīts", "Rīga", "uz", "no"],
+          newLemmas: fixtureLemmas,
         },
         {
           lessonId: "lv-a1-01",
@@ -299,7 +306,7 @@ describe("vocab coverage check (check 4)", () => {
         },
       ],
     };
-    // Inject a token using future_lemma into the lv-a1-00 lesson
+    // Inject a token using future_lemma into the fixture lesson
     const badLesson: Lesson = {
       ...lesson,
       sections: lesson.sections.map((sec, si) =>
