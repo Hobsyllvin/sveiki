@@ -533,16 +533,16 @@
         },
         {
           "id": "s32",
-          "speaker": "Marta",
-          "target": "Ļoti jauki! Uz redzēšanos, Anna!",
+          "speaker": "Anna",
+          "target": "Ļoti jauki! Uz redzēšanos, Marta!",
           "tokens": [
             { "lv": "Ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
             { "lv": "jauki", "gloss": "nice", "lemma": "jauki", "pos": "adv", "punct": "!" },
             { "lv": "Uz", "gloss": "to", "lemma": "uz", "pos": "prep", "note": "+ acc.; uz redzēšanos = goodbye" },
             { "lv": "redzēšanos", "gloss": "seeing", "lemma": "redzēšanās", "pos": "noun", "note": "acc.", "punct": "," },
-            { "lv": "Anna", "gloss": "Anna", "lemma": "Anna", "pos": "propn", "note": "voc.", "punct": "!" }
+            { "lv": "Marta", "gloss": "Marta", "lemma": "Marta", "pos": "propn", "note": "voc.", "punct": "!" }
           ],
-          "natural": "Very nice! See you, Anna!",
+          "natural": "Very nice! See you, Marta!",
           "audio": "lv-a1-02-s32.mp3",
           "audioApproved": false
         }
