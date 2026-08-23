@@ -71,7 +71,8 @@ export function stripTags(text: string): string {
 
 // The script exists only to add delivery tags. If it has drifted from the lesson
 // — reordered, reworded, re-punctuated — the timings would label the wrong audio,
-// so the mismatch has to stop the run.
+// so the mismatch has to stop the run. Case is exempt: SHOUTING a word is a
+// delivery instruction to the model, like a tag, and the lesson keeps normal case.
 export function checkScriptAgainstLesson(script: ScriptLine[], sentences: Sentence[]): string[] {
   const problems: string[] = [];
   if (script.length !== sentences.length) {
@@ -91,9 +92,9 @@ export function checkScriptAgainstLesson(script: ScriptLine[], sentences: Senten
       problems.push(`${sentence.id}: speaker "${line.speaker}" but lesson says "${sentence.speaker}"`);
     }
     const stripped = stripTags(line.text);
-    if (stripped !== sentence.target) {
+    if (stripped.toLowerCase() !== sentence.target.toLowerCase()) {
       problems.push(
-        `${sentence.id}: text differs from target\n      script: ${JSON.stringify(stripped)}\n      target: ${JSON.stringify(sentence.target)}`
+        `${sentence.id}: text differs from target (case aside)\n      script: ${JSON.stringify(stripped)}\n      target: ${JSON.stringify(sentence.target)}`
       );
     }
   });
