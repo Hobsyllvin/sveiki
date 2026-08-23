@@ -11,6 +11,7 @@ const PUBLIC_AUDIO = path.join(process.cwd(), "public", "audio");
 
 let copied = 0;
 let skipped = 0;
+let pruned = 0;
 
 for (const lang of fs.readdirSync(CONTENT_ROOT)) {
   if (lang.startsWith("_") || lang.startsWith(".")) continue;
@@ -20,8 +21,18 @@ for (const lang of fs.readdirSync(CONTENT_ROOT)) {
   const targetDir = path.join(PUBLIC_AUDIO, lang);
   fs.mkdirSync(targetDir, { recursive: true });
 
-  for (const file of fs.readdirSync(sourceDir)) {
-    if (!file.endsWith(".mp3")) continue;
+  const sourceFiles = fs.readdirSync(sourceDir).filter((f) => f.endsWith(".mp3"));
+
+  // Audio that no longer exists in content must not keep being served from a stale
+  // copy — public/audio survives branch switches and would otherwise ship orphans.
+  for (const file of fs.readdirSync(targetDir)) {
+    if (file.endsWith(".mp3") && !sourceFiles.includes(file)) {
+      fs.rmSync(path.join(targetDir, file));
+      pruned++;
+    }
+  }
+
+  for (const file of sourceFiles) {
     const source = path.join(sourceDir, file);
     const target = path.join(targetDir, file);
     if (
@@ -36,4 +47,6 @@ for (const lang of fs.readdirSync(CONTENT_ROOT)) {
   }
 }
 
-console.log(`audio sync: ${copied} copied, ${skipped} already current`);
+console.log(
+  `audio sync: ${copied} copied, ${skipped} already current, ${pruned} stale removed`
+);

@@ -148,6 +148,30 @@ describe("LessonView — sync", () => {
     expect(active!.textContent).toContain("Sveiki");
   });
 
+  // Decode is the mode that renders the token group the other tests click, so the
+  // other two modes get their own check that the highlight still tracks the audio.
+  it.each([
+    ["Natural", "Sveiki!"],
+    ["Latvian", "Sveiki!"],
+  ])("highlights the active sentence in %s mode", (modeLabel, text) => {
+    const { container, audio } = renderWithAudio();
+    fireEvent.click(screen.getByRole("button", { name: modeLabel }));
+    time = 2.0;
+    fireEvent(audio, new Event("timeupdate"));
+
+    const active = container.querySelector('[aria-current="true"]');
+    expect(active).not.toBeNull();
+    expect(active!.textContent).toContain(text);
+  });
+
+  it("clicking a sentence still seeks in latvian-only mode, where there is no token row", () => {
+    const { audio } = renderWithAudio();
+    fireEvent.click(screen.getByRole("button", { name: "Latvian" }));
+    fireEvent.click(screen.getByText("Sveiki!"));
+    expect(audio.currentTime).toBe(1.84);
+    expect(play).toHaveBeenCalled();
+  });
+
   it("clicking a sentence seeks to its start and plays onward", () => {
     const { audio } = renderWithAudio();
     fireEvent.click(sentenceBody("Sveiki!"));
