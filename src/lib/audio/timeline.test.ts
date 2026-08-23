@@ -97,17 +97,24 @@ describe("activeSentenceIdAt", () => {
     expect(activeSentenceIdAt(timeline, 5.5)).toBe("s3");
   });
 
-  it("returns null past the end and on an empty timeline", () => {
-    expect(activeSentenceIdAt(timeline, 5.51)).toBeNull();
+  it("returns null before the first sentence starts and on an empty timeline", () => {
+    expect(activeSentenceIdAt([{ id: "a", start: 1, end: 2 }], 0.5)).toBeNull();
     expect(activeSentenceIdAt([], 1)).toBeNull();
   });
 
-  it("returns null inside a gap between sentences", () => {
+  it("holds the last sentence through trailing silence", () => {
+    expect(activeSentenceIdAt(timeline, 5.51)).toBe("s3");
+  });
+
+  // Corrected boundaries can leave a pause owned by neither neighbour; the highlight
+  // should stay on the sentence just heard rather than blink off.
+  it("holds the previous sentence through a gap", () => {
     const gapped = [
       { id: "a", start: 0, end: 1 },
       { id: "b", start: 3, end: 4 },
     ];
-    expect(activeSentenceIdAt(gapped, 2)).toBeNull();
+    expect(activeSentenceIdAt(gapped, 2)).toBe("a");
+    expect(activeSentenceIdAt(gapped, 3)).toBe("b");
   });
 });
 

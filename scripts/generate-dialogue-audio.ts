@@ -16,6 +16,7 @@ const MIN_MP3_BYTES = 20_000;
 
 const green = (s: string) => `\x1b[32m${s}\x1b[0m`;
 const red = (s: string) => `\x1b[31m${s}\x1b[0m`;
+const yellow = (s: string) => `\x1b[33m${s}\x1b[0m`;
 const bold = (s: string) => `\x1b[1m${s}\x1b[0m`;
 
 const ScriptLineSchema = z.object({
@@ -263,6 +264,21 @@ async function main() {
     path.join(audioDir, `${name}.alignment.json`),
     `${JSON.stringify(result.alignment, null, 2)}\n`
   );
+
+  // Hand corrections survive regeneration by living in a separate file, but they were
+  // measured against the old take and this one is a fresh, non-deterministic render.
+  const editsPath = path.join(audioDir, `${name}.timings.edits.json`);
+  if (fs.existsSync(editsPath)) {
+    const edited = Object.keys(
+      (JSON.parse(fs.readFileSync(editsPath, "utf-8")) as { sentences?: object }).sentences ?? {}
+    ).length;
+    console.log(
+      yellow(
+        `\n  ${path.basename(editsPath)} still holds ${edited} corrected boundary set(s) from the previous take.\n` +
+          `  They now win over timings the model just produced — recheck them in: npm run timings -- --lesson ${name}`
+      )
+    );
+  }
 
   const duration = Math.max(...Object.values(timings.sentences).map((t) => t.end));
   console.log(green(`  wrote ${audioName} — ${(mp3.length / 1024 / 1024).toFixed(2)} MB`));

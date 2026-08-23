@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>timings editor</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #14120f; color: #ddd6cc;
+    font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  header {
+    position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 12px;
+    align-items: center; padding: 10px 14px; background: #1b1814;
+    border-bottom: 1px solid #322c24;
+  }
+  h1 { font-size: 13px; font-weight: 600; margin: 0 8px 0 0; }
+  button {
+    font: inherit; color: #ddd6cc; background: #262019; border: 1px solid #3d352b;
+    border-radius: 3px; padding: 3px 9px; cursor: pointer;
+  }
+  button:hover { border-color: #b09070; color: #fff; }
+  button.on { background: #b09070; color: #14120f; border-color: #b09070; }
+  button:disabled { opacity: .4; cursor: default; }
+  #save { margin-left: auto; }
+  #save.dirty { background: #b09070; color: #14120f; border-color: #b09070; }
+  #status { color: #8a7a6a; min-width: 12ch; }
+  .sep { width: 1px; height: 20px; background: #322c24; }
+  #scroller { overflow-x: auto; overflow-y: hidden; background: #14120f; }
+  #stack { position: relative; height: 190px; }
+  #stack canvas { position: absolute; inset: 0; display: block; }
+  #overlay { cursor: crosshair; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 3px 8px; border-bottom: 1px solid #241f19; white-space: nowrap; }
+  th { position: sticky; top: 0; background: #1b1814; color: #8a7a6a; font-weight: 500; }
+  td.text { white-space: normal; color: #c9c0b4; max-width: 40ch; }
+  tr.sel td { background: #241f18; }
+  tr.edited td.id { color: #b09070; font-weight: 600; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; color: #a89a8a; }
+  .hint { padding: 8px 14px; color: #6f6357; border-top: 1px solid #241f19; }
+  .row-actions button { padding: 1px 6px; font-size: 11px; }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">timings editor</h1>
+  <button id="playPause">play</button>
+  <button id="playSel">play sentence</button>
+  <span id="clock" class="num">0:00.000</span>
+  <span class="sep"></span>
+  <button id="zoomOut">−</button><button id="zoomIn">+</button><span id="zoomLabel">60 px/s</span>
+  <span class="sep"></span>
+  <button id="linked" class="on">linked boundaries</button>
+  <button id="snap" class="on">snap to silence</button>
+  <span class="sep"></span>
+  <button id="revertAll">revert all</button>
+  <button id="save">save</button>
+  <span id="status"></span>
+</header>
+
+<div id="scroller"><div id="stack">
+  <canvas id="wave"></canvas>
+  <canvas id="overlay"></canvas>
+</div></div>
+
+<div class="hint">
+  drag a boundary to move it · click the waveform to place the playhead · space play/stop ·
+  ←/→ nudge selected boundary 10ms (shift 100ms) · ↑/↓ select sentence · hold alt while dragging to ignore snapping
+</div>
+
+<table>
+  <thead><tr>
+    <th>id</th><th>speaker</th><th>text</th>
+    <th class="num">start</th><th class="num">end</th><th class="num">length</th><th></th>
+  </tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+
+<script>
+const MIN_LENGTH = 0.05;
+const SNAP_SECONDS = 0.08;
+const HANDLE_GRAB_PX = 6;
+const WAVE_TOP = 8;
+const WAVE_HEIGHT = 120;
+const BAND_TOP = 132;
+const BAND_HEIGHT = 46;
+
+const scroller = document.getElementById('scroller');
+const stack = document.getElementById('stack');
+const wave = document.getElementById('wave');
+const overlay = document.getElementById('overlay');
+const rowsBody = document.getElementById('rows');
+const statusEl = document.getElementById('status');
+const clockEl = document.getElementById('clock');
+const saveBtn = document.getElementById('save');
+const linkedBtn = document.getElementById('linked');
+const snapBtn = document.getElementById('snap');
+
+let data = null;
+let peaks = null;            // [min, max] pairs per peak bucket
+let peaksPerSecond = 0;
+let buffer = null;
+let audioCtx = null;
+let source = null;
+let playFrom = 0;
+let playUntil = 0;
+let playStartedAt = 0;
+let playing = false;
+let playhead = 0;
+let pxPerSecond = 60;
+let selected = 0;
+let linkedMode = true;
+let snapMode = true;
+let dragging = null;         // { kind: 'boundary'|'start'|'end', index }
+let dirty = false;
+
+const fmt = (t) => {
+  const m = Math.floor(t / 60);
+  const s = Math.floor(t % 60);
+  const ms = Math.round((t - Math.floor(t)) * 1000);
+  return `${m}:${String(s).padStart(2, '0')}.${String(ms).padStart(3, '0')}`;
+};
+
+const isEdited = (s) => s.start !== s.generatedStart || s.end !== s.generatedEnd;
+
+function setDirty(value) {
+  dirty = value;
+  saveBtn.classList.toggle('dirty', value);
+}
+
+async function boot() {
+  data = await (await fetch('/data.json')).json();
+  document.getElementById('title').textContent =
+    `${data.lessonId} — ${data.sentences.length} sentences, ${data.duration.toFixed(2)}s`;
+  const bytes = await (await fetch('/audio.mp3')).arrayBuffer();
+  audioCtx = new AudioContext();
+  buffer = await audioCtx.decodeAudioData(bytes);
+  buildPeaks();
+  layout();
+  renderRows();
+  requestAnimationFrame(tick);
+}
+
+// Peaks at a fixed resolution, independent of zoom: 400 buckets per second is finer
+// than any zoom level here, so drawing only ever downsamples.
+function buildPeaks() {
+  peaksPerSecond = 400;
+  const channel = buffer.getChannelData(0);
+  const perBucket = Math.max(1, Math.floor(buffer.sampleRate / peaksPerSecond));
+  const count = Math.ceil(channel.length / perBucket);
+  peaks = new Float32Array(count * 2);
+  for (let i = 0; i < count; i++) {
+    let min = 1, max = -1;
+    const from = i * perBucket;
+    const to = Math.min(channel.length, from + perBucket);
+    for (let j = from; j < to; j++) {
+      const v = channel[j];
+      if (v < min) min = v;
+      if (v > max) max = v;
+    }
+    peaks[i * 2] = min;
+    peaks[i * 2 + 1] = max;
+  }
+}
+
+function layout() {
+  const width = Math.max(scroller.clientWidth, Math.ceil(data.duration * pxPerSecond));
+  const dpr = window.devicePixelRatio || 1;
+  for (const canvas of [wave, overlay]) {
+    canvas.width = width * dpr;
+    canvas.height = 190 * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = '190px';
+    canvas.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  stack.style.width = width + 'px';
+  document.getElementById('zoomLabel').textContent = `${Math.round(pxPerSecond)} px/s`;
+  drawWave();
+}
+
+const timeToX = (t) => t * pxPerSecond;
+const xToTime = (x) => Math.min(data.duration, Math.max(0, x / pxPerSecond));
+
+function drawWave() {
+  const ctx = wave.getContext('2d');
+  const width = wave.width / (window.devicePixelRatio || 1);
+  ctx.clearRect(0, 0, width, 190);
+
+  // silence bands from ffmpeg
+  ctx.fillStyle = '#20293a';
+  for (const s of data.silences) {
+    ctx.fillRect(timeToX(s.start), WAVE_TOP, Math.max(1, timeToX(s.end - s.start)), WAVE_HEIGHT);
+  }
+
+  // waveform
+  const mid = WAVE_TOP + WAVE_HEIGHT / 2;
+  const half = WAVE_HEIGHT / 2 - 2;
+  ctx.strokeStyle = '#7d8f6a';
+  ctx.beginPath();
+  const bucketsPerPx = peaksPerSecond / pxPerSecond;
+  for (let x = 0; x < width; x++) {
+    const from = Math.floor(x * bucketsPerPx);
+    const to = Math.max(from + 1, Math.floor((x + 1) * bucketsPerPx));
+    let min = 1, max = -1;
+    for (let b = from; b < to && b * 2 + 1 < peaks.length; b++) {
+      if (peaks[b * 2] < min) min = peaks[b * 2];
+      if (peaks[b * 2 + 1] > max) max = peaks[b * 2 + 1];
+    }
+    if (max < min) continue;
+    ctx.moveTo(x + 0.5, mid - max * half);
+    ctx.lineTo(x + 0.5, mid - min * half);
+  }
+  ctx.stroke();
+
+  ctx.strokeStyle = '#322c24';
+  ctx.beginPath();
+  ctx.moveTo(0, mid);
+  ctx.lineTo(width, mid);
+  ctx.stroke();
+}
+
+function drawOverlay() {
+  const ctx = overlay.getContext('2d');
+  const width = overlay.width / (window.devicePixelRatio || 1);
+  ctx.clearRect(0, 0, width, 190);
+
+  data.sentences.forEach((s, i) => {
+    const x = timeToX(s.start);
+    const w = Math.max(1, timeToX(s.end) - x);
+    ctx.fillStyle = i === selected ? 'rgba(176,144,112,.28)' : 'rgba(176,144,112,.10)';
+    ctx.fillRect(x, BAND_TOP, w, BAND_HEIGHT);
+    ctx.fillStyle = isEdited(s) ? '#e0b98d' : '#8a7a6a';
+    ctx.font = '11px ui-monospace, monospace';
+    ctx.fillText(s.id, x + 3, BAND_TOP + 13);
+
+    // range lines through the waveform
+    ctx.strokeStyle = isEdited(s) ? '#e0b98d' : '#b09070';
+    ctx.lineWidth = i === selected ? 2 : 1;
+    for (const t of [s.start, s.end]) {
+      const hx = Math.round(timeToX(t)) + 0.5;
+      ctx.beginPath();
+      ctx.moveTo(hx, WAVE_TOP);
+      ctx.lineTo(hx, BAND_TOP + BAND_HEIGHT);
+      ctx.stroke();
+    }
+  });
+
+  const px = Math.round(timeToX(playhead)) + 0.5;
+  ctx.strokeStyle = '#f2f0ea';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(px, 0);
+  ctx.lineTo(px, 190);
+  ctx.stroke();
+}
+
+function tick() {
+  if (playing) {
+    const elapsed = audioCtx.currentTime - playStartedAt;
+    playhead = playFrom + elapsed;
+    if (playhead >= playUntil) {
+      playhead = playUntil;
+      stopPlayback();
+    }
+    const x = timeToX(playhead);
+    if (x < scroller.scrollLeft || x > scroller.scrollLeft + scroller.clientWidth - 40) {
+      scroller.scrollLeft = x - scroller.clientWidth / 3;
+    }
+  }
+  clockEl.textContent = fmt(playhead);
+  drawOverlay();
+  requestAnimationFrame(tick);
+}
+
+function startPlayback(from, until) {
+  stopPlayback();
+  playFrom = Math.max(0, from);
+  playUntil = Math.min(data.duration, until);
+  if (playUntil - playFrom < 0.01) return;
+  source = audioCtx.createBufferSource();
+  source.buffer = buffer;
+  source.connect(audioCtx.destination);
+  source.start(0, playFrom, playUntil - playFrom);
+  playStartedAt = audioCtx.currentTime;
+  playhead = playFrom;
+  playing = true;
+  document.getElementById('playPause').textContent = 'stop';
+}
+
+function stopPlayback() {
+  if (source) {
+    try { source.stop(); } catch { /* already ended */ }
+    source.disconnect();
+    source = null;
+  }
+  playing = false;
+  document.getElementById('playPause').textContent = 'play';
+}
+
+function togglePlay() {
+  if (playing) stopPlayback();
+  else startPlayback(playhead, data.duration);
+}
+
+function playSelected() {
+  const s = data.sentences[selected];
+  startPlayback(s.start, s.end);
+}
+
+function snapCandidates() {
+  const out = [];
+  for (const s of data.silences) out.push(s.start, s.end);
+  return out;
+}
+
+function applySnap(t, disabled) {
+  if (!snapMode || disabled) return t;
+  let best = t;
+  let bestDelta = SNAP_SECONDS;
+  for (const c of snapCandidates()) {
+    const delta = Math.abs(c - t);
+    if (delta < bestDelta) { bestDelta = delta; best = c; }
+  }
+  return best;
+}
+
+const round = (t) => Math.round(t * 1000) / 1000;
+
+// Linked mode keeps the pair contiguous, which also re-links a boundary that was
+// split earlier; split mode moves one edge and may leave a pause owned by nobody.
+function moveBoundary(index, time) {
+  const a = data.sentences[index];
+  const b = data.sentences[index + 1];
+  const lo = a.start + MIN_LENGTH;
+  const hi = b.end - MIN_LENGTH;
+  const t = round(Math.min(hi, Math.max(lo, time)));
+  a.end = t;
+  b.start = t;
+  setDirty(true);
+}
+
+function moveEdge(index, which, time) {
+  const s = data.sentences[index];
+  const previous = data.sentences[index - 1];
+  const next = data.sentences[index + 1];
+  if (which === 'start') {
+    const lo = previous ? previous.end : 0;
+    s.start = round(Math.min(s.end - MIN_LENGTH, Math.max(lo, time)));
+  } else {
+    const hi = next ? next.start : data.duration;
+    s.end = round(Math.max(s.start + MIN_LENGTH, Math.min(hi, time)));
+  }
+  setDirty(true);
+}
+
+function handleAt(x) {
+  const time = xToTime(x);
+  const tolerance = HANDLE_GRAB_PX / pxPerSecond;
+  let best = null;
+  let bestDelta = tolerance;
+  data.sentences.forEach((s, i) => {
+    const next = data.sentences[i + 1];
+    if (linkedMode && next && Math.abs(s.end - next.start) < 0.0005) {
+      const delta = Math.abs(s.end - time);
+      if (delta < bestDelta) { bestDelta = delta; best = { kind: 'boundary', index: i }; }
+      return;
+    }
+    for (const which of ['start', 'end']) {
+      const delta = Math.abs(s[which] - time);
+      if (delta < bestDelta) { bestDelta = delta; best = { kind: which, index: i }; }
+    }
+  });
+  return best;
+}
+
+overlay.addEventListener('pointerdown', (event) => {
+  const x = event.offsetX;
+  const hit = handleAt(x);
+  if (hit) {
+    dragging = hit;
+    selected = hit.kind === 'boundary' ? hit.index : hit.index;
+    overlay.setPointerCapture(event.pointerId);
+    renderRows();
+    return;
+  }
+  const time = xToTime(x);
+  const index = data.sentences.findIndex((s) => time >= s.start && time <= s.end);
+  if (index !== -1) { selected = index; renderRows(); }
+  playhead = time;
+  if (playing) startPlayback(time, data.duration);
+});
+
+overlay.addEventListener('pointermove', (event) => {
+  if (!dragging) {
+    overlay.style.cursor = handleAt(event.offsetX) ? 'ew-resize' : 'crosshair';
+    return;
+  }
+  const time = applySnap(xToTime(event.offsetX), event.altKey);
+  if (dragging.kind === 'boundary') moveBoundary(dragging.index, time);
+  else moveEdge(dragging.index, dragging.kind, time);
+  renderRows();
+});
+
+overlay.addEventListener('pointerup', (event) => {
+  if (dragging) {
+    overlay.releasePointerCapture(event.pointerId);
+    dragging = null;
+  }
+});
+
+scroller.addEventListener('wheel', (event) => {
+  if (!event.ctrlKey && !event.metaKey) return;
+  event.preventDefault();
+  zoom(event.deltaY < 0 ? 1.25 : 0.8, event.offsetX);
+}, { passive: false });
+
+function zoom(factor, anchorX) {
+  const anchorTime = xToTime((anchorX ?? scroller.scrollLeft + scroller.clientWidth / 2));
+  pxPerSecond = Math.min(2000, Math.max(10, pxPerSecond * factor));
+  layout();
+  scroller.scrollLeft = timeToX(anchorTime) - scroller.clientWidth / 2;
+}
+
+function nudge(seconds) {
+  const s = data.sentences[selected];
+  const next = data.sentences[selected + 1];
+  if (linkedMode && next && Math.abs(s.end - next.start) < 0.0005) {
+    moveBoundary(selected, s.end + seconds);
+  } else {
+    moveEdge(selected, 'end', s.end + seconds);
+  }
+  renderRows();
+}
+
+function select(index) {
+  selected = Math.min(data.sentences.length - 1, Math.max(0, index));
+  renderRows();
+  const x = timeToX(data.sentences[selected].start);
+  if (x < scroller.scrollLeft || x > scroller.scrollLeft + scroller.clientWidth - 40) {
+    scroller.scrollLeft = x - scroller.clientWidth / 3;
+  }
+}
+
+document.addEventListener('keydown', (event) => {
+  if (event.target.tagName === 'INPUT') return;
+  const step = event.shiftKey ? 0.1 : 0.01;
+  if (event.key === ' ') { event.preventDefault(); togglePlay(); }
+  else if (event.key === 'ArrowLeft') { event.preventDefault(); nudge(-step); }
+  else if (event.key === 'ArrowRight') { event.preventDefault(); nudge(step); }
+  else if (event.key === 'ArrowUp') { event.preventDefault(); select(selected - 1); }
+  else if (event.key === 'ArrowDown') { event.preventDefault(); select(selected + 1); }
+  else if (event.key === 'Enter') { event.preventDefault(); playSelected(); }
+});
+
+function nearestSilenceEdge(time) {
+  let best = time;
+  let bestDelta = Infinity;
+  for (const c of snapCandidates()) {
+    const delta = Math.abs(c - time);
+    if (delta < bestDelta) { bestDelta = delta; best = c; }
+  }
+  return best;
+}
+
+function renderRows() {
+  rowsBody.innerHTML = '';
+  data.sentences.forEach((s, i) => {
+    const tr = document.createElement('tr');
+    if (i === selected) tr.className = 'sel';
+    if (isEdited(s)) tr.className += ' edited';
+    tr.innerHTML = `
+      <td class="id">${s.id}</td>
+      <td>${s.speaker}</td>
+      <td class="text">${s.target.replace(/</g, '&lt;')}</td>
+      <td class="num">${fmt(s.start)}</td>
+      <td class="num">${fmt(s.end)}</td>
+      <td class="num">${(s.end - s.start).toFixed(2)}s</td>
+      <td class="row-actions"></td>`;
+    const actions = tr.querySelector('.row-actions');
+    const add = (label, title, fn) => {
+      const button = document.createElement('button');
+      button.textContent = label;
+      button.title = title;
+      button.onclick = (event) => { event.stopPropagation(); fn(); };
+      actions.appendChild(button);
+    };
+    add('▸', 'play this range', () => { selected = i; renderRows(); startPlayback(s.start, s.end); });
+    add('|←', 'snap start to nearest silence edge', () => {
+      moveEdge(i, 'start', nearestSilenceEdge(s.start));
+      renderRows();
+    });
+    add('→|', 'snap end to nearest silence edge', () => {
+      if (linkedMode && data.sentences[i + 1]) moveBoundary(i, nearestSilenceEdge(s.end));
+      else moveEdge(i, 'end', nearestSilenceEdge(s.end));
+      renderRows();
+    });
+    add('↺', 'revert this sentence to the generated timing', () => {
+      s.start = s.generatedStart;
+      s.end = s.generatedEnd;
+      setDirty(true);
+      renderRows();
+    });
+    tr.onclick = () => { selected = i; renderRows(); };
+    rowsBody.appendChild(tr);
+  });
+  const count = data.sentences.filter(isEdited).length;
+  statusEl.textContent = count ? `${count} corrected` : 'none corrected';
+}
+
+document.getElementById('playPause').onclick = togglePlay;
+document.getElementById('playSel').onclick = playSelected;
+document.getElementById('zoomIn').onclick = () => zoom(1.4);
+document.getElementById('zoomOut').onclick = () => zoom(1 / 1.4);
+linkedBtn.onclick = () => {
+  linkedMode = !linkedMode;
+  linkedBtn.classList.toggle('on', linkedMode);
+  linkedBtn.textContent = linkedMode ? 'linked boundaries' : 'split start/end';
+};
+snapBtn.onclick = () => {
+  snapMode = !snapMode;
+  snapBtn.classList.toggle('on', snapMode);
+};
+document.getElementById('revertAll').onclick = () => {
+  for (const s of data.sentences) { s.start = s.generatedStart; s.end = s.generatedEnd; }
+  setDirty(true);
+  renderRows();
+};
+
+saveBtn.onclick = async () => {
+  const sentences = {};
+  for (const s of data.sentences) {
+    if (isEdited(s)) sentences[s.id] = { start: s.start, end: s.end };
+  }
+  const body = JSON.stringify({ sentences }, null, 2);
+  try {
+    const response = await fetch('/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+    });
+    const result = await response.json();
+    if (!result.ok) throw new Error(result.error || 'rejected');
+    setDirty(false);
+    statusEl.textContent = `saved ${Object.keys(sentences).length}`;
+  } catch (error) {
+    // No server (page opened from disk, or it was stopped): fall back to a download.
+    statusEl.textContent = 'saved to downloads';
+    const url = URL.createObjectURL(new Blob([body], { type: 'application/json' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${data.lessonId}.timings.edits.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+};
+
+window.addEventListener('beforeunload', (event) => {
+  if (dirty) event.preventDefault();
+});
+
+window.addEventListener('resize', () => layout());
+
+boot();
+</script>
+</body>
+</html>

@@ -23,21 +23,23 @@ export function buildTimeline(
 }
 
 /**
- * Ranges are half-open, so at a shared boundary the later sentence wins — seeking
- * to a sentence's start lands on that sentence. The final end is inclusive so the
- * last sentence stays lit until playback stops.
+ * The sentence whose start is the most recent one passed. At a shared boundary the
+ * later sentence wins, so seeking to a sentence's start lands on that sentence.
+ *
+ * Corrected boundaries may leave a pause belonging to neither neighbour; through such
+ * a gap — and through any trailing silence — the sentence just heard stays lit rather
+ * than the highlight blinking off mid-scene. Before the first start, nothing is active.
  */
 export function activeSentenceIdAt(
   timeline: TimelineEntry[],
   time: number
 ): string | null {
-  for (let i = 0; i < timeline.length; i++) {
-    const entry = timeline[i];
-    if (time < entry.start) break;
-    const isLast = i === timeline.length - 1;
-    if (time < entry.end || (isLast && time <= entry.end)) return entry.id;
+  let active: string | null = null;
+  for (const entry of timeline) {
+    if (entry.start > time) break;
+    active = entry.id;
   }
-  return null;
+  return active;
 }
 
 export function indexOfSentence(timeline: TimelineEntry[], id: string | null): number {

@@ -130,7 +130,8 @@ export type AudioManifest = z.infer<typeof AudioManifestSchema>;
 
 // Sentence time ranges within a lesson's whole-scene MP3, derived from the TTS
 // alignment at synthesis time. Player-only data: never mirrored into lesson JSON.
-// Ranges are contiguous — one sentence's end is the next one's start.
+// The generator emits contiguous ranges, but hand corrections may leave a pause
+// belonging to neither neighbour, so a gap between one end and the next start is legal.
 export const SentenceTimingSchema = z.object({
   start: z.number().min(0),
   end: z.number().min(0),
@@ -144,6 +145,16 @@ export const AudioTimingsSchema = z.object({
 });
 
 export type AudioTimings = z.infer<typeof AudioTimingsSchema>;
+
+// Boundaries corrected by hand in the waveform editor (scripts/edit-timings.ts). Kept
+// in <lessonId>.timings.edits.json so regenerating audio cannot silently destroy the
+// work, and so it stays visible which boundaries a human judged. Only corrected
+// sentences appear here; each one wins over the generated timing.
+export const TimingEditsSchema = z.object({
+  sentences: z.record(z.string(), SentenceTimingSchema),
+});
+
+export type TimingEdits = z.infer<typeof TimingEditsSchema>;
 
 export const CourseLessonSchema = z.object({
   lessonId: z.string().min(1),
