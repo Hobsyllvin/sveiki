@@ -4,45 +4,65 @@
 <meta charset="utf-8">
 <title>timings editor</title>
 <style>
-  :root { color-scheme: dark; }
+  :root {
+    color-scheme: light;
+    --bg: #faf8f4;
+    --panel: #ffffff;
+    --ink: #2a241d;
+    --muted: #7d7266;
+    --rule: #e3ddd2;
+    --accent: #9a6b3f;
+    --edited: #b4531a;
+    --sel-row: #f3eee5;
+  }
   * { box-sizing: border-box; }
   body {
-    margin: 0; background: #14120f; color: #ddd6cc;
-    font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  /* Controls and waveform stay put while the sentence list scrolls under them. */
+  #top {
+    position: sticky; top: 0; z-index: 6;
+    background: var(--bg); border-bottom: 1px solid var(--rule);
+    box-shadow: 0 1px 6px rgba(42, 36, 29, .06);
   }
   header {
-    position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 12px;
-    align-items: center; padding: 10px 14px; background: #1b1814;
-    border-bottom: 1px solid #322c24;
+    display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center;
+    padding: 12px 16px; background: var(--panel); border-bottom: 1px solid var(--rule);
   }
-  h1 { font-size: 13px; font-weight: 600; margin: 0 8px 0 0; }
+  h1 { font-size: 13px; font-weight: 600; margin: 0 8px 0 0; letter-spacing: .01em; }
   button {
-    font: inherit; color: #ddd6cc; background: #262019; border: 1px solid #3d352b;
-    border-radius: 3px; padding: 3px 9px; cursor: pointer;
+    font: inherit; color: var(--ink); background: var(--panel);
+    border: 1px solid var(--rule); border-radius: 4px; padding: 4px 10px; cursor: pointer;
+    transition: border-color .12s, color .12s;
   }
-  button:hover { border-color: #b09070; color: #fff; }
-  button.on { background: #b09070; color: #14120f; border-color: #b09070; }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+  button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
   button:disabled { opacity: .4; cursor: default; }
   #save { margin-left: auto; }
-  #save.dirty { background: #b09070; color: #14120f; border-color: #b09070; }
-  #status { color: #8a7a6a; min-width: 12ch; }
-  .sep { width: 1px; height: 20px; background: #322c24; }
-  #scroller { overflow-x: auto; overflow-y: hidden; background: #14120f; }
+  #save.dirty { background: var(--accent); color: #fff; border-color: var(--accent); }
+  #status { color: var(--muted); min-width: 12ch; }
+  .sep { width: 1px; height: 20px; background: var(--rule); }
+  #scroller { overflow-x: auto; overflow-y: hidden; background: var(--panel); }
   #stack { position: relative; height: 190px; }
   #stack canvas { position: absolute; inset: 0; display: block; }
   #overlay { cursor: crosshair; }
-  table { border-collapse: collapse; width: 100%; }
-  th, td { text-align: left; padding: 3px 8px; border-bottom: 1px solid #241f19; white-space: nowrap; }
-  th { position: sticky; top: 0; background: #1b1814; color: #8a7a6a; font-weight: 500; }
-  td.text { white-space: normal; color: #c9c0b4; max-width: 40ch; }
-  tr.sel td { background: #241f18; }
-  tr.edited td.id { color: #b09070; font-weight: 600; }
-  .num { text-align: right; font-variant-numeric: tabular-nums; color: #a89a8a; }
-  .hint { padding: 8px 14px; color: #6f6357; border-top: 1px solid #241f19; }
-  .row-actions button { padding: 1px 6px; font-size: 11px; }
+  table { border-collapse: collapse; width: 100%; background: var(--bg); }
+  th, td { text-align: left; padding: 5px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  th {
+    position: sticky; top: var(--top-h, 0px); z-index: 3;
+    background: var(--bg); color: var(--muted); font-weight: 500;
+  }
+  td.text { white-space: normal; color: #4a4239; max-width: 44ch; }
+  tr.sel td { background: var(--sel-row); }
+  tr.edited td.id { color: var(--edited); font-weight: 600; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .hint { padding: 7px 16px; font-size: 12px; color: var(--muted); }
+  .row-actions button { padding: 1px 7px; font-size: 11px; }
 </style>
 </head>
 <body>
+<div id="top">
 <header>
   <h1 id="title">timings editor</h1>
   <button id="playPause">play</button>
@@ -68,6 +88,7 @@
   drag a boundary to move it · click the waveform to place the playhead · space play/stop ·
   ←/→ nudge selected boundary 10ms (shift 100ms) · ↑/↓ select sentence · hold alt while dragging to ignore snapping
 </div>
+</div>
 
 <table>
   <thead><tr>
@@ -78,6 +99,20 @@
 </table>
 
 <script>
+// Canvas cannot read CSS custom properties, so the light palette is mirrored here.
+const COLORS = {
+  silence: '#e9eef6',
+  wave: '#6f8459',
+  midline: '#ded7cb',
+  band: 'rgba(154,107,63,.07)',
+  bandSelected: 'rgba(154,107,63,.18)',
+  line: '#a2968a',
+  editedLine: '#b4531a',
+  label: '#7d7266',
+  editedLabel: '#b4531a',
+  playhead: '#2a241d',
+};
+
 const MIN_LENGTH = 0.05;
 const SNAP_SECONDS = 0.08;
 const HANDLE_GRAB_PX = 6;
@@ -188,7 +223,7 @@ function drawWave() {
   ctx.clearRect(0, 0, width, 190);
 
   // silence bands from ffmpeg
-  ctx.fillStyle = '#20293a';
+  ctx.fillStyle = COLORS.silence;
   for (const s of data.silences) {
     ctx.fillRect(timeToX(s.start), WAVE_TOP, Math.max(1, timeToX(s.end - s.start)), WAVE_HEIGHT);
   }
@@ -196,7 +231,7 @@ function drawWave() {
   // waveform
   const mid = WAVE_TOP + WAVE_HEIGHT / 2;
   const half = WAVE_HEIGHT / 2 - 2;
-  ctx.strokeStyle = '#7d8f6a';
+  ctx.strokeStyle = COLORS.wave;
   ctx.beginPath();
   const bucketsPerPx = peaksPerSecond / pxPerSecond;
   for (let x = 0; x < width; x++) {
@@ -213,7 +248,7 @@ function drawWave() {
   }
   ctx.stroke();
 
-  ctx.strokeStyle = '#322c24';
+  ctx.strokeStyle = COLORS.midline;
   ctx.beginPath();
   ctx.moveTo(0, mid);
   ctx.lineTo(width, mid);
@@ -228,14 +263,14 @@ function drawOverlay() {
   data.sentences.forEach((s, i) => {
     const x = timeToX(s.start);
     const w = Math.max(1, timeToX(s.end) - x);
-    ctx.fillStyle = i === selected ? 'rgba(176,144,112,.28)' : 'rgba(176,144,112,.10)';
+    ctx.fillStyle = i === selected ? COLORS.bandSelected : COLORS.band;
     ctx.fillRect(x, BAND_TOP, w, BAND_HEIGHT);
-    ctx.fillStyle = isEdited(s) ? '#e0b98d' : '#8a7a6a';
+    ctx.fillStyle = isEdited(s) ? COLORS.editedLabel : COLORS.label;
     ctx.font = '11px ui-monospace, monospace';
     ctx.fillText(s.id, x + 3, BAND_TOP + 13);
 
     // range lines through the waveform
-    ctx.strokeStyle = isEdited(s) ? '#e0b98d' : '#b09070';
+    ctx.strokeStyle = isEdited(s) ? COLORS.editedLine : COLORS.line;
     ctx.lineWidth = i === selected ? 2 : 1;
     for (const t of [s.start, s.end]) {
       const hx = Math.round(timeToX(t)) + 0.5;
@@ -247,7 +282,7 @@ function drawOverlay() {
   });
 
   const px = Math.round(timeToX(playhead)) + 0.5;
-  ctx.strokeStyle = '#f2f0ea';
+  ctx.strokeStyle = COLORS.playhead;
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(px, 0);
@@ -558,6 +593,15 @@ saveBtn.onclick = async () => {
 window.addEventListener('beforeunload', (event) => {
   if (dirty) event.preventDefault();
 });
+
+function trackTopHeight() {
+  const top = document.getElementById('top');
+  const apply = () =>
+    document.documentElement.style.setProperty('--top-h', top.offsetHeight + 'px');
+  apply();
+  new ResizeObserver(apply).observe(top);
+}
+trackTopHeight();
 
 window.addEventListener('resize', () => layout());
 
