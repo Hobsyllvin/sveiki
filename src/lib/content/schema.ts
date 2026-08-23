@@ -78,39 +78,17 @@ export const DictionarySchema = z.record(z.string(), DictionaryEntrySchema);
 
 export type Dictionary = z.infer<typeof DictionarySchema>;
 
-// Voice mapping is configuration, not content: it lives in content/<lang>/voices.json
-// and never enters lesson JSON, which stays pure language data. Keys are snake_case
-// because they are passed straight through to the Text to Dialogue request body.
-// No fallback voice: an unmapped speaker aborts the run rather than being silently
-// voiced as somebody else in a scene generated as one take.
-export const DialogueVoicesSchema = z.object({
-  model_id: z.string().min(1),
-  language_code: z.string().min(1),
+// Voice mapping and synthesis defaults are configuration, not content: they live in
+// content/<lang>/voices.json and never enter lesson JSON, which stays pure language
+// data. No fallback voice — an unmapped speaker aborts the run rather than being
+// silently voiced as somebody else.
+export const VoicesSchema = z.object({
+  model: z.string().min(1),
+  outputFormat: z.string().min(1),
   speakers: z.record(z.string(), z.string().min(1)),
 });
 
-export type DialogueVoices = z.infer<typeof DialogueVoicesSchema>;
-
-// Per-sentence ElevenLabs synthesis keeps its own config in
-// content/<lang>/voices-elevenlabs.json; its clips share content/<lang>/audio-elevenlabs/
-// with the whole-scene output, which is named per lesson rather than per sentence.
-// Only eleven_v3 and eleven_v3_conversational support Latvian.
-export const ElevenVoiceSchema = z.object({
-  voiceId: z.string().min(1),
-});
-
-export type ElevenVoice = z.infer<typeof ElevenVoiceSchema>;
-
-export const ElevenVoicesSchema = z.object({
-  defaults: z.object({
-    model: z.string().min(1),
-    outputFormat: z.string().min(1),
-  }),
-  speakers: z.record(z.string(), ElevenVoiceSchema),
-  fallback: ElevenVoiceSchema,
-});
-
-export type ElevenVoices = z.infer<typeof ElevenVoicesSchema>;
+export type Voices = z.infer<typeof VoicesSchema>;
 
 // Derived data about generated audio: hash of the exact synthesis inputs (so an
 // edited sentence or a changed voice regenerates, and nothing else does), plus
@@ -127,23 +105,6 @@ export type AudioManifestEntry = z.infer<typeof AudioManifestEntrySchema>;
 export const AudioManifestSchema = z.record(z.string(), AudioManifestEntrySchema);
 
 export type AudioManifest = z.infer<typeof AudioManifestSchema>;
-
-// Sentence time ranges within a lesson's whole-scene MP3, derived from the TTS
-// alignment at synthesis time. Player-only data: never mirrored into lesson JSON.
-// Ranges are contiguous — one sentence's end is the next one's start.
-export const SentenceTimingSchema = z.object({
-  start: z.number().min(0),
-  end: z.number().min(0),
-});
-
-export type SentenceTiming = z.infer<typeof SentenceTimingSchema>;
-
-export const AudioTimingsSchema = z.object({
-  audio: z.string().regex(/\.mp3$/, "audio filename must end with .mp3"),
-  sentences: z.record(z.string(), SentenceTimingSchema),
-});
-
-export type AudioTimings = z.infer<typeof AudioTimingsSchema>;
 
 export const CourseLessonSchema = z.object({
   lessonId: z.string().min(1),

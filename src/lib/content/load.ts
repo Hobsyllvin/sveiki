@@ -1,13 +1,14 @@
 import fs from "fs";
 import path from "path";
-import { LessonSchema, CourseSchema, AudioTimingsSchema } from "./schema";
-import type { Lesson, Course, AudioTimings } from "./schema";
+import { LessonSchema, CourseSchema, AudioManifestSchema } from "./schema";
+import type { Lesson, Course, AudioManifest } from "./schema";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 
-// Whole-scene audio and its timings live here; scripts/sync-audio.ts copies the
-// mp3s to public/audio/<lang>/ so Next serves them as static assets.
-export const AUDIO_DIR_NAME = "audio-elevenlabs";
+// One mp3 per sentence, named by the lesson's `audio` field, plus manifest.json
+// recording each clip's duration. scripts/sync-audio.ts copies the mp3s to
+// public/audio/<lang>/ so Next serves them as static assets.
+export const AUDIO_DIR_NAME = "audio";
 
 function langFromLessonId(lessonId: string): string {
   return lessonId.split("-")[0];
@@ -21,21 +22,20 @@ export function loadLesson(lessonId: string): Lesson | null {
   return LessonSchema.parse(raw);
 }
 
-export function loadTimings(lessonId: string): AudioTimings | null {
-  const lang = langFromLessonId(lessonId);
-  const timingsPath = path.join(
-    CONTENT_ROOT,
-    lang,
-    AUDIO_DIR_NAME,
-    `${lessonId}.timings.json`
-  );
-  if (!fs.existsSync(timingsPath)) return null;
-  const raw = JSON.parse(fs.readFileSync(timingsPath, "utf-8"));
-  return AudioTimingsSchema.parse(raw);
+/** Empty when no clip has been generated for this language yet. */
+export function loadAudioManifest(lang: string): AudioManifest {
+  const manifestPath = path.join(CONTENT_ROOT, lang, AUDIO_DIR_NAME, "manifest.json");
+  if (!fs.existsSync(manifestPath)) return {};
+  const raw = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+  return AudioManifestSchema.parse(raw);
 }
 
-export function audioSrc(lessonId: string, timings: AudioTimings): string {
-  return `/audio/${langFromLessonId(lessonId)}/${timings.audio}`;
+export function audioSrc(lang: string, filename: string): string {
+  return `/audio/${lang}/${filename}`;
+}
+
+export function langOf(lessonId: string): string {
+  return langFromLessonId(lessonId);
 }
 
 export function loadCourse(lang: string): Course {

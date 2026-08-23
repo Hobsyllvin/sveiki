@@ -1,22 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { activeSentenceIdAt, indexOfSentence, type TimelineEntry } from "./timeline";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { indexOfClip, totalDuration, type Clip } from "./playlist";
 
+// A breath between sentences while a lesson plays through. Long enough to hear the
+// seam, short enough not to feel like the audio stopped.
+const SENTENCE_GAP_MS = 250;
 // How long a manual scroll keeps the page from following the audio.
 const MANUAL_SCROLL_QUIET_MS = 4000;
-const SCROLL_KEYS = new Set([
-  "ArrowUp",
-  "ArrowDown",
-  "PageUp",
-  "PageDown",
-  "Home",
-  "End",
-]);
+const SCROLL_KEYS = new Set(["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End"]);
 
 export interface LessonAudio {
   isPlaying: boolean;
-  currentTime: number;
+  /** Seconds into the lesson as a whole, for the readout. */
+  position: number;
   duration: number;
   rate: number;
   setRate: (rate: number) => void;
@@ -24,9 +21,9 @@ export interface LessonAudio {
   toggleRepeat: () => void;
   activeId: string | null;
   togglePlay: () => void;
-  /** Seek to a sentence and keep playing through the rest of the scene. */
+  /** Play this sentence and carry on through the lesson. */
   playFrom: (id: string) => void;
-  /** Play that one sentence, then stop, cued to replay it. */
+  /** Play this sentence alone, then stop, cued to replay it. */
   playOnly: (id: string) => void;
   step: (delta: 1 | -1) => void;
   shouldAutoScroll: () => boolean;
@@ -34,97 +31,163 @@ export interface LessonAudio {
 
 export function useLessonAudio(
   audioRef: React.RefObject<HTMLAudioElement | null>,
-  timeline: TimelineEntry[]
+  preloadRef: React.RefObject<HTMLAudioElement | null>,
+  playlist: Clip[]
 ): LessonAudio {
+  const [index, setIndex] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(() =>
-    timeline.length > 0 ? timeline[timeline.length - 1].end : 0
-  );
+  const [clipTime, setClipTime] = useState(0);
   const [rate, setRate] = useState(1);
   const [repeat, setRepeat] = useState(false);
-  const [activeId, setActiveId] = useState<string | null>(null);
 
-  // The sentence the listener last picked, and whether playback should end there.
-  const targetRef = useRef<string | null>(null);
   const soloRef = useRef(false);
   const repeatRef = useRef(repeat);
-  const activeIdRef = useRef(activeId);
+  const indexRef = useRef(index);
   const isPlayingRef = useRef(isPlaying);
+  const gapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastManualScrollRef = useRef(0);
 
   useEffect(() => {
     repeatRef.current = repeat;
   }, [repeat]);
   useEffect(() => {
-    activeIdRef.current = activeId;
-  }, [activeId]);
+    indexRef.current = index;
+  }, [index]);
   useEffect(() => {
     isPlayingRef.current = isPlaying;
   }, [isPlaying]);
 
-  const entryById = useMemo(
-    () => new Map(timeline.map((entry) => [entry.id, entry])),
-    [timeline]
+  const clearGap = useCallback(() => {
+    if (gapTimerRef.current !== null) {
+      clearTimeout(gapTimerRef.current);
+      gapTimerRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => clearGap, [clearGap]);
+
+  // Boundaries are file boundaries: loading a clip *is* seeking to a sentence, so
+  // there is no time arithmetic here that could drift out of step with the audio.
+  const load = useCallback(
+    (target: number, { solo, play }: { solo: boolean; play: boolean }) => {
+      const audio = audioRef.current;
+      const clip = playlist[target];
+      if (!audio || !clip) return;
+      clearGap();
+      soloRef.current = solo;
+      setIndex(target);
+      indexRef.current = target;
+      setClipTime(0);
+      if (audio.src !== clip.src) audio.src = clip.src;
+      audio.currentTime = 0;
+      if (play) void audio.play().catch(() => {});
+    },
+    [audioRef, clearGap, playlist]
   );
 
-  const sync = useCallback(() => {
+  const playFrom = useCallback(
+    (id: string) => load(indexOfClip(playlist, id), { solo: false, play: true }),
+    [load, playlist]
+  );
+
+  const playOnly = useCallback(
+    (id: string) => load(indexOfClip(playlist, id), { solo: true, play: true }),
+    [load, playlist]
+  );
+
+  const togglePlay = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    const time = audio.currentTime;
-
-    const holdId = repeatRef.current || soloRef.current ? targetRef.current : null;
-    const hold = holdId ? entryById.get(holdId) : undefined;
-    if (hold && time >= hold.end) {
-      audio.currentTime = hold.start;
-      if (!repeatRef.current) audio.pause();
-      setCurrentTime(hold.start);
-      setActiveId(hold.id);
+    if (indexRef.current === null) {
+      load(0, { solo: false, play: true });
       return;
     }
+    if (audio.paused) {
+      soloRef.current = false;
+      void audio.play().catch(() => {});
+    } else {
+      clearGap();
+      audio.pause();
+    }
+  }, [audioRef, clearGap, load]);
 
-    setCurrentTime(time);
-    setActiveId(activeSentenceIdAt(timeline, time));
-  }, [audioRef, entryById, timeline]);
+  // Stepping keeps the current playing/paused state, so arrows can be used to scan.
+  const step = useCallback(
+    (delta: 1 | -1) => {
+      if (playlist.length === 0) return;
+      const current = indexRef.current;
+      const next = current === null ? (delta === 1 ? 0 : playlist.length - 1) : current + delta;
+      if (next < 0 || next >= playlist.length) return;
+      load(next, { solo: false, play: isPlayingRef.current });
+    },
+    [load, playlist]
+  );
 
-  // timeupdate fires about four times a second — too coarse to stop cleanly at a
-  // sentence end, so drive the sync from rAF while playing and from events otherwise.
+  const toggleRepeat = useCallback(() => setRepeat((on) => !on), []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
+    const onTime = () => setClipTime(audio.currentTime);
+    const onEnded = () => {
+      if (repeatRef.current) {
+        audio.currentTime = 0;
+        setClipTime(0);
+        void audio.play().catch(() => {});
+        return;
+      }
+      const current = indexRef.current;
+      if (soloRef.current || current === null) {
+        setIsPlaying(false);
+        setClipTime(0);
+        audio.currentTime = 0;
+        return;
+      }
+      if (current + 1 >= playlist.length) {
+        setIsPlaying(false);
+        return;
+      }
+      // Held as playing across the gap: the lesson has not stopped, it is breathing.
+      gapTimerRef.current = setTimeout(() => {
+        gapTimerRef.current = null;
+        load(current + 1, { solo: false, play: true });
+      }, SENTENCE_GAP_MS);
+    };
+
+    audio.addEventListener("play", onPlay);
+    audio.addEventListener("pause", onPause);
+    audio.addEventListener("timeupdate", onTime);
+    audio.addEventListener("ended", onEnded);
+    return () => {
+      audio.removeEventListener("play", onPlay);
+      audio.removeEventListener("pause", onPause);
+      audio.removeEventListener("timeupdate", onTime);
+      audio.removeEventListener("ended", onEnded);
+    };
+  }, [audioRef, load, playlist.length]);
+
+  // Smooth position readout: timeupdate alone fires about four times a second.
   useEffect(() => {
     if (!isPlaying) return;
     let frame = requestAnimationFrame(function loop() {
-      sync();
+      if (audioRef.current) setClipTime(audioRef.current.currentTime);
       frame = requestAnimationFrame(loop);
     });
     return () => cancelAnimationFrame(frame);
-  }, [isPlaying, sync]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    const onPlay = () => setIsPlaying(true);
-    const onStop = () => setIsPlaying(false);
-    const onMetadata = () => {
-      if (Number.isFinite(audio.duration)) setDuration(audio.duration);
-    };
-    audio.addEventListener("play", onPlay);
-    audio.addEventListener("pause", onStop);
-    audio.addEventListener("ended", onStop);
-    audio.addEventListener("loadedmetadata", onMetadata);
-    audio.addEventListener("timeupdate", sync);
-    audio.addEventListener("seeked", sync);
-    return () => {
-      audio.removeEventListener("play", onPlay);
-      audio.removeEventListener("pause", onStop);
-      audio.removeEventListener("ended", onStop);
-      audio.removeEventListener("loadedmetadata", onMetadata);
-      audio.removeEventListener("timeupdate", sync);
-      audio.removeEventListener("seeked", sync);
-    };
-  }, [audioRef, sync]);
+  }, [audioRef, isPlaying]);
 
   useEffect(() => {
     if (audioRef.current) audioRef.current.playbackRate = rate;
   }, [audioRef, rate]);
+
+  // Warm the next clip so the gap stays a gap and not a buffering pause.
+  useEffect(() => {
+    const next = index === null ? null : playlist[index + 1];
+    if (preloadRef.current && next) preloadRef.current.src = next.src;
+  }, [index, playlist, preloadRef]);
 
   // Wheel, touch and scroll keys are user intent; the scroll event itself is not,
   // since scrollIntoView would then suppress the next auto-scroll.
@@ -150,59 +213,6 @@ export function useLessonAudio(
     []
   );
 
-  const cueSentence = useCallback(
-    (id: string, { solo, play }: { solo: boolean; play: boolean }) => {
-      const audio = audioRef.current;
-      const entry = entryById.get(id);
-      if (!audio || !entry) return;
-      soloRef.current = solo;
-      targetRef.current = id;
-      audio.currentTime = entry.start;
-      setCurrentTime(entry.start);
-      setActiveId(id);
-      if (play) void audio.play().catch(() => {});
-    },
-    [audioRef, entryById]
-  );
-
-  const playFrom = useCallback(
-    (id: string) => cueSentence(id, { solo: false, play: true }),
-    [cueSentence]
-  );
-
-  const playOnly = useCallback(
-    (id: string) => cueSentence(id, { solo: true, play: true }),
-    [cueSentence]
-  );
-
-  const togglePlay = useCallback(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    if (audio.paused) {
-      soloRef.current = false;
-      void audio.play().catch(() => {});
-    } else {
-      audio.pause();
-    }
-  }, [audioRef]);
-
-  // Stepping keeps the current playing/paused state, so arrows can be used to scan.
-  const step = useCallback(
-    (delta: 1 | -1) => {
-      if (timeline.length === 0) return;
-      const current = indexOfSentence(timeline, activeIdRef.current);
-      const next = current === -1 ? (delta === 1 ? 0 : timeline.length - 1) : current + delta;
-      if (next < 0 || next >= timeline.length) return;
-      cueSentence(timeline[next].id, { solo: false, play: isPlayingRef.current });
-    },
-    [cueSentence, timeline]
-  );
-
-  const toggleRepeat = useCallback(() => {
-    if (!repeatRef.current && activeIdRef.current) targetRef.current = activeIdRef.current;
-    setRepeat((on) => !on);
-  }, []);
-
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.metaKey || event.ctrlKey || event.altKey) return;
@@ -226,15 +236,17 @@ export function useLessonAudio(
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [step, togglePlay]);
 
+  const current = index === null ? null : playlist[index];
+
   return {
     isPlaying,
-    currentTime,
-    duration,
+    position: current ? current.offset + clipTime : 0,
+    duration: totalDuration(playlist),
     rate,
     setRate,
     repeat,
     toggleRepeat,
-    activeId,
+    activeId: current?.id ?? null,
     togglePlay,
     playFrom,
     playOnly,

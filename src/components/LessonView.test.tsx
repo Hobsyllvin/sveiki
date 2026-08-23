@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeAll, beforeEach, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect, beforeAll, beforeEach, afterEach, vi } from "vitest";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import LessonView from "./LessonView";
-import type { AudioTimings, Lesson } from "@/lib/content/schema";
+import type { Clip } from "@/lib/audio/playlist";
+import type { Lesson } from "@/lib/content/schema";
 
 const lesson: Lesson = {
   lessonId: "lv-a1-01",
@@ -24,7 +25,7 @@ const lesson: Lesson = {
         },
         {
           id: "s2",
-          speaker: "SVETLANA",
+          speaker: "ANNA",
           target: "Sveiki!",
           tokens: [{ lv: "Sveiki", gloss: "hello", lemma: "sveiks", pos: "interj" }],
           natural: "Hi!",
@@ -45,14 +46,11 @@ const lesson: Lesson = {
   ],
 };
 
-const timings: AudioTimings = {
-  audio: "lv-a1-01.mp3",
-  sentences: {
-    s1: { start: 0, end: 1.84 },
-    s2: { start: 1.84, end: 2.8 },
-    s3: { start: 2.8, end: 5.5 },
-  },
-};
+const playlist: Clip[] = [
+  { id: "s1", src: "/audio/lv/lv-a1-01-s1.mp3", duration: 1.68, offset: 0 },
+  { id: "s2", src: "/audio/lv/lv-a1-01-s2.mp3", duration: 0.88, offset: 1.68 },
+  { id: "s3", src: "/audio/lv/lv-a1-01-s3.mp3", duration: 2.4, offset: 2.56 },
+];
 
 // jsdom implements none of the media API, so stand in for the parts the player touches.
 let time = 0;
@@ -72,14 +70,8 @@ beforeAll(() => {
     writable: true,
     value: 1,
   });
-  Object.defineProperty(HTMLMediaElement.prototype, "play", {
-    configurable: true,
-    value: play,
-  });
-  Object.defineProperty(HTMLMediaElement.prototype, "pause", {
-    configurable: true,
-    value: pause,
-  });
+  Object.defineProperty(HTMLMediaElement.prototype, "play", { configurable: true, value: play });
+  Object.defineProperty(HTMLMediaElement.prototype, "pause", { configurable: true, value: pause });
   Element.prototype.scrollIntoView = vi.fn();
 });
 
@@ -90,18 +82,18 @@ beforeEach(() => {
 });
 
 function renderWithAudio() {
-  const view = render(
-    <LessonView lesson={lesson} timings={timings} audioSrc="/audio/lv/lv-a1-01.mp3" />
-  );
-  const audio = view.container.querySelector("audio")!;
-  return { ...view, audio };
+  const view = render(<LessonView lesson={lesson} playlist={playlist} />);
+  const elements = view.container.querySelectorAll("audio");
+  return { ...view, audio: elements[0], preload: elements[1] };
 }
 
 const sentenceBody = (target: string) => screen.getByRole("group", { name: target });
+const soloButton = (target: string) =>
+  screen.getByRole("button", { name: `Play just this sentence: ${target}` });
 
-describe("LessonView — lesson without audio", () => {
-  it("renders the lesson with no player and no audio element", () => {
-    const { container } = render(<LessonView lesson={lesson} timings={null} audioSrc={null} />);
+describe("LessonView — lesson with no generated audio", () => {
+  it("renders the text with no player and no errors", () => {
+    const { container } = render(<LessonView lesson={lesson} playlist={[]} />);
     expect(screen.getByText("Labdien")).toBeInTheDocument();
     expect(container.querySelector("audio")).toBeNull();
     expect(screen.queryByRole("button", { name: "Play" })).not.toBeInTheDocument();
@@ -110,20 +102,35 @@ describe("LessonView — lesson without audio", () => {
   });
 });
 
+describe("LessonView — partly generated lesson", () => {
+  it("offers playback only for the sentences that have a clip", () => {
+    render(<LessonView lesson={lesson} playlist={[playlist[0]]} />);
+    expect(soloButton("Labdien!")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /just this sentence: Sveiki!/ })).not.toBeInTheDocument();
+  });
+});
+
 describe("LessonView — player", () => {
-  it("mounts one audio element and the transport controls", () => {
-    const { audio } = renderWithAudio();
-    expect(audio).toHaveAttribute("src", "/audio/lv/lv-a1-01.mp3");
+  it("mounts the transport controls and the total lesson duration", () => {
+    renderWithAudio();
     expect(screen.getByRole("button", { name: "Play" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /repeat sentence/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "1×" })).toHaveAttribute("aria-pressed", "true");
+    // 1.68 + 0.88 + 2.4 = 4.96s
+    expect(screen.getByText(/0:04/)).toBeInTheDocument();
   });
 
   it("keeps the audio element mounted across view-mode switches", () => {
     const { container, audio } = renderWithAudio();
     fireEvent.click(screen.getByRole("button", { name: "Natural" }));
     fireEvent.click(screen.getByRole("button", { name: "Latvian" }));
-    expect(container.querySelector("audio")).toBe(audio);
+    expect(container.querySelectorAll("audio")[0]).toBe(audio);
+  });
+
+  it("starts at the first sentence when nothing has been selected yet", () => {
+    const { audio } = renderWithAudio();
+    fireEvent.click(screen.getByRole("button", { name: "Play" }));
+    expect(audio.src).toContain("lv-a1-01-s1.mp3");
+    expect(play).toHaveBeenCalled();
   });
 
   it("space toggles playback, but not while a control is focused", () => {
@@ -137,60 +144,100 @@ describe("LessonView — player", () => {
   });
 });
 
-describe("LessonView — sync", () => {
-  it("highlights the sentence whose range contains the current time", () => {
-    const { container, audio } = renderWithAudio();
-    time = 2.0;
-    fireEvent(audio, new Event("timeupdate"));
+describe("LessonView — clip selection", () => {
+  it("clicking a sentence loads that clip and plays", () => {
+    const { audio } = renderWithAudio();
+    fireEvent.click(sentenceBody("Sveiki!"));
+    expect(audio.src).toContain("lv-a1-01-s2.mp3");
+    expect(play).toHaveBeenCalled();
+  });
 
+  it("marks the loaded sentence as current", () => {
+    const { container } = renderWithAudio();
+    fireEvent.click(sentenceBody("Sveiki!"));
     const active = container.querySelector('[aria-current="true"]');
-    expect(active).not.toBeNull();
     expect(active!.textContent).toContain("Sveiki");
   });
 
-  it("clicking a sentence seeks to its start and plays onward", () => {
+  it("reports the position as an offset into the whole lesson", () => {
     const { audio } = renderWithAudio();
-    fireEvent.click(sentenceBody("Sveiki!"));
-    expect(audio.currentTime).toBe(1.84);
-    expect(play).toHaveBeenCalled();
-
-    // Playing onward means no boundary: passing the sentence end does not pause.
-    time = 2.9;
+    fireEvent.click(sentenceBody("Paldies."));
+    time = 0.44;
     fireEvent(audio, new Event("timeupdate"));
-    expect(pause).not.toHaveBeenCalled();
-    expect(audio.currentTime).toBe(2.9);
+    // 2.56s of earlier clips plus 0.44s into this one.
+    expect(screen.getByText(/0:03/)).toBeInTheDocument();
   });
 
-  it("the per-sentence button plays that sentence alone and stops at its end", () => {
-    const { audio } = renderWithAudio();
-    fireEvent.click(screen.getByRole("button", { name: /Play just this sentence: Sveiki!/ }));
-    expect(audio.currentTime).toBe(1.84);
-
-    time = 2.85;
-    fireEvent(audio, new Event("timeupdate"));
-    expect(pause).toHaveBeenCalled();
-    expect(audio.currentTime).toBe(1.84);
+  it("preloads the following clip", () => {
+    const { preload } = renderWithAudio();
+    fireEvent.click(sentenceBody("Labdien!"));
+    expect(preload.src).toContain("lv-a1-01-s2.mp3");
   });
 
-  it("repeat loops the selected sentence instead of stopping", () => {
-    const { audio } = renderWithAudio();
-    fireEvent.click(sentenceBody("Sveiki!"));
-    fireEvent.click(screen.getByRole("button", { name: /repeat sentence/i }));
-
-    time = 2.85;
-    fireEvent(audio, new Event("timeupdate"));
-    expect(audio.currentTime).toBe(1.84);
-    expect(pause).not.toHaveBeenCalled();
-  });
-
-  it("arrow keys step to the neighbouring sentence", () => {
+  it("arrow keys step between clips", () => {
     const { audio } = renderWithAudio();
     fireEvent.click(sentenceBody("Sveiki!"));
 
     fireEvent.keyDown(document.body, { key: "ArrowRight" });
-    expect(audio.currentTime).toBe(2.8);
+    expect(audio.src).toContain("lv-a1-01-s3.mp3");
 
     fireEvent.keyDown(document.body, { key: "ArrowLeft" });
-    expect(audio.currentTime).toBe(1.84);
+    expect(audio.src).toContain("lv-a1-01-s2.mp3");
+  });
+});
+
+describe("LessonView — chaining", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("advances to the next clip after the gap", () => {
+    const { audio } = renderWithAudio();
+    fireEvent.click(sentenceBody("Labdien!"));
+    expect(audio.src).toContain("lv-a1-01-s1.mp3");
+
+    fireEvent(audio, new Event("ended"));
+    expect(audio.src).toContain("lv-a1-01-s1.mp3");
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+    expect(audio.src).toContain("lv-a1-01-s2.mp3");
+  });
+
+  it("stops at the end of the lesson", () => {
+    const { audio } = renderWithAudio();
+    fireEvent.click(sentenceBody("Paldies."));
+    fireEvent(audio, new Event("ended"));
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+    expect(audio.src).toContain("lv-a1-01-s3.mp3");
+  });
+
+  it("a solo sentence does not chain onward", () => {
+    const { audio } = renderWithAudio();
+    fireEvent.click(soloButton("Labdien!"));
+    fireEvent(audio, new Event("ended"));
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+    expect(audio.src).toContain("lv-a1-01-s1.mp3");
+  });
+
+  it("repeat replays the same clip instead of advancing", () => {
+    const { audio } = renderWithAudio();
+    fireEvent.click(sentenceBody("Labdien!"));
+    fireEvent.click(screen.getByRole("button", { name: /repeat sentence/i }));
+    play.mockClear();
+
+    fireEvent(audio, new Event("ended"));
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+    expect(audio.src).toContain("lv-a1-01-s1.mp3");
+    expect(play).toHaveBeenCalled();
   });
 });

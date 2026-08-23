@@ -1,6 +1,6 @@
 {
-  "model_id": "eleven_v3",
-  "language_code": "lv",
+  "model": "eleven_v3",
+  "outputFormat": "mp3_44100_128",
   "speakers": {
     "Anna": "DODLEQrClDo8wCz460ld",
     "Marta": "BIvP0GN1cAtSRTxNHnWS",

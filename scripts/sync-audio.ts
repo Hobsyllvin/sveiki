@@ -1,6 +1,5 @@
-// Mirrors generated lesson audio into public/audio/<lang>/ so Next serves it as a
-// static asset (byte-range requests, which Safari needs for seeking, come free).
-// content/<lang>/audio-elevenlabs/ stays the only committed copy; public/audio is
+// Mirrors the per-sentence clips into public/audio/<lang>/ so Next serves them as
+// static assets. content/<lang>/audio/ stays the only committed copy; public/audio is
 // git-ignored and rebuilt by predev/prebuild.
 import fs from "fs";
 import path from "path";
@@ -11,6 +10,7 @@ const PUBLIC_AUDIO = path.join(process.cwd(), "public", "audio");
 
 let copied = 0;
 let skipped = 0;
+let pruned = 0;
 
 for (const lang of fs.readdirSync(CONTENT_ROOT)) {
   if (lang.startsWith("_") || lang.startsWith(".")) continue;
@@ -20,8 +20,17 @@ for (const lang of fs.readdirSync(CONTENT_ROOT)) {
   const targetDir = path.join(PUBLIC_AUDIO, lang);
   fs.mkdirSync(targetDir, { recursive: true });
 
-  for (const file of fs.readdirSync(sourceDir)) {
-    if (!file.endsWith(".mp3")) continue;
+  const sourceFiles = fs.readdirSync(sourceDir).filter((f) => f.endsWith(".mp3"));
+
+  // A clip that is gone from content must not keep being served from a stale copy.
+  for (const file of fs.readdirSync(targetDir)) {
+    if (file.endsWith(".mp3") && !sourceFiles.includes(file)) {
+      fs.rmSync(path.join(targetDir, file));
+      pruned++;
+    }
+  }
+
+  for (const file of sourceFiles) {
     const source = path.join(sourceDir, file);
     const target = path.join(targetDir, file);
     if (
@@ -36,4 +45,6 @@ for (const lang of fs.readdirSync(CONTENT_ROOT)) {
   }
 }
 
-console.log(`audio sync: ${copied} copied, ${skipped} already current`);
+console.log(
+  `audio sync: ${copied} copied, ${skipped} already current, ${pruned} stale removed`
+);

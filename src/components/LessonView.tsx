@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
-import type { AudioTimings, Lesson } from "@/lib/content/schema";
-import { buildTimeline } from "@/lib/audio/timeline";
+import type { Lesson } from "@/lib/content/schema";
+import type { Clip } from "@/lib/audio/playlist";
 import { useLessonAudio } from "@/lib/audio/useLessonAudio";
 import InterlinearSentence, { type ViewMode } from "./InterlinearSentence";
 import LessonModeToggle from "./LessonModeToggle";
@@ -11,18 +11,18 @@ import AudioPlayer from "./AudioPlayer";
 
 interface Props {
   lesson: Lesson;
-  timings?: AudioTimings | null;
-  audioSrc?: string | null;
+  playlist?: Clip[];
 }
 
-export default function LessonView({ lesson, timings = null, audioSrc = null }: Props) {
+export default function LessonView({ lesson, playlist = [] }: Props) {
   const [mode, setMode] = useState<ViewMode>("decode");
   const [openNoteId, setOpenNoteId] = useState<string | null>(null);
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const timeline = useMemo(() => buildTimeline(lesson, timings), [lesson, timings]);
-  const audio = useLessonAudio(audioRef, timeline);
-  const hasAudio = audioSrc !== null && timeline.length > 0;
+  const preloadRef = useRef<HTMLAudioElement | null>(null);
+
+  const audio = useLessonAudio(audioRef, preloadRef, playlist);
+  const hasAudio = playlist.length > 0;
+  const playable = new Set(playlist.map((clip) => clip.id));
 
   const handleToggleNote = (id: string) => {
     setOpenNoteId((prev) => (prev === id ? null : id));
@@ -43,20 +43,23 @@ export default function LessonView({ lesson, timings = null, audioSrc = null }: 
         {lesson.sections.map((section) => (
           <section key={section.title} className={`lesson-section section-${section.format}`}>
             <div className={`${section.format}-block`}>
-              {section.sentences.map((sentence) => (
-                <InterlinearSentence
-                  key={sentence.id}
-                  sentence={sentence}
-                  mode={mode}
-                  showSpeaker={section.format === "dialogue"}
-                  openNoteId={openNoteId}
-                  onToggleNote={handleToggleNote}
-                  isActive={hasAudio && audio.activeId === sentence.id}
-                  onPlayFrom={hasAudio ? () => audio.playFrom(sentence.id) : undefined}
-                  onPlayOnly={hasAudio ? () => audio.playOnly(sentence.id) : undefined}
-                  shouldAutoScroll={audio.shouldAutoScroll}
-                />
-              ))}
+              {section.sentences.map((sentence) => {
+                const canPlay = playable.has(sentence.id);
+                return (
+                  <InterlinearSentence
+                    key={sentence.id}
+                    sentence={sentence}
+                    mode={mode}
+                    showSpeaker={section.format === "dialogue"}
+                    openNoteId={openNoteId}
+                    onToggleNote={handleToggleNote}
+                    isActive={audio.activeId === sentence.id}
+                    onPlayFrom={canPlay ? () => audio.playFrom(sentence.id) : undefined}
+                    onPlayOnly={canPlay ? () => audio.playOnly(sentence.id) : undefined}
+                    shouldAutoScroll={audio.shouldAutoScroll}
+                  />
+                );
+              })}
             </div>
           </section>
         ))}
@@ -64,11 +67,13 @@ export default function LessonView({ lesson, timings = null, audioSrc = null }: 
 
       {hasAudio && (
         <>
-          {/* Mounted outside the mode-dependent tree so playback survives view switches. */}
-          <audio ref={audioRef} src={audioSrc} preload="metadata" />
+          {/* Outside the mode-dependent tree so playback survives view switches. The
+              second element only warms the next clip; it is never played. */}
+          <audio ref={audioRef} preload="auto" />
+          <audio ref={preloadRef} preload="auto" muted aria-hidden="true" />
           <AudioPlayer
             isPlaying={audio.isPlaying}
-            currentTime={audio.currentTime}
+            currentTime={audio.position}
             duration={audio.duration}
             rate={audio.rate}
             onRateChange={audio.setRate}

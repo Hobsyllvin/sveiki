@@ -1,24 +1,28 @@
 import { describe, it, expect } from "vitest";
-import { loadTimings, audioSrc } from "./load";
+import { loadAudioManifest, audioSrc, langOf } from "./load";
 
-describe("loadTimings", () => {
-  it("parses a lesson's timings file", () => {
-    const timings = loadTimings("lv-a1-01");
-    expect(timings).not.toBeNull();
-    expect(timings!.audio).toBe("lv-a1-01.mp3");
-    expect(timings!.sentences.s1.start).toBe(0);
-    expect(timings!.sentences.s1.end).toBeGreaterThan(0);
+describe("loadAudioManifest", () => {
+  it("parses the generated clip manifest", () => {
+    const manifest = loadAudioManifest("lv");
+    const entry = manifest["lv-a1-01-s1.mp3"];
+    expect(entry).toBeDefined();
+    expect(entry.durationSeconds).toBeGreaterThan(0);
+    expect(entry.hash).toHaveLength(64);
   });
 
-  it("returns null for a lesson with no audio", () => {
-    expect(loadTimings("lv-a1-99")).toBeNull();
+  it("returns an empty manifest for a language with no audio", () => {
+    expect(loadAudioManifest("xx")).toEqual({});
   });
 });
 
 describe("audioSrc", () => {
-  it("points at the synced public path for the lesson's language", () => {
-    expect(audioSrc("lv-a1-01", { audio: "lv-a1-01.mp3", sentences: {} })).toBe(
-      "/audio/lv/lv-a1-01.mp3"
-    );
+  it("points at the synced public path", () => {
+    expect(audioSrc("lv", "lv-a1-01-s1.mp3")).toBe("/audio/lv/lv-a1-01-s1.mp3");
+  });
+});
+
+describe("langOf", () => {
+  it("reads the language from a lesson id", () => {
+    expect(langOf("lv-a1-01")).toBe("lv");
   });
 });
