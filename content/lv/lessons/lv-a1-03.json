@@ -2,7 +2,7 @@
   "lessonId": "lv-a1-03",
   "title": "Kafejnīcā (At the café)",
   "cefr": "A1",
-  "newLemmas": ["satikties", "redzēt", "šis", "jauks", "nākt", "sēdēt", "pie", "logs", "galds", "dzert", "kafija", "tēja", "garšot", "skumjs", "dzīve", "haha", "pūst", "pīlīte", "vienmēr", "vajadzēt", "kūka", "garšīgs", "ieteikt", "siers", "skanēt", "lieliski", "viesmīlis", "jūs", "vēlēties", "lūdzu", "zaļš", "ar", "govs", "piens", "auza", "skriet", "katrs", "diena", "daudz", "vasara", "braukt", "jūra", "maratons", "mežs", "spēlēt", "pludmale", "volejbols", "ā", "Jūrmala", "laukums", "tieši", "tā", "ja", "labprāt", "instruments", "ģitāra", "dziedāt", "gatavot", "zupa", "cept", "slepens", "recepte", "burkāns", "reiz", "nogaršot", "smaidīt", "varbūt", "atnest", "o", "lielisks", "teikt", "fantastisks", "vieta", "izvēle", "priecāties", "ka", "labs", "gribēt", "rīts"],
+  "newLemmas": ["satikties", "redzēt", "šis", "jauks", "nākt", "sēdēt", "pie", "logs", "galds", "dzert", "kafija", "tēja", "garšot", "skumjs", "dzīve", "haha", "pūst", "pīlīte", "vienmēr", "vajadzēt", "kūka", "garšīgs", "ieteikt", "siers", "skanēt", "lieliski", "viesmīlis", "jūs", "vēlēties", "lūdzu", "zaļš", "ar", "govs", "piens", "auza", "skriet", "katrs", "diena", "daudz", "vasara", "braukt", "jūra", "maratons", "mežs", "spēlēt", "pludmale", "volejbols", "ā", "Jūrmala", "laukums", "tieši", "tā", "ja", "labprāt", "instruments", "ģitāra", "dziedāt", "gatavot", "zupa", "cept", "slepens", "recepte", "burkāns", "reiz", "nogaršot", "varbūt", "atnest", "o", "lielisks", "teikt", "fantastisks", "vieta", "izvēle", "priecāties", "ka", "labs", "gribēt", "rīts"],
   "sections": [
     {
       "format": "narration",
@@ -685,29 +685,11 @@
       ]
     },
     {
-      "format": "narration",
-      "title": "Anna smaida",
-      "sentences": [
-        {
-          "id": "s39",
-          "speaker": "Narrator",
-          "target": "Anna smaida.",
-          "tokens": [
-            { "lv": "Anna", "gloss": "Anna", "lemma": "Anna", "pos": "propn", "note": "nom." },
-            { "lv": "smaida", "gloss": "smiles", "lemma": "smaidīt", "pos": "verb", "note": "3 pres.", "punct": "." }
-          ],
-          "natural": "Anna smiles.",
-          "audio": "lv-a1-03-s39.mp3",
-          "audioApproved": false
-        }
-      ]
-    },
-    {
       "format": "dialogue",
       "title": "Varbūt kādu dienu",
       "sentences": [
         {
-          "id": "s40",
+          "id": "s39",
           "speaker": "Anna",
           "target": "Varbūt kādu dienu.",
           "tokens": [
@@ -716,7 +698,7 @@
             { "lv": "dienu", "gloss": "day", "lemma": "diena", "pos": "noun", "note": "acc.", "punct": "." }
           ],
           "natural": "Maybe one day.",
-          "audio": "lv-a1-03-s40.mp3",
+          "audio": "lv-a1-03-s39.mp3",
           "audioApproved": false
         }
       ]
@@ -726,7 +708,7 @@
       "title": "Viesmīlis atnes",
       "sentences": [
         {
-          "id": "s41",
+          "id": "s40",
           "speaker": "Narrator",
           "target": "Viesmīlis nāk un atnes tēju, kafiju un kūkas.",
           "tokens": [
@@ -740,7 +722,7 @@
             { "lv": "kūkas", "gloss": "cakes", "lemma": "kūka", "pos": "noun", "note": "acc. pl.", "punct": "." }
           ],
           "natural": "The waiter comes and brings the tea, coffee and cakes.",
-          "audio": "lv-a1-03-s41.mp3",
+          "audio": "lv-a1-03-s40.mp3",
           "audioApproved": false
         }
       ]
@@ -750,7 +732,7 @@
       "title": "Nobeigums",
       "sentences": [
         {
-          "id": "s42",
+          "id": "s41",
           "speaker": "Anna",
           "target": "O, siera kūka ir lieliska! Man ļoti garšo.",
           "tokens": [
@@ -764,11 +746,11 @@
             { "lv": "garšo", "gloss": "tastes", "lemma": "garšot", "pos": "verb", "note": "3 pres.; man garšo = to-me tastes", "punct": "." }
           ],
           "natural": "Oh, the cheesecake is wonderful! I like it a lot.",
-          "audio": "lv-a1-03-s42.mp3",
+          "audio": "lv-a1-03-s41.mp3",
           "audioApproved": false
         },
         {
-          "id": "s43",
+          "id": "s42",
           "speaker": "Pēteris",
           "target": "Redzi? Es tev saku — tās ir fantastiskas.",
           "tokens": [
@@ -781,11 +763,11 @@
             { "lv": "fantastiskas", "gloss": "fantastic", "lemma": "fantastisks", "pos": "adj", "note": "fem. nom. pl.", "punct": "." }
           ],
           "natural": "See? I'm telling you — they're fantastic.",
-          "audio": "lv-a1-03-s43.mp3",
+          "audio": "lv-a1-03-s42.mp3",
           "audioApproved": false
         },
         {
-          "id": "s44",
+          "id": "s43",
           "speaker": "Anna",
           "target": "Jā, šī ir ļoti jauka vieta. Laba izvēle!",
           "tokens": [
@@ -799,11 +781,11 @@
             { "lv": "izvēle", "gloss": "choice", "lemma": "izvēle", "pos": "noun", "note": "nom.", "punct": "!" }
           ],
           "natural": "Yes, this is a very nice place. Good choice!",
-          "audio": "lv-a1-03-s44.mp3",
+          "audio": "lv-a1-03-s43.mp3",
           "audioApproved": false
         },
         {
-          "id": "s45",
+          "id": "s44",
           "speaker": "Pēteris",
           "target": "Es priecājos, ka tev patīk.",
           "tokens": [
@@ -814,7 +796,7 @@
             { "lv": "patīk", "gloss": "pleases", "lemma": "patikt", "pos": "verb", "note": "3 pres.; tev patīk = to-you pleases", "punct": "." }
           ],
           "natural": "I'm glad you like it.",
-          "audio": "lv-a1-03-s45.mp3",
+          "audio": "lv-a1-03-s44.mp3",
           "audioApproved": false
         }
       ]
