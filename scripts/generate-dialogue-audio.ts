@@ -193,11 +193,18 @@ async function generate(
   return parsed.data;
 }
 
+function flag(argv: string[], name: string): string | null {
+  const i = argv.indexOf(name);
+  return i !== -1 ? (argv[i + 1] ?? null) : null;
+}
+
 async function main() {
   const argv = process.argv.slice(2);
-  const lessonFlagIdx = argv.indexOf("--lesson");
-  const lessonId = lessonFlagIdx !== -1 ? argv[lessonFlagIdx + 1] : null;
-  if (!lessonId) fail("usage: npm run audio -- --lesson <lessonId>");
+  const lessonId = flag(argv, "--lesson");
+  const scriptArg = flag(argv, "--script");
+  if (!lessonId && !scriptArg) {
+    fail("usage: npm run audio -- --lesson <lessonId> | --script <path to .md>");
+  }
 
   if (fs.existsSync(".env.local")) process.loadEnvFile(".env.local");
   const apiKey = process.env.ELEVENLABS_API_KEY;
@@ -205,27 +212,37 @@ async function main() {
 
   const langDir = path.join(CONTENT_ROOT, "lv");
   const audioDir = path.join(langDir, "audio-elevenlabs");
-  const lessonPath = path.join(langDir, "lessons", `${lessonId}.json`);
-  const scriptPath = path.join(langDir, "audio-scripts", `${lessonId}.md`);
-
-  const lesson = loadJson(lessonPath, LessonSchema, `lesson ${lessonId}`);
   const voices = loadJson(path.join(langDir, "voices.json"), DialogueVoicesSchema, "voices.json");
+
+  // --script is for scratch scripts that are not lesson content: no lesson to
+  // agree with, so no glossing, translation or byte-identity check applies.
+  const name = lessonId ?? path.basename(scriptArg!, ".md");
+  const scriptPath = lessonId
+    ? path.join(langDir, "audio-scripts", `${lessonId}.md`)
+    : scriptArg!;
   if (!fs.existsSync(scriptPath)) fail(`audio script not found at ${scriptPath}`);
   const script = parseScript(fs.readFileSync(scriptPath, "utf-8"));
 
-  const problems = checkScriptAgainstLesson(script, lessonSentences(lesson));
-  if (problems.length > 0) {
-    fail(`audio script does not match ${lessonId}:\n  ${problems.join("\n  ")}`);
+  if (lessonId) {
+    const lesson = loadJson(
+      path.join(langDir, "lessons", `${lessonId}.json`),
+      LessonSchema,
+      `lesson ${lessonId}`
+    );
+    const problems = checkScriptAgainstLesson(script, lessonSentences(lesson));
+    if (problems.length > 0) {
+      fail(`audio script does not match ${lessonId}:\n  ${problems.join("\n  ")}`);
+    }
   }
 
   const inputs = resolveVoices(script, voices);
   console.log(
-    bold(`\n${lessonId} — ${inputs.length} inputs, model ${voices.model_id}, format ${OUTPUT_FORMAT}`)
+    bold(`\n${name} — ${inputs.length} inputs, model ${voices.model_id}, format ${OUTPUT_FORMAT}`)
   );
 
   const result = await generate(inputs, voices, apiKey);
 
-  const audioName = `${lessonId}.mp3`;
+  const audioName = `${name}.mp3`;
   const mp3 = Buffer.from(result.audio_base64, "base64");
   if (mp3.length < MIN_MP3_BYTES) {
     fail(`decoded audio is only ${mp3.length} bytes — too small to be a full scene`);
@@ -238,20 +255,21 @@ async function main() {
   fs.mkdirSync(audioDir, { recursive: true });
   fs.writeFileSync(path.join(audioDir, audioName), mp3);
   fs.writeFileSync(
-    path.join(audioDir, `${lessonId}.timings.json`),
+    path.join(audioDir, `${name}.timings.json`),
     `${JSON.stringify(timings, null, 2)}\n`
   );
   fs.writeFileSync(
-    path.join(audioDir, `${lessonId}.alignment.json`),
+    path.join(audioDir, `${name}.alignment.json`),
     `${JSON.stringify(result.alignment, null, 2)}\n`
   );
 
   const duration = Math.max(...Object.values(timings.sentences).map((t) => t.end));
   console.log(green(`  wrote ${audioName} — ${(mp3.length / 1024 / 1024).toFixed(2)} MB`));
-  console.log(green(`  wrote ${lessonId}.timings.json — ${Object.keys(timings.sentences).length} sentences`));
-  console.log(green(`  wrote ${lessonId}.alignment.json — ${result.alignment.characters.length} characters`));
+  console.log(green(`  wrote ${name}.timings.json — ${Object.keys(timings.sentences).length} sentences`));
+  console.log(green(`  wrote ${name}.alignment.json — ${result.alignment.characters.length} characters`));
   console.log(bold(`\n  total duration: ${duration.toFixed(2)}s`));
-  console.log("  audioApproved stays false — Christian reviews before approval.\n");
+  if (lessonId) console.log("  audioApproved stays false — Christian reviews before approval.");
+  console.log("");
 }
 
 const isMain =

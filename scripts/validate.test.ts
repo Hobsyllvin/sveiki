@@ -16,11 +16,9 @@ import {
 } from "./validate";
 import os from "os";
 
-// lv-a1-test is the pipeline fixture: real content copied from lessons 01-03,
-// registered last in course.json so it introduces nothing.
 const FIXTURE_PATH = path.join(
   process.cwd(),
-  "content/lv/lessons/lv-a1-test.json"
+  "content/lv/lessons/lv-a1-01.json"
 );
 const DICTIONARY_PATH = path.join(process.cwd(), "content/lv/dictionary.json");
 const COURSE_PATH = path.join(process.cwd(), "content/lv/course.json");
