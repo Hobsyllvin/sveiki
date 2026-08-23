@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run sync-audio",
     "dev": "next dev",
+    "prebuild": "npm run sync-audio",
     "build": "next build",
+    "sync-audio": "tsx scripts/sync-audio.ts",
     "start": "next start",
     "lint": "eslint",
     "validate": "tsx scripts/validate.ts",

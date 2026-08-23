@@ -128,6 +128,23 @@ export const AudioManifestSchema = z.record(z.string(), AudioManifestEntrySchema
 
 export type AudioManifest = z.infer<typeof AudioManifestSchema>;
 
+// Sentence time ranges within a lesson's whole-scene MP3, derived from the TTS
+// alignment at synthesis time. Player-only data: never mirrored into lesson JSON.
+// Ranges are contiguous — one sentence's end is the next one's start.
+export const SentenceTimingSchema = z.object({
+  start: z.number().min(0),
+  end: z.number().min(0),
+});
+
+export type SentenceTiming = z.infer<typeof SentenceTimingSchema>;
+
+export const AudioTimingsSchema = z.object({
+  audio: z.string().regex(/\.mp3$/, "audio filename must end with .mp3"),
+  sentences: z.record(z.string(), SentenceTimingSchema),
+});
+
+export type AudioTimings = z.infer<typeof AudioTimingsSchema>;
+
 export const CourseLessonSchema = z.object({
   lessonId: z.string().min(1),
   theme: z.string().min(1),
