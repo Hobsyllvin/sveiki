@@ -5,8 +5,8 @@ import type { Lesson, Course, AudioTimings, TimingEdits } from "./schema";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 
-// Whole-scene audio and its timings live here; scripts/sync-audio.ts copies the
-// mp3s to public/audio/<lang>/ so Next serves them as static assets.
+// Each whole-scene take and its timings live in a lesson subfolder here;
+// scripts/sync-audio.ts flattens MP3s into public/audio/<lang>/ for serving.
 export const AUDIO_DIR_NAME = "audio-elevenlabs";
 
 function langFromLessonId(lessonId: string): string {
@@ -23,12 +23,24 @@ export function loadLesson(lessonId: string): Lesson | null {
 
 export function timingsPathFor(lessonId: string): string {
   const lang = langFromLessonId(lessonId);
-  return path.join(CONTENT_ROOT, lang, AUDIO_DIR_NAME, `${lessonId}.timings.json`);
+  return path.join(
+    CONTENT_ROOT,
+    lang,
+    AUDIO_DIR_NAME,
+    lessonId,
+    `${lessonId}.timings.json`
+  );
 }
 
 export function timingEditsPathFor(lessonId: string): string {
   const lang = langFromLessonId(lessonId);
-  return path.join(CONTENT_ROOT, lang, AUDIO_DIR_NAME, `${lessonId}.timings.edits.json`);
+  return path.join(
+    CONTENT_ROOT,
+    lang,
+    AUDIO_DIR_NAME,
+    lessonId,
+    `${lessonId}.timings.edits.json`
+  );
 }
 
 /** A corrected boundary is a human judgement about the audio, so it wins. */

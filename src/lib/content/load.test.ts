@@ -52,7 +52,7 @@ describe("mergeTimingEdits", () => {
 describe("timingEditsPathFor", () => {
   it("sits beside the generated timings file", () => {
     expect(timingEditsPathFor("lv-a1-02")).toMatch(
-      /content\/lv\/audio-elevenlabs\/lv-a1-02\.timings\.edits\.json$/
+      /content\/lv\/audio-elevenlabs\/lv-a1-02\/lv-a1-02\.timings\.edits\.json$/
     );
   });
 });

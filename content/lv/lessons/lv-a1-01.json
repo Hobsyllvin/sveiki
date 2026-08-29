@@ -2,7 +2,7 @@
   "lessonId": "lv-a1-01",
   "title": "Mani sauc… (Introductions and numbers)",
   "cefr": "A1",
-  "newLemmas": ["labdien","saukt","Pēteris","kā","sveiki","Anna","prieks","iepazīties","ļoti","labi","paldies","un","arī","vai","būt","Latvija","nē","Lietuva","bet","šeit","cik","ilgi","desmit","mēnesis","vēl","mācīties","latviski","runāt","saprast","tikai","mazliet","skolotājs","strādāt","pilsēta","jauki","studente","kāds","tavs","telefons","numurs","mans","divi","pieci","viens","četri","astoņi","nulle","trīs","deviņi","seši","septiņi","redzēšanās","es","tu","dzīvot","iet","Rīga","uz","no"],
+  "newLemmas": ["labdien","saukt","Jānis","kā","sveiki","Emma","prieks","iepazīties","ļoti","labi","paldies","un","arī","vai","būt","Latvija","nē","Lietuva","bet","šeit","cik","ilgi","desmit","mēnesis","vēl","mācīties","latviski","runāt","saprast","tikai","mazliet","skolotājs","strādāt","pilsēta","jauki","studente","kāds","tavs","telefons","numurs","mans","divi","pieci","viens","četri","astoņi","nulle","trīs","deviņi","seši","septiņi","redzēšanās","es","tu","dzīvot","iet","Rīga","uz","no"],
   "sections": [
     {
       "format": "dialogue",
@@ -10,21 +10,21 @@
       "sentences": [
         {
           "id": "s1",
-          "speaker": "Pēteris",
-          "target": "Labdien! Mani sauc Pēteris.",
+          "speaker": "Jānis",
+          "target": "Labdien! Mani sauc Jānis.",
           "tokens": [
             { "lv": "Labdien", "gloss": "good-day", "lemma": "labdien", "pos": "interj", "punct": "!" },
             { "lv": "Mani", "gloss": "me", "lemma": "es", "pos": "pron", "note": "acc." },
             { "lv": "sauc", "gloss": "call", "lemma": "saukt", "pos": "verb", "note": "3 pres.; mani sauc = I am called" },
-            { "lv": "Pēteris", "gloss": "Pēteris", "lemma": "Pēteris", "pos": "propn", "note": "nom.", "punct": "." }
+            { "lv": "Jānis", "gloss": "Jānis", "lemma": "Jānis", "pos": "propn", "note": "nom.", "punct": "." }
           ],
-          "natural": "Hello! My name is Pēteris.",
+          "natural": "Hello! My name is Jānis.",
           "audio": "lv-a1-01-s1.mp3",
           "audioApproved": false
         },
         {
           "id": "s2",
-          "speaker": "Pēteris",
+          "speaker": "Jānis",
           "target": "Kā tevi sauc?",
           "tokens": [
             { "lv": "Kā", "gloss": "how", "lemma": "kā", "pos": "adv" },
@@ -37,21 +37,21 @@
         },
         {
           "id": "s3",
-          "speaker": "Anna",
-          "target": "Sveiki! Mani sauc Anna.",
+          "speaker": "Emma",
+          "target": "Sveiki! Mani sauc Emma.",
           "tokens": [
             { "lv": "Sveiki", "gloss": "hello", "lemma": "sveiki", "pos": "interj", "punct": "!" },
             { "lv": "Mani", "gloss": "me", "lemma": "es", "pos": "pron", "note": "acc." },
             { "lv": "sauc", "gloss": "call", "lemma": "saukt", "pos": "verb", "note": "3 pres." },
-            { "lv": "Anna", "gloss": "Anna", "lemma": "Anna", "pos": "propn", "note": "nom.", "punct": "." }
+            { "lv": "Emma", "gloss": "Emma", "lemma": "Emma", "pos": "propn", "note": "nom.", "punct": "." }
           ],
-          "natural": "Hello! My name is Anna.",
+          "natural": "Hello! My name is Emma.",
           "audio": "lv-a1-01-s3.mp3",
           "audioApproved": false
         },
         {
           "id": "s4",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Prieks iepazīties!",
           "tokens": [
             { "lv": "Prieks", "gloss": "joy", "lemma": "prieks", "pos": "noun", "note": "nom." },
@@ -63,7 +63,7 @@
         },
         {
           "id": "s5",
-          "speaker": "Pēteris",
+          "speaker": "Jānis",
           "target": "Prieks! Kā tev iet?",
           "tokens": [
             { "lv": "Prieks", "gloss": "joy", "lemma": "prieks", "pos": "noun", "note": "nom.", "punct": "!" },
@@ -77,7 +77,7 @@
         },
         {
           "id": "s6",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Ļoti labi, paldies. Un tev?",
           "tokens": [
             { "lv": "Ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
@@ -92,7 +92,7 @@
         },
         {
           "id": "s7",
-          "speaker": "Pēteris",
+          "speaker": "Jānis",
           "target": "Arī labi, paldies.",
           "tokens": [
             { "lv": "Arī", "gloss": "also", "lemma": "arī", "pos": "adv" },
@@ -111,7 +111,7 @@
       "sentences": [
         {
           "id": "s8",
-          "speaker": "Pēteris",
+          "speaker": "Jānis",
           "target": "Vai tu esi no Latvijas?",
           "tokens": [
             { "lv": "Vai", "gloss": "whether", "lemma": "vai", "pos": "part", "note": "yes/no question particle" },
@@ -126,7 +126,7 @@
         },
         {
           "id": "s9",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Nē, es esmu no Lietuvas.",
           "tokens": [
             { "lv": "Nē", "gloss": "no", "lemma": "nē", "pos": "interj", "punct": "," },
@@ -141,7 +141,7 @@
         },
         {
           "id": "s10",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Bet es dzīvoju šeit, Rīgā.",
           "tokens": [
             { "lv": "Bet", "gloss": "but", "lemma": "bet", "pos": "conj" },
@@ -156,7 +156,7 @@
         },
         {
           "id": "s11",
-          "speaker": "Pēteris",
+          "speaker": "Jānis",
           "target": "Cik ilgi tu dzīvo Rīgā?",
           "tokens": [
             { "lv": "Cik", "gloss": "how", "lemma": "cik", "pos": "adv", "note": "cik ilgi = how long" },
@@ -171,7 +171,7 @@
         },
         {
           "id": "s12",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Es dzīvoju šeit desmit mēnešus.",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -192,7 +192,7 @@
       "sentences": [
         {
           "id": "s13",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Es vēl mācos latviski.",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -206,7 +206,7 @@
         },
         {
           "id": "s14",
-          "speaker": "Pēteris",
+          "speaker": "Jānis",
           "target": "Tu labi runā latviski!",
           "tokens": [
             { "lv": "Tu", "gloss": "you", "lemma": "tu", "pos": "pron" },
@@ -220,7 +220,7 @@
         },
         {
           "id": "s15",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Paldies! Bet es saprotu tikai mazliet.",
           "tokens": [
             { "lv": "Paldies", "gloss": "thanks", "lemma": "paldies", "pos": "interj", "punct": "!" },
@@ -236,7 +236,7 @@
         },
         {
           "id": "s16",
-          "speaker": "Pēteris",
+          "speaker": "Jānis",
           "target": "Es esmu skolotājs. Es strādāju šeit, pilsētā.",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -253,7 +253,7 @@
         },
         {
           "id": "s17",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Ļoti jauki! Es esmu studente.",
           "tokens": [
             { "lv": "Ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
@@ -274,7 +274,7 @@
       "sentences": [
         {
           "id": "s18",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Kāds ir tavs telefona numurs?",
           "tokens": [
             { "lv": "Kāds", "gloss": "what-kind", "lemma": "kāds", "pos": "pron", "note": "masc. nom." },
@@ -289,7 +289,7 @@
         },
         {
           "id": "s19",
-          "speaker": "Pēteris",
+          "speaker": "Jānis",
           "target": "Mans numurs ir divi pieci, viens četri astoņi, nulle trīs deviņi.",
           "tokens": [
             { "lv": "Mans", "gloss": "my", "lemma": "mans", "pos": "pron", "note": "masc. nom." },
@@ -310,7 +310,7 @@
         },
         {
           "id": "s20",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Un mans numurs ir divi seši, septiņi viens pieci, nulle trīs četri. Uz redzēšanos!",
           "tokens": [
             { "lv": "Un", "gloss": "and", "lemma": "un", "pos": "conj" },

@@ -8,19 +8,25 @@
       "lessonId": "lv-a1-01",
       "theme": "introductions, origin, work, languages, phone numbers 0–10",
       "cefr": "A1",
-      "newLemmas": ["labdien", "sveiki", "paldies", "nē", "prieks", "iepazīties", "redzēšanās", "saukt", "būt", "kā", "kāds", "cik", "vai", "Pēteris", "Anna", "Latvija", "Lietuva", "mans", "tavs", "pilsēta", "šeit", "ilgi", "mēnesis", "strādāt", "mācīties", "runāt", "saprast", "skolotājs", "studente", "latviski", "telefons", "numurs", "jauki", "labi", "arī", "bet", "un", "ļoti", "mazliet", "vēl", "tikai", "nulle", "viens", "divi", "trīs", "četri", "pieci", "seši", "septiņi", "astoņi", "deviņi", "desmit", "es", "tu", "dzīvot", "iet", "Rīga", "uz", "no"]
+      "newLemmas": ["labdien", "sveiki", "paldies", "nē", "prieks", "iepazīties", "redzēšanās", "saukt", "būt", "kā", "kāds", "cik", "vai", "Jānis", "Emma", "Latvija", "Lietuva", "mans", "tavs", "pilsēta", "šeit", "ilgi", "mēnesis", "strādāt", "mācīties", "runāt", "saprast", "skolotājs", "studente", "latviski", "telefons", "numurs", "jauki", "labi", "arī", "bet", "un", "ļoti", "mazliet", "vēl", "tikai", "nulle", "viens", "divi", "trīs", "četri", "pieci", "seši", "septiņi", "astoņi", "deviņi", "desmit", "es", "tu", "dzīvot", "iet", "Rīga", "uz", "no"]
     },
     {
       "lessonId": "lv-a1-02",
       "theme": "origins, countries, languages, work, family, free time",
       "cefr": "A1",
-      "newLemmas": ["sveiks", "jā", "Marta", "kurš", "kas", "valsts", "Igaunija", "Vācija", "Vecrīga", "Tallina", "Viļņa", "centrs", "tagad", "tur", "jau", "bieži", "valoda", "igauniski", "angliski", "lietuviski", "poliski", "darīt", "veikals", "kafejnīca", "skola", "tas", "interesants", "skaists", "brīvs", "laiks", "viņš", "viņi", "brālis", "māsa", "ģimene", "ārsts", "mīlēt", "patikt", "lasīt", "peldēt", "mūzika", "sports", "ceļot", "kur", "darbs"]
+      "newLemmas": ["sveiks", "jā", "Marta", "kurš", "kas", "valsts", "Igaunija", "Vācija", "Vecrīga", "Tallina", "Viļņa", "centrs", "tagad", "jau", "bieži", "valoda", "igauniski", "angliski", "lietuviski", "poliski", "darīt", "veikals", "kafejnīca", "skola", "tas", "interesants", "skaists", "brīvs", "laiks", "viņš", "viņi", "brālis", "māsa", "ģimene", "ārsts", "mīlēt", "patikt", "lasīt", "peldēt", "mūzika", "sports", "ceļot", "kur", "darbs"]
     },
     {
       "lessonId": "lv-a1-03",
       "theme": "café, ordering drinks and cakes, free time, sport, music, cooking",
       "cefr": "A1",
-      "newLemmas": ["satikties", "redzēt", "šis", "jauks", "nākt", "sēdēt", "pie", "logs", "galds", "dzert", "kafija", "tēja", "garšot", "skumjs", "dzīve", "haha", "pūst", "pīlīte", "vienmēr", "vajadzēt", "kūka", "garšīgs", "ieteikt", "siers", "skanēt", "lieliski", "viesmīlis", "jūs", "vēlēties", "lūdzu", "zaļš", "ar", "govs", "piens", "auza", "skriet", "katrs", "diena", "daudz", "vasara", "braukt", "jūra", "maratons", "mežs", "spēlēt", "pludmale", "volejbols", "ā", "Jūrmala", "laukums", "tieši", "tā", "ja", "labprāt", "instruments", "ģitāra", "dziedāt", "gatavot", "zupa", "cept", "slepens", "recepte", "burkāns", "reiz", "nogaršot", "varbūt", "atnest", "o", "lielisks", "teikt", "fantastisks", "vieta", "izvēle", "priecāties", "ka", "labs", "gribēt", "rīts"]
+      "newLemmas": ["Pēteris", "satikties", "redzēt", "šis", "jauks", "nākt", "šejiene", "sēdēt", "pie", "logs", "galds", "dzert", "kafija", "tēja", "garšot", "skumjs", "dzīve", "haha", "muldēt", "vienmēr", "vajadzēt", "kūka", "garšīgs", "ieteikt", "siers", "skanēt", "lieliski", "viesmīlis", "jūs", "vēlēties", "lūdzu", "zaļš", "ar", "govs", "piens", "auza", "skriet", "katrs", "diena", "daudz", "vasara", "braukt", "jūra", "maratons", "mežs", "spēlēt", "pludmale", "volejbols", "ā", "Jūrmala", "tur", "laukums", "tieši", "tā", "ja", "labprāt", "instruments", "ģitāra", "dziedāt", "gatavot", "zupa", "cept", "slepens", "recepte", "burkāns", "reiz", "nogaršot", "varbūt", "atnest", "o", "lielisks", "teikt", "fantastisks", "vieta", "izvēle", "priecāties", "ka", "labs", "gribēt", "rīts"]
+    },
+    {
+      "lessonId": "lv-a1-04",
+      "theme": "daily routine, times of day, sequencing, work and leisure",
+      "cefr": "A1",
+      "newLemmas": ["šodien", "sestdiena", "celties", "pulksten", "brokastis", "ēst", "maize", "tad", "grāmata", "klausīties", "pēc", "pirkt", "pusdienlaiks", "pēcpusdiena", "vakars", "gulēt", "tāds"]
     }
   ]
 }

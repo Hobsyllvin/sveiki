@@ -2,7 +2,7 @@
   "lessonId": "lv-a1-02",
   "title": "No kuras valsts? (Origins, family and free time)",
   "cefr": "A1",
-  "newLemmas": ["sveiks","Marta","kurš","valsts","Igaunija","tagad","Vecrīga","centrs","tur","skaists","igauniski","lietuviski","poliski","jau","kas","darīt","veikals","kafejnīca","tas","interesants","brālis","māsa","Vācija","viņš","ārsts","skola","ģimene","Tallina","Viļņa","viņi","mīlēt","brīvs","laiks","peldēt","bieži","jā","valoda","angliski","patikt","lasīt","mūzika","sports","ceļot","kur","darbs"],
+  "newLemmas": ["sveiks","Marta","kurš","valsts","Igaunija","tagad","Vecrīga","centrs","skaists","igauniski","lietuviski","poliski","jau","kas","darīt","veikals","kafejnīca","tas","interesants","brālis","māsa","Vācija","viņš","ārsts","skola","ģimene","Tallina","Viļņa","viņi","mīlēt","brīvs","laiks","peldēt","bieži","jā","valoda","angliski","patikt","lasīt","mūzika","sports","ceļot","kur","darbs"],
   "sections": [
     {
       "format": "dialogue",
@@ -24,24 +24,24 @@
         },
         {
           "id": "s2",
-          "speaker": "Anna",
-          "target": "Sveika, Marta! Es esmu Anna. Prieks iepazīties!",
+          "speaker": "Emma",
+          "target": "Sveika, Marta! Es esmu Emma. Prieks iepazīties!",
           "tokens": [
             { "lv": "Sveika", "gloss": "hello", "lemma": "sveiks", "pos": "interj", "note": "fem. sg., addressing a woman", "punct": "," },
             { "lv": "Marta", "gloss": "Marta", "lemma": "Marta", "pos": "propn", "note": "voc.", "punct": "!" },
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
             { "lv": "esmu", "gloss": "am", "lemma": "būt", "pos": "verb", "note": "1sg pres." },
-            { "lv": "Anna", "gloss": "Anna", "lemma": "Anna", "pos": "propn", "note": "nom.", "punct": "." },
+            { "lv": "Emma", "gloss": "Emma", "lemma": "Emma", "pos": "propn", "note": "nom.", "punct": "." },
             { "lv": "Prieks", "gloss": "joy", "lemma": "prieks", "pos": "noun", "note": "nom." },
             { "lv": "iepazīties", "gloss": "to-get-acquainted", "lemma": "iepazīties", "pos": "verb", "note": "inf.; refl.", "punct": "!" }
           ],
-          "natural": "Hello, Marta! I'm Anna. Nice to meet you!",
+          "natural": "Hello, Marta! I'm Emma. Nice to meet you!",
           "audio": "lv-a1-02-s2.mp3",
           "audioApproved": false
         },
         {
           "id": "s3",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "No kuras valsts tu esi?",
           "tokens": [
             { "lv": "No", "gloss": "from", "lemma": "no", "pos": "prep", "note": "+ gen." },
@@ -72,7 +72,7 @@
         },
         {
           "id": "s5",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Es esmu no Lietuvas, bet tagad es dzīvoju Rīgā.",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -125,7 +125,7 @@
         },
         {
           "id": "s8",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Es dzīvoju Vecrīgā. Un tu?",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -141,23 +141,19 @@
         {
           "id": "s9",
           "speaker": "Marta",
-          "target": "Es dzīvoju centrā. Man tur ļoti patīk.",
+          "target": "Es dzīvoju centrā.",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
             { "lv": "dzīvoju", "gloss": "live", "lemma": "dzīvot", "pos": "verb", "note": "1sg pres." },
-            { "lv": "centrā", "gloss": "in-centre", "lemma": "centrs", "pos": "noun", "note": "loc.", "punct": "." },
-            { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
-            { "lv": "tur", "gloss": "there", "lemma": "tur", "pos": "adv" },
-            { "lv": "ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
-            { "lv": "patīk", "gloss": "pleases", "lemma": "patikt", "pos": "verb", "note": "3 pres., dat. construction", "punct": "." }
+            { "lv": "centrā", "gloss": "in-centre", "lemma": "centrs", "pos": "noun", "note": "loc.", "punct": "." }
           ],
-          "natural": "I live in the centre. I like it very much there.",
+          "natural": "I live in the centre.",
           "audio": "lv-a1-02-s9.mp3",
           "audioApproved": false
         },
         {
           "id": "s10",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Vai tev patīk Rīga?",
           "tokens": [
             { "lv": "Vai", "gloss": "whether", "lemma": "vai", "pos": "part", "note": "yes/no question particle" },
@@ -224,7 +220,7 @@
         },
         {
           "id": "s14",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Es runāju lietuviski, poliski un latviski.",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -254,7 +250,7 @@
         },
         {
           "id": "s16",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Paldies! Es mācos jau ilgi.",
           "tokens": [
             { "lv": "Paldies", "gloss": "thanks", "lemma": "paldies", "pos": "interj", "punct": "!" },
@@ -275,7 +271,7 @@
       "sentences": [
         {
           "id": "s17",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Ko tu dari Rīgā? Vai tu strādā?",
           "tokens": [
             { "lv": "Ko", "gloss": "what", "lemma": "kas", "pos": "pron", "note": "acc." },
@@ -306,7 +302,7 @@
         },
         {
           "id": "s19",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Es esmu studente, bet es arī strādāju.",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -323,7 +319,7 @@
         },
         {
           "id": "s20",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Es strādāju kafejnīcā. Tas ir interesants darbs.",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -346,7 +342,7 @@
       "sentences": [
         {
           "id": "s21",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Vai tev ir brāļi un māsas?",
           "tokens": [
             { "lv": "Vai", "gloss": "whether", "lemma": "vai", "pos": "part", "note": "yes/no question particle" },
@@ -410,7 +406,7 @@
         },
         {
           "id": "s25",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Man nav brāļa. Man ir tikai māsa.",
           "tokens": [
             { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
@@ -427,7 +423,7 @@
         },
         {
           "id": "s26",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Kur dzīvo tava ģimene?",
           "tokens": [
             { "lv": "Kur", "gloss": "where", "lemma": "kur", "pos": "adv" },
@@ -458,7 +454,7 @@
         },
         {
           "id": "s28",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Mana ģimene dzīvo Viļņā. Es viņus ļoti mīlu.",
           "tokens": [
             { "lv": "Mana", "gloss": "my", "lemma": "mans", "pos": "pron", "note": "fem. nom." },
@@ -497,7 +493,7 @@
         },
         {
           "id": "s30",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Man patīk lasīt un peldēt. Un tev?",
           "tokens": [
             { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
@@ -533,7 +529,7 @@
         },
         {
           "id": "s32",
-          "speaker": "Anna",
+          "speaker": "Emma",
           "target": "Ļoti jauki! Uz redzēšanos, Marta!",
           "tokens": [
             { "lv": "Ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },

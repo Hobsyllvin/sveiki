@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Downloaded design reference, including minified third-party Webflow code.
+    "website_inspo_files/**",
   ]),
   {
     rules: {

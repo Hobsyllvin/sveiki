@@ -101,7 +101,7 @@ Gloss the literal spatial/basic meaning even when English would idiomatically di
 
 ## R11 — Proper nouns and numbers
 
-- Proper nouns pass through unchanged, minus Latvian inflection: `Rīgā` → `in-Riga`, `Anna` → `Anna`.
+- Proper nouns pass through unchanged, minus Latvian inflection: `Rīgā` → `in-Riga`, `Emma` → `Emma`.
 - Numbers are glossed as words: `divi` → `two`.
 
 ## R12 — The `note` field
@@ -127,7 +127,7 @@ case in `note` as `"voc."`.
 
 - `Pēteri!` → `Pēteris` (lemma `Pēteris`, note `"voc."`)
 - `skolotāj!` → `teacher` (lemma `skolotājs`, note `"voc."`)
-- `Anna!` → `Anna` (lemma `Anna`, note `"voc."`) — form unchanged, still marked
+- `Emma!` → `Emma` (lemma `Emma`, note `"voc."`) — form unchanged, still marked
 
 Rationale: the vocative carries no meaning English can render. Marking it in the gloss
 would add noise; the `note` keeps it visible to the curious learner without cluttering
@@ -135,9 +135,9 @@ the decode line.
 
 Edge cases:
 
-- An unchanged form (`Anna`, `Marta`) still gets `"voc."` when it is an address, so the
+- An unchanged form (`Emma`, `Marta`) still gets `"voc."` when it is an address, so the
   reviewer can see the decoder recognised the construction rather than missed it.
-- A name in subject position is **not** vocative and takes no note: `Anna smaida.` → `Anna smiles`.
+- A name in subject position is **not** vocative and takes no note: `Emma smaida.` → `Emma smiles`.
 - Vocative and greeting are separate tokens: `Sveika, Marta!` → `hello` + `Marta`,
   only the second carrying `"voc."`.
 

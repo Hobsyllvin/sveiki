@@ -9,7 +9,7 @@ import fs from "fs";
 import path from "path";
 import http from "http";
 import { spawn, spawnSync } from "child_process";
-import { LessonSchema, TimingEditsSchema, AudioTimingsSchema } from "../src/lib/content/schema";
+import { AudioTimingsSchema, LessonSchema, TimingEditsSchema } from "../src/lib/content/schema";
 import type { Lesson, Sentence } from "../src/lib/content/schema";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
@@ -113,7 +113,7 @@ function main() {
   requireFfmpeg();
 
   const lang = lessonId.split("-")[0];
-  const audioDir = path.join(CONTENT_ROOT, lang, AUDIO_DIR_NAME);
+  const audioDir = path.join(CONTENT_ROOT, lang, AUDIO_DIR_NAME, lessonId);
   const lesson = readJson(
     path.join(CONTENT_ROOT, lang, "lessons", `${lessonId}.json`),
     LessonSchema,

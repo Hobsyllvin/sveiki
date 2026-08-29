@@ -18,7 +18,9 @@ content/
     dictionary.json      ← approved lemma→gloss mappings
     lessons/
       lv-a1-00.json      ← lesson files (validated in CI)
-    audio/               ← mp3 files (empty until TTS stage)
+    audio-scripts/       ← tagged whole-lesson dialogue scripts
+    audio-elevenlabs/
+      lv-a1-00/          ← one lesson take: MP3, alignment, timings, edits
   _shared/
     GLOSSING_RULES.md    ← authoritative gloss contract
 scripts/
@@ -46,4 +48,6 @@ npm run test        # run vitest suite
 npm run lint        # ESLint
 npx tsc --noEmit    # type check
 npm run dev         # dev server
+npm run audio -- --lesson lv-a1-03    # regenerate one coherent lesson take
+npm run timings -- --lesson lv-a1-03  # review sentence timing corrections
 ```

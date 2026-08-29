@@ -18,6 +18,24 @@ npx tsc --noEmit   # TypeScript type check
 
 The validator reports a coloured PASS/FAIL per lesson and exits with code 1 on any failure, making it safe to use as a CI gate.
 
+## Dialogue audio
+
+Each lesson is synthesized in one Text-to-Dialogue request so ElevenLabs sees
+the complete conversation and can keep voices, pacing, and prosody coherent.
+Generated source files live together under
+`content/<lang>/audio-elevenlabs/<lessonId>/`; `npm run sync-audio` copies only
+the lesson MP3 to the public directory used by the app.
+
+```bash
+npm run audio -- --lesson lv-a1-03    # regenerate the complete lesson take
+npm run timings -- --lesson lv-a1-03  # review/correct sentence boundaries
+npm run sync-audio                    # copy lesson MP3s into public/audio
+```
+
+The generator refuses scripts above ElevenLabs' recommended 2,000-character
+limit for a single reliable dialogue request. Timing corrections remain visible
+after regeneration, but must be reviewed because they refer to the previous take.
+
 ## Decoding view
 
 The heart of the app is the lesson page at `/lessons/<lessonId>`. Each sentence is displayed interlinear-style: the Latvian word sits above its word-for-word gloss, pairs flowing left-to-right and wrapping as units on narrow screens so a gloss is never orphaned from its word.
