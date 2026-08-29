@@ -4,9 +4,9 @@ import type { AudioTimings } from "./schema";
 
 describe("loadTimings", () => {
   it("parses a lesson's timings file", () => {
-    const timings = loadTimings("lv-a1-01");
+    const timings = loadTimings("lv-a1-03");
     expect(timings).not.toBeNull();
-    expect(timings!.audio).toBe("lv-a1-01.mp3");
+    expect(timings!.audio).toBe("lv-a1-03.mp3");
     expect(timings!.sentences.s1.start).toBe(0);
     expect(timings!.sentences.s1.end).toBeGreaterThan(0);
   });
@@ -52,7 +52,7 @@ describe("mergeTimingEdits", () => {
 describe("timingEditsPathFor", () => {
   it("sits beside the generated timings file", () => {
     expect(timingEditsPathFor("lv-a1-02")).toMatch(
-      /content\/lv\/audio-elevenlabs\/lv-a1-02\/lv-a1-02\.timings\.edits\.json$/
+      /content\/lv\/audio\/lv-a1-02\.timings\.edits\.json$/
     );
   });
 });

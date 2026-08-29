@@ -91,9 +91,8 @@ export const DialogueVoicesSchema = z.object({
 
 export type DialogueVoices = z.infer<typeof DialogueVoicesSchema>;
 
-// Per-sentence ElevenLabs synthesis keeps its own config in
-// content/<lang>/voices-elevenlabs.json. Whole-scene output is grouped under
-// content/<lang>/audio-elevenlabs/<lessonId>/.
+// Whole-scene ElevenLabs output and its timing metadata live under
+// content/<lang>/audio/.
 // Only eleven_v3 and eleven_v3_conversational support Latvian.
 export const ElevenVoiceSchema = z.object({
   voiceId: z.string().min(1),

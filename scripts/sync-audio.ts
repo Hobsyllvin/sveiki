@@ -1,6 +1,5 @@
-// Mirrors generated lesson audio into public/audio/<lang>/ so Next serves it as a
+// Mirrors canonical lesson audio into public/audio/<lang>/ so Next serves it as a
 // static asset (byte-range requests, which Safari needs for seeking, come free).
-// content/<lang>/audio-elevenlabs/<lessonId>/ stays the committed lesson source;
 // public/audio is git-ignored and rebuilt by predev/prebuild.
 import fs from "fs";
 import path from "path";
@@ -21,18 +20,9 @@ for (const lang of fs.readdirSync(CONTENT_ROOT)) {
   const targetDir = path.join(PUBLIC_AUDIO, lang);
   fs.mkdirSync(targetDir, { recursive: true });
 
-  const sources = fs
-    .readdirSync(sourceDir, { withFileTypes: true })
-    .flatMap((entry): { file: string; source: string }[] => {
-      if (entry.isFile() && entry.name.endsWith(".mp3")) {
-        return [{ file: entry.name, source: path.join(sourceDir, entry.name) }];
-      }
-      if (!entry.isDirectory()) return [];
-
-      const file = `${entry.name}.mp3`;
-      const source = path.join(sourceDir, entry.name, file);
-      return fs.existsSync(source) ? [{ file, source }] : [];
-    });
+  const sources = fs.readdirSync(sourceDir, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".mp3"))
+    .map((entry) => ({ file: entry.name, source: path.join(sourceDir, entry.name) }));
   const sourceFiles = sources.map(({ file }) => file);
 
   // Audio that no longer exists in content must not keep being served from a stale

@@ -5,9 +5,9 @@ import type { Lesson, Course, AudioTimings, TimingEdits } from "./schema";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 
-// Each whole-scene take and its timings live in a lesson subfolder here;
-// scripts/sync-audio.ts flattens MP3s into public/audio/<lang>/ for serving.
-export const AUDIO_DIR_NAME = "audio-elevenlabs";
+// Each whole-scene take and its timings live in the single canonical audio directory;
+// scripts/sync-audio.ts mirrors MP3s into public/audio/<lang>/ for serving.
+export const AUDIO_DIR_NAME = "audio";
 
 function langFromLessonId(lessonId: string): string {
   return lessonId.split("-")[0];
@@ -27,7 +27,6 @@ export function timingsPathFor(lessonId: string): string {
     CONTENT_ROOT,
     lang,
     AUDIO_DIR_NAME,
-    lessonId,
     `${lessonId}.timings.json`
   );
 }
@@ -38,7 +37,6 @@ export function timingEditsPathFor(lessonId: string): string {
     CONTENT_ROOT,
     lang,
     AUDIO_DIR_NAME,
-    lessonId,
     `${lessonId}.timings.edits.json`
   );
 }

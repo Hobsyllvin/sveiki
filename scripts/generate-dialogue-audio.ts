@@ -260,8 +260,8 @@ async function main() {
 
   const lang = lessonId?.split("-")[0] ?? "lv";
   const langDir = path.join(CONTENT_ROOT, lang);
-  const audioRoot = path.join(langDir, "audio-elevenlabs");
-  const outputDir = lessonId ? path.join(audioRoot, lessonId) : audioRoot;
+  const audioRoot = path.join(langDir, "audio");
+  const outputDir = audioRoot;
   const voices = readJson(
     path.join(langDir, "voices.json"),
     DialogueVoicesSchema,

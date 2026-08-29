@@ -1,208 +1,1455 @@
 {
-  "es": { "glosses": ["I", "to-me", "me"], "note": "man = dat. (to-me); mani = acc. (me)" },
-  "tu": { "glosses": ["you", "to-you"] },
-  "viņa": { "glosses": ["she"] },
-  "kur": { "glosses": ["where"] },
-  "dzīvot": { "glosses": ["live"] },
-  "gribēt": { "glosses": ["want"] },
-  "pirkt": { "glosses": ["to-buy", "buy"] },
-  "iet": { "glosses": ["to-go", "go", "is-to-go", "goes"] },
-  "mazgāties": { "glosses": ["washes-oneself", "wash-oneself"] },
-  "maize": { "glosses": ["bread"] },
-  "darbs": { "glosses": ["work"] },
-  "rīts": { "glosses": ["morning"] },
-  "Rīga": { "glosses": ["Riga", "in-Riga"] },
-  "uz": { "glosses": ["to", "on"] },
-  "no": { "glosses": ["from"] },
-  "vai": { "glosses": ["whether", "or"], "note": "Vai tu nāc? = whether (question particle); X vai Y = or (conjunction)" },
-  "sveiki": { "glosses": ["hello"], "note": "pl. form; colloquial universal greeting" },
-  "labdien": { "glosses": ["good-day"] },
-  "paldies": { "glosses": ["thanks"] },
-  "jā": { "glosses": ["yes"] },
-  "nē": { "glosses": ["no"] },
-  "būt": { "glosses": ["to-be", "am", "are", "is", "is-not"], "note": "nav = negated 3rd person (is-not), per R7" },
-  "Latvija": { "glosses": ["Latvia", "in-Latvia"] },
-  "pilsēta": { "glosses": ["city", "in-city"] },
-  "šeit": { "glosses": ["here"] },
-  "strādāt": { "glosses": ["work"] },
-  "mācīties": { "glosses": ["learn", "to-learn"], "note": "refl. form; non-reflexive meaning" },
-  "students": { "glosses": ["student"], "note": "masc.", "seeAlso": ["studente"] },
-  "studente": { "glosses": ["student"], "note": "fem.", "seeAlso": ["students"] },
-  "skolotājs": { "glosses": ["teacher"], "note": "masc.", "seeAlso": ["skolotāja"] },
-  "skolotāja": { "glosses": ["teacher"], "note": "fem.", "seeAlso": ["skolotājs"] },
-  "valoda": { "glosses": ["language", "languages"] },
-  "latviski": { "glosses": ["Latvian"] },
-  "angliski": { "glosses": ["English"] },
-  "runāt": { "glosses": ["speak", "not-speak"] },
-  "saprast": { "glosses": ["understand"] },
-  "patikt": { "glosses": ["pleases"], "note": "dative construction: man patīk = to-me pleases" },
-  "lasīt": { "glosses": ["to-read", "read"] },
-  "mūzika": { "glosses": ["music"] },
-  "sports": { "glosses": ["sport"] },
-  "ceļot": { "glosses": ["to-travel", "travel"] },
-  "labs": { "glosses": ["good", "best"], "note": "vislabākā = superl. def. (best), per R1 hyphen-free single word" },
-  "labi": { "glosses": ["well"], "note": "adv.; distinct lemma from labs (adj.)" },
-  "arī": { "glosses": ["also"] },
-  "bet": { "glosses": ["but"] },
-  "un": { "glosses": ["and"] },
-  "ļoti": { "glosses": ["very"] },
-  "mazliet": { "glosses": ["a-little"] },
-  "vēl": { "glosses": ["still", "else"], "note": "'still' or 'else' per sentence; ko vēl = what else" },
-  "tikai": { "glosses": ["only"] },
-  "viens": { "glosses": ["one"] },
-  "divi": { "glosses": ["two"] },
-  "trīs": { "glosses": ["three"] },
-  "četri": { "glosses": ["four"] },
-  "pieci": { "glosses": ["five"] },
-  "seši": { "glosses": ["six"] },
-  "septiņi": { "glosses": ["seven"] },
-  "astoņi": { "glosses": ["eight", "at-eight"], "note": "astoņos is the locative clock-time form" },
-  "deviņi": { "glosses": ["nine"] },
-  "desmit": { "glosses": ["ten", "at-ten"], "note": "desmitos is the locative clock-time form" },
-  "nulle": { "glosses": ["zero"] },
-  "saukt": { "glosses": ["call"], "note": "mani sauc X = my name is X; lit. 'me they-call X'" },
-  "kā": { "glosses": ["how"], "note": "also 'as/like'; only 'how' sense approved so far" },
-  "kāds": { "glosses": ["what-kind", "some"], "note": "interrog. 'what-kind'; indef. 'some' (kādu dienu = some day)" },
-  "cik": { "glosses": ["how-much", "how"], "note": "cik ilgi = how long; cik + adj./adv. = how" },
-  "prieks": { "glosses": ["joy", "for-joy"], "note": "prieks iepazīties = nice to meet you, lit. 'joy to-get-acquainted'; priekam = for-joy (dat. of purpose, R4)" },
-  "iepazīties": { "glosses": ["to-get-acquainted"], "note": "refl. form; inf." },
-  "redzēšanās": { "glosses": ["seeing"], "note": "uz redzēšanos = goodbye, lit. 'to seeing'" },
-  "Jānis": { "glosses": ["Jānis"], "note": "voc. Jāni" },
-  "Pēteris": { "glosses": ["Pēteris"], "note": "voc. Pēteri" },
-  "Emma": { "glosses": ["Emma"], "note": "voc. form identical to nom." },
-  "Lietuva": { "glosses": ["Lithuania"] },
-  "mans": { "glosses": ["my"], "note": "poss. pron.; agrees with head noun" },
-  "tavs": { "glosses": ["your"], "note": "poss. pron., 2sg; agrees with head noun" },
-  "ilgi": { "glosses": ["long"], "note": "adv. of duration" },
-  "mēnesis": { "glosses": ["month", "months"] },
-  "jauki": { "glosses": ["nice"], "note": "adv.; ļoti jauki = very nice" },
-  "telefons": { "glosses": ["telephone"] },
-  "numurs": { "glosses": ["number"] },
-
-  "sveiks": { "glosses": ["hello"], "note": "adj.-like greeting inflected for addressee: sveiks masc., sveika fem.; cf. pl. sveiki", "seeAlso": ["sveiki"] },
-  "Marta": { "glosses": ["Marta"], "note": "voc. form identical to nom." },
-  "kurš": { "glosses": ["which"], "note": "interrog. pron.; agrees with head noun" },
-  "valsts": { "glosses": ["country"], "note": "nom. and gen. sg. are identical" },
-  "Igaunija": { "glosses": ["Estonia"] },
-  "Vācija": { "glosses": ["Germany", "in-Germany"] },
-  "Vecrīga": { "glosses": ["Vecrīga", "in-Vecrīga"], "note": "Rīga's Old Town; proper noun kept untranslated per R11" },
-  "Tallina": { "glosses": ["Tallinn", "in-Tallinn"] },
-  "Viļņa": { "glosses": ["Vilnius", "in-Vilnius"] },
-  "centrs": { "glosses": ["centre", "in-centre"] },
-  "tagad": { "glosses": ["now"] },
-  "tur": { "glosses": ["there"] },
-  "jau": { "glosses": ["already"] },
-  "bieži": { "glosses": ["often"] },
-  "skaists": { "glosses": ["beautiful"] },
-  "interesants": { "glosses": ["interesting"] },
-  "brīvs": { "glosses": ["free", "in-free"], "note": "brīvajā laikā = in-free time; in- attaches to the leftmost element of a locative NP (R4); def. adj. loc." },
-  "laiks": { "glosses": ["time", "in-time", "weather"], "note": "laiks = time; labs laiks = good weather" },
-  "igauniski": { "glosses": ["Estonian"] },
-  "lietuviski": { "glosses": ["Lithuanian"] },
-  "poliski": { "glosses": ["Polish"] },
-  "kas": { "glosses": ["what", "who"], "note": "sense chosen per sentence (R10); ko = acc." },
-  "darīt": { "glosses": ["do"] },
-  "veikals": { "glosses": ["shop", "in-shop"] },
-  "kafejnīca": { "glosses": ["café", "in-café"] },
-  "tas": { "glosses": ["that", "those"], "note": "demonstr.; tas ir = that is; tās = fem. nom. pl. (those)", "seeAlso": ["tā"] },
-  "viņš": { "glosses": ["he"] },
-  "viņi": { "glosses": ["they", "them"], "note": "viņus = acc. masc. pl. (them)" },
-  "brālis": { "glosses": ["brother", "brothers"] },
-  "māsa": { "glosses": ["sister", "sisters"] },
-  "ģimene": { "glosses": ["family"] },
-  "ārsts": { "glosses": ["doctor"], "note": "used for both genders; no fem. counterpart in course yet (R15)" },
-  "skola": { "glosses": ["school", "in-school"] },
-  "mīlēt": { "glosses": ["love"] },
-  "peldēt": { "glosses": ["to-swim", "swim"] },
-  "satikties": { "glosses": ["meet"], "note": "refl. form, reciprocal 'meet each other' (R5 lexicalized clause)" },
-  "redzēt": { "glosses": ["to-see","see"], "note": "prieks redzēt = nice to see; redzi = 2sg 'see?'", "seeAlso": ["redzēšanās"] },
-  "šis": { "glosses": ["this"], "note": "demonstr.; šī = fem. nom.", "seeAlso": ["tas"] },
-  "jauks": { "glosses": ["nice"], "note": "adj.; distinct lemma from the adv. jauki", "seeAlso": ["jauki"] },
-  "nākt": { "glosses": ["come","comes"], "note": "nāku 1sg, nāk 3, nāc 2sg imper." },
-  "šejiene": { "glosses": ["here"], "note": "only gen. and acc. used adverbially; uz šejieni = to here" },
-  "sēdēt": { "glosses": ["to-sit"] },
-  "pie": { "glosses": ["at"], "note": "+ gen.; literal core 'at' even where English says 'by' (R8)" },
-  "logs": { "glosses": ["window"] },
-  "galds": { "glosses": ["table"] },
-  "dzert": { "glosses": ["to-drink","drink"] },
-  "kafija": { "glosses": ["coffee"] },
-  "tēja": { "glosses": ["tea"] },
-  "garšot": { "glosses": ["tastes","not-tastes"], "note": "dative construction: man garšo = to-me tastes; negaršo per R7", "seeAlso": ["nogaršot"] },
-  "skumjs": { "glosses": ["sad"] },
-  "dzīve": { "glosses": ["life"], "seeAlso": ["dzīvot"] },
-  "haha": { "glosses": ["haha"], "note": "laughter; passes through unchanged" },
-  "muldēt": { "glosses": ["talk-nonsense"], "note": "colloq.; muldi = 2sg pres." },
-  "vienmēr": { "glosses": ["always"] },
-  "vajadzēt": { "glosses": ["needs"], "note": "dative construction: man vajag = to-me needs" },
-  "kūka": { "glosses": ["cake","cakes"] },
-  "garšīgs": { "glosses": ["tasty"], "seeAlso": ["garšot"] },
-  "ieteikt": { "glosses": ["recommend"], "note": "iesaku = 1sg pres." },
-  "siers": { "glosses": ["cheese"], "note": "siera kūka = cheesecake (gen. modifier)" },
-  "skanēt": { "glosses": ["sounds"] },
-  "lieliski": { "glosses": ["wonderful"], "note": "adv.; glossed with the plain English adj., as jauki is", "seeAlso": ["lielisks"] },
-  "viesmīlis": { "glosses": ["waiter"], "note": "masc.; fem. viesmīle not yet used in the course (R15)" },
-  "jūs": { "glosses": ["you"], "note": "2pl and polite sg.; distinct lemma from tu", "seeAlso": ["tu"] },
-  "vēlēties": { "glosses": ["wish"], "note": "refl. form, non-refl. meaning (R5)" },
-  "lūdzu": { "glosses": ["please"], "note": "lit. 'I ask' (1sg of lūgt); treated as a fixed politeness particle" },
-  "zaļš": { "glosses": ["green"] },
-  "ar": { "glosses": ["with"], "note": "+ acc. sg.; dat. in pl." },
-  "govs": { "glosses": ["cow"], "note": "govs piens = cow's milk (gen. modifier)" },
-  "piens": { "glosses": ["milk"] },
-  "auza": { "glosses": ["oats"], "note": "gen. pl. auzu; auzu piens = oat milk" },
-  "skriet": { "glosses": ["to-run","run"] },
-  "katrs": { "glosses": ["every"] },
-  "diena": { "glosses": ["day"] },
-  "daudz": { "glosses": ["a-lot"], "note": "adv.; the 'many' sense is not yet used" },
-  "vasara": { "glosses": ["in-summer"], "note": "loc. vasarā absorbs the preposition per R4" },
-  "braukt": { "glosses": ["to-ride", "ride"], "note": "travel by vehicle; distinct from iet (on foot) and ceļot (travel)", "seeAlso": ["iet","ceļot"] },
-  "jūra": { "glosses": ["sea"] },
-  "maratons": { "glosses": ["marathon"] },
-  "mežs": { "glosses": ["in-forest"], "note": "loc. mežā absorbs the preposition per R4" },
-  "spēlēt": { "glosses": ["play"] },
-  "pludmale": { "glosses": ["beach"], "note": "pludmales volejbols = beach volleyball (gen. modifier)" },
-  "volejbols": { "glosses": ["volleyball"] },
-  "ā": { "glosses": ["ah"], "note": "interjection" },
-  "Jūrmala": { "glosses": ["in-Jūrmala"], "note": "seaside town; proper noun kept untranslated per R11" },
-  "laukums": { "glosses": ["courts"], "note": "sports court; only nom. pl. laukumi used so far" },
-  "tieši": { "glosses": ["exactly"] },
-  "tā": { "glosses": ["so"], "note": "adv.; tieši tā = exactly so. Syncretic with tas fem. forms", "seeAlso": ["tas"] },
-  "ja": { "glosses": ["if"] },
-  "labprāt": { "glosses": ["gladly"], "seeAlso": ["labs"] },
-  "instruments": { "glosses": ["instrument"] },
-  "ģitāra": { "glosses": ["guitar"] },
-  "dziedāt": { "glosses": ["sing","not-sing"], "note": "nedziedu = negated per R7" },
-  "gatavot": { "glosses": ["cook","to-cook", "prepare"], "note": "gatavot ēdienu = cook; gatavot dzērienu = prepare" },
-  "zupa": { "glosses": ["soup"] },
-  "cept": { "glosses": ["bake"], "note": "also 'fry'; only the 'bake' sense is used so far" },
-  "slepens": { "glosses": ["secret"] },
-  "recepte": { "glosses": ["recipe"] },
-  "burkāns": { "glosses": ["carrots"], "note": "gen. pl. burkānu; burkānu kūka = carrot cake" },
-  "reiz": { "glosses": ["once"], "note": "here in the sense 'sometime'" },
-  "nogaršot": { "glosses": ["to-taste"], "note": "perfective of garšot", "seeAlso": ["garšot"] },
-  "smaidīt": { "glosses": ["smiles"] },
-  "varbūt": { "glosses": ["maybe"] },
-  "atnest": { "glosses": ["brings"] },
-  "o": { "glosses": ["oh"], "note": "interjection" },
-  "lielisks": { "glosses": ["wonderful"], "note": "adj.; same gloss as the adv. lieliski", "seeAlso": ["lieliski"] },
-  "teikt": { "glosses": ["say"], "note": "saku = 1sg pres." },
-  "fantastisks": { "glosses": ["fantastic"] },
-  "vieta": { "glosses": ["place"] },
-  "izvēle": { "glosses": ["choice"] },
-  "priecāties": { "glosses": ["rejoice"], "note": "refl. form, non-refl. meaning (R5); person-free per R2" },
-  "ka": { "glosses": ["that"], "note": "conj. complementizer; distinct from the demonstr. tas", "seeAlso": ["tas"] },
-  "šodien": { "glosses": ["today"] },
-  "sestdiena": { "glosses": ["Saturday"] },
-  "celties": { "glosses": ["get-up"], "note": "refl. form, non-reflexive meaning (R5)" },
-  "pulksten": { "glosses": ["o'clock"], "note": "adv. before a numeral to mark clock time" },
-  "brokastis": { "glosses": ["at-breakfast"], "note": "plural-only noun; loc. brokastīs absorbs at- per R4" },
-  "ēst": { "glosses": ["eat"] },
-  "tad": { "glosses": ["then"] },
-  "grāmata": { "glosses": ["book"] },
-  "klausīties": { "glosses": ["listen"], "note": "refl. form, non-reflexive meaning (R5)" },
-  "pēc": { "glosses": ["after"], "note": "+ gen.; pēc tam is a fixed phrase" },
-  "pusdienlaiks": { "glosses": ["at-lunchtime"], "note": "loc. pusdienlaikā absorbs at- per R4" },
-  "pēcpusdiena": { "glosses": ["in-afternoon"], "note": "loc. pēcpusdienā absorbs in- per R4" },
-  "vakars": { "glosses": ["in-evening"], "note": "loc. vakarā absorbs in- per R4" },
-  "gulēt": { "glosses": ["to-sleep"] },
-  "tāds": { "glosses": ["such"], "note": "demonstrative; tāda = fem. nom." }
+  "es": {
+    "glosses": [
+      "I",
+      "to-me",
+      "me",
+      "to-us"
+    ],
+    "note": "man = dat. (to-me); mani = acc. (me)"
+  },
+  "tu": {
+    "glosses": [
+      "you",
+      "to-you"
+    ]
+  },
+  "viņa": {
+    "glosses": [
+      "she"
+    ]
+  },
+  "kur": {
+    "glosses": [
+      "where"
+    ]
+  },
+  "dzīvot": {
+    "glosses": [
+      "live"
+    ]
+  },
+  "gribēt": {
+    "glosses": [
+      "want"
+    ]
+  },
+  "pirkt": {
+    "glosses": [
+      "to-buy",
+      "buy"
+    ]
+  },
+  "iet": {
+    "glosses": [
+      "to-go",
+      "go",
+      "is-to-go",
+      "goes"
+    ]
+  },
+  "mazgāties": {
+    "glosses": [
+      "washes-oneself",
+      "wash-oneself"
+    ]
+  },
+  "maize": {
+    "glosses": [
+      "bread"
+    ]
+  },
+  "darbs": {
+    "glosses": [
+      "work"
+    ]
+  },
+  "rīts": {
+    "glosses": [
+      "morning"
+    ]
+  },
+  "Rīga": {
+    "glosses": [
+      "Riga",
+      "in-Riga"
+    ]
+  },
+  "uz": {
+    "glosses": [
+      "to",
+      "on"
+    ]
+  },
+  "no": {
+    "glosses": [
+      "from"
+    ]
+  },
+  "vai": {
+    "glosses": [
+      "whether",
+      "or"
+    ],
+    "note": "Vai tu nāc? = whether (question particle); X vai Y = or (conjunction)"
+  },
+  "sveiki": {
+    "glosses": [
+      "hello"
+    ],
+    "note": "pl. form; colloquial universal greeting"
+  },
+  "labdien": {
+    "glosses": [
+      "good-day"
+    ]
+  },
+  "paldies": {
+    "glosses": [
+      "thanks"
+    ]
+  },
+  "jā": {
+    "glosses": [
+      "yes"
+    ]
+  },
+  "nē": {
+    "glosses": [
+      "no"
+    ]
+  },
+  "būt": {
+    "glosses": [
+      "to-be",
+      "am",
+      "are",
+      "is",
+      "is-not",
+      "am-not"
+    ],
+    "note": "nav = negated 3rd person (is-not), per R7"
+  },
+  "Latvija": {
+    "glosses": [
+      "Latvia",
+      "in-Latvia"
+    ]
+  },
+  "pilsēta": {
+    "glosses": [
+      "city",
+      "in-city"
+    ]
+  },
+  "šeit": {
+    "glosses": [
+      "here"
+    ]
+  },
+  "strādāt": {
+    "glosses": [
+      "work"
+    ]
+  },
+  "mācīties": {
+    "glosses": [
+      "learn",
+      "to-learn",
+      "is-to-learn"
+    ],
+    "note": "refl. form; non-reflexive meaning"
+  },
+  "students": {
+    "glosses": [
+      "student"
+    ],
+    "note": "masc.",
+    "seeAlso": [
+      "studente"
+    ]
+  },
+  "studente": {
+    "glosses": [
+      "student"
+    ],
+    "note": "fem.",
+    "seeAlso": [
+      "students"
+    ]
+  },
+  "skolotājs": {
+    "glosses": [
+      "teacher"
+    ],
+    "note": "masc.",
+    "seeAlso": [
+      "skolotāja"
+    ]
+  },
+  "skolotāja": {
+    "glosses": [
+      "teacher"
+    ],
+    "note": "fem.",
+    "seeAlso": [
+      "skolotājs"
+    ]
+  },
+  "valoda": {
+    "glosses": [
+      "language",
+      "languages"
+    ]
+  },
+  "latviski": {
+    "glosses": [
+      "Latvian"
+    ]
+  },
+  "angliski": {
+    "glosses": [
+      "English"
+    ]
+  },
+  "runāt": {
+    "glosses": [
+      "speak",
+      "not-speak",
+      "is-to-speak"
+    ]
+  },
+  "saprast": {
+    "glosses": [
+      "understand"
+    ]
+  },
+  "patikt": {
+    "glosses": [
+      "pleases"
+    ],
+    "note": "dative construction: man patīk = to-me pleases"
+  },
+  "lasīt": {
+    "glosses": [
+      "to-read",
+      "read"
+    ]
+  },
+  "mūzika": {
+    "glosses": [
+      "music"
+    ]
+  },
+  "sports": {
+    "glosses": [
+      "sport"
+    ]
+  },
+  "ceļot": {
+    "glosses": [
+      "to-travel",
+      "travel"
+    ]
+  },
+  "labs": {
+    "glosses": [
+      "good",
+      "best"
+    ],
+    "note": "vislabākā = superl. def. (best), per R1 hyphen-free single word"
+  },
+  "labi": {
+    "glosses": [
+      "well"
+    ],
+    "note": "adv.; distinct lemma from labs (adj.)"
+  },
+  "arī": {
+    "glosses": [
+      "also"
+    ]
+  },
+  "bet": {
+    "glosses": [
+      "but"
+    ]
+  },
+  "un": {
+    "glosses": [
+      "and"
+    ]
+  },
+  "ļoti": {
+    "glosses": [
+      "very"
+    ]
+  },
+  "mazliet": {
+    "glosses": [
+      "a-little"
+    ]
+  },
+  "vēl": {
+    "glosses": [
+      "still",
+      "else"
+    ],
+    "note": "'still' or 'else' per sentence; ko vēl = what else"
+  },
+  "tikai": {
+    "glosses": [
+      "only"
+    ]
+  },
+  "viens": {
+    "glosses": [
+      "one"
+    ]
+  },
+  "divi": {
+    "glosses": [
+      "two"
+    ]
+  },
+  "trīs": {
+    "glosses": [
+      "three"
+    ]
+  },
+  "četri": {
+    "glosses": [
+      "four"
+    ]
+  },
+  "pieci": {
+    "glosses": [
+      "five"
+    ]
+  },
+  "seši": {
+    "glosses": [
+      "six"
+    ]
+  },
+  "septiņi": {
+    "glosses": [
+      "seven"
+    ]
+  },
+  "astoņi": {
+    "glosses": [
+      "eight",
+      "at-eight"
+    ],
+    "note": "astoņos is the locative clock-time form"
+  },
+  "deviņi": {
+    "glosses": [
+      "nine"
+    ]
+  },
+  "desmit": {
+    "glosses": [
+      "ten",
+      "at-ten"
+    ],
+    "note": "desmitos is the locative clock-time form"
+  },
+  "nulle": {
+    "glosses": [
+      "zero"
+    ]
+  },
+  "saukt": {
+    "glosses": [
+      "call"
+    ],
+    "note": "mani sauc X = my name is X; lit. 'me they-call X'"
+  },
+  "kā": {
+    "glosses": [
+      "how"
+    ],
+    "note": "also 'as/like'; only 'how' sense approved so far"
+  },
+  "kāds": {
+    "glosses": [
+      "what-kind",
+      "some"
+    ],
+    "note": "interrog. 'what-kind'; indef. 'some' (kādu dienu = some day)"
+  },
+  "cik": {
+    "glosses": [
+      "how-much",
+      "how"
+    ],
+    "note": "cik ilgi = how long; cik + adj./adv. = how"
+  },
+  "prieks": {
+    "glosses": [
+      "joy",
+      "for-joy"
+    ],
+    "note": "prieks iepazīties = nice to meet you, lit. 'joy to-get-acquainted'; priekam = for-joy (dat. of purpose, R4)"
+  },
+  "iepazīties": {
+    "glosses": [
+      "to-get-acquainted"
+    ],
+    "note": "refl. form; inf."
+  },
+  "redzēšanās": {
+    "glosses": [
+      "seeing"
+    ],
+    "note": "uz redzēšanos = goodbye, lit. 'to seeing'"
+  },
+  "Jānis": {
+    "glosses": [
+      "Jānis"
+    ],
+    "note": "voc. Jāni"
+  },
+  "Pēteris": {
+    "glosses": [
+      "Pēteris"
+    ],
+    "note": "voc. Pēteri"
+  },
+  "Emma": {
+    "glosses": [
+      "Emma"
+    ],
+    "note": "voc. form identical to nom."
+  },
+  "Lietuva": {
+    "glosses": [
+      "Lithuania"
+    ]
+  },
+  "mans": {
+    "glosses": [
+      "my",
+      "to-my"
+    ],
+    "note": "poss. pron.; agrees with head noun"
+  },
+  "tavs": {
+    "glosses": [
+      "your"
+    ],
+    "note": "poss. pron., 2sg; agrees with head noun"
+  },
+  "ilgi": {
+    "glosses": [
+      "long"
+    ],
+    "note": "adv. of duration"
+  },
+  "mēnesis": {
+    "glosses": [
+      "month",
+      "months"
+    ]
+  },
+  "jauki": {
+    "glosses": [
+      "nice"
+    ],
+    "note": "adv.; ļoti jauki = very nice"
+  },
+  "telefons": {
+    "glosses": [
+      "telephone"
+    ]
+  },
+  "numurs": {
+    "glosses": [
+      "number"
+    ]
+  },
+  "sveiks": {
+    "glosses": [
+      "hello"
+    ],
+    "note": "adj.-like greeting inflected for addressee: sveiks masc., sveika fem.; cf. pl. sveiki",
+    "seeAlso": [
+      "sveiki"
+    ]
+  },
+  "Marta": {
+    "glosses": [
+      "Marta"
+    ],
+    "note": "voc. form identical to nom."
+  },
+  "kurš": {
+    "glosses": [
+      "which"
+    ],
+    "note": "interrog. pron.; agrees with head noun"
+  },
+  "valsts": {
+    "glosses": [
+      "country"
+    ],
+    "note": "nom. and gen. sg. are identical"
+  },
+  "Igaunija": {
+    "glosses": [
+      "Estonia"
+    ]
+  },
+  "Vācija": {
+    "glosses": [
+      "Germany",
+      "in-Germany"
+    ]
+  },
+  "Vecrīga": {
+    "glosses": [
+      "Vecrīga",
+      "in-Vecrīga"
+    ],
+    "note": "Rīga's Old Town; proper noun kept untranslated per R11"
+  },
+  "Tallina": {
+    "glosses": [
+      "Tallinn",
+      "in-Tallinn"
+    ]
+  },
+  "Viļņa": {
+    "glosses": [
+      "Vilnius",
+      "in-Vilnius"
+    ]
+  },
+  "centrs": {
+    "glosses": [
+      "centre",
+      "in-centre"
+    ]
+  },
+  "tagad": {
+    "glosses": [
+      "now"
+    ]
+  },
+  "tur": {
+    "glosses": [
+      "there"
+    ]
+  },
+  "jau": {
+    "glosses": [
+      "already"
+    ]
+  },
+  "bieži": {
+    "glosses": [
+      "often"
+    ]
+  },
+  "skaists": {
+    "glosses": [
+      "beautiful"
+    ]
+  },
+  "interesants": {
+    "glosses": [
+      "interesting"
+    ]
+  },
+  "brīvs": {
+    "glosses": [
+      "free",
+      "in-free"
+    ],
+    "note": "brīvajā laikā = in-free time; in- attaches to the leftmost element of a locative NP (R4); def. adj. loc."
+  },
+  "laiks": {
+    "glosses": [
+      "time",
+      "in-time",
+      "weather"
+    ],
+    "note": "laiks = time; labs laiks = good weather"
+  },
+  "igauniski": {
+    "glosses": [
+      "Estonian"
+    ]
+  },
+  "lietuviski": {
+    "glosses": [
+      "Lithuanian"
+    ]
+  },
+  "poliski": {
+    "glosses": [
+      "Polish"
+    ]
+  },
+  "kas": {
+    "glosses": [
+      "what",
+      "who"
+    ],
+    "note": "sense chosen per sentence (R10); ko = acc."
+  },
+  "darīt": {
+    "glosses": [
+      "do"
+    ]
+  },
+  "veikals": {
+    "glosses": [
+      "shop",
+      "in-shop"
+    ]
+  },
+  "kafejnīca": {
+    "glosses": [
+      "café",
+      "in-café"
+    ]
+  },
+  "tas": {
+    "glosses": [
+      "that",
+      "those"
+    ],
+    "note": "demonstr.; tas ir = that is; tās = fem. nom. pl. (those)",
+    "seeAlso": [
+      "tā"
+    ]
+  },
+  "viņš": {
+    "glosses": [
+      "he"
+    ]
+  },
+  "viņi": {
+    "glosses": [
+      "they",
+      "them"
+    ],
+    "note": "viņus = acc. masc. pl. (them)"
+  },
+  "brālis": {
+    "glosses": [
+      "brother",
+      "brothers"
+    ]
+  },
+  "māsa": {
+    "glosses": [
+      "sister",
+      "sisters",
+      "to-sister"
+    ]
+  },
+  "ģimene": {
+    "glosses": [
+      "family",
+      "in-family"
+    ]
+  },
+  "ārsts": {
+    "glosses": [
+      "doctor"
+    ],
+    "note": "used for both genders; no fem. counterpart in course yet (R15)"
+  },
+  "skola": {
+    "glosses": [
+      "school",
+      "in-school"
+    ]
+  },
+  "mīlēt": {
+    "glosses": [
+      "love"
+    ]
+  },
+  "peldēt": {
+    "glosses": [
+      "to-swim",
+      "swim"
+    ]
+  },
+  "satikties": {
+    "glosses": [
+      "meet"
+    ],
+    "note": "refl. form, reciprocal 'meet each other' (R5 lexicalized clause)"
+  },
+  "redzēt": {
+    "glosses": [
+      "to-see",
+      "see"
+    ],
+    "note": "prieks redzēt = nice to see; redzi = 2sg 'see?'",
+    "seeAlso": [
+      "redzēšanās"
+    ]
+  },
+  "šis": {
+    "glosses": [
+      "this"
+    ],
+    "note": "demonstr.; šī = fem. nom.",
+    "seeAlso": [
+      "tas"
+    ]
+  },
+  "jauks": {
+    "glosses": [
+      "nice"
+    ],
+    "note": "adj.; distinct lemma from the adv. jauki",
+    "seeAlso": [
+      "jauki"
+    ]
+  },
+  "nākt": {
+    "glosses": [
+      "come",
+      "comes"
+    ],
+    "note": "nāku 1sg, nāk 3, nāc 2sg imper."
+  },
+  "šejiene": {
+    "glosses": [
+      "here"
+    ],
+    "note": "only gen. and acc. used adverbially; uz šejieni = to here"
+  },
+  "sēdēt": {
+    "glosses": [
+      "to-sit"
+    ]
+  },
+  "pie": {
+    "glosses": [
+      "at"
+    ],
+    "note": "+ gen.; literal core 'at' even where English says 'by' (R8)"
+  },
+  "logs": {
+    "glosses": [
+      "window"
+    ]
+  },
+  "galds": {
+    "glosses": [
+      "table"
+    ]
+  },
+  "dzert": {
+    "glosses": [
+      "to-drink",
+      "drink"
+    ]
+  },
+  "kafija": {
+    "glosses": [
+      "coffee"
+    ]
+  },
+  "tēja": {
+    "glosses": [
+      "tea"
+    ]
+  },
+  "garšot": {
+    "glosses": [
+      "tastes",
+      "not-tastes"
+    ],
+    "note": "dative construction: man garšo = to-me tastes; negaršo per R7",
+    "seeAlso": [
+      "nogaršot"
+    ]
+  },
+  "skumjs": {
+    "glosses": [
+      "sad"
+    ]
+  },
+  "dzīve": {
+    "glosses": [
+      "life"
+    ],
+    "seeAlso": [
+      "dzīvot"
+    ]
+  },
+  "haha": {
+    "glosses": [
+      "haha"
+    ],
+    "note": "laughter; passes through unchanged"
+  },
+  "muldēt": {
+    "glosses": [
+      "talk-nonsense"
+    ],
+    "note": "colloq.; muldi = 2sg pres."
+  },
+  "vienmēr": {
+    "glosses": [
+      "always"
+    ]
+  },
+  "vajadzēt": {
+    "glosses": [
+      "needs"
+    ],
+    "note": "dative construction: man vajag = to-me needs"
+  },
+  "kūka": {
+    "glosses": [
+      "cake",
+      "cakes"
+    ]
+  },
+  "garšīgs": {
+    "glosses": [
+      "tasty"
+    ],
+    "seeAlso": [
+      "garšot"
+    ]
+  },
+  "ieteikt": {
+    "glosses": [
+      "recommend"
+    ],
+    "note": "iesaku = 1sg pres."
+  },
+  "siers": {
+    "glosses": [
+      "cheese"
+    ],
+    "note": "siera kūka = cheesecake (gen. modifier)"
+  },
+  "skanēt": {
+    "glosses": [
+      "sounds"
+    ]
+  },
+  "lieliski": {
+    "glosses": [
+      "wonderful"
+    ],
+    "note": "adv.; glossed with the plain English adj., as jauki is",
+    "seeAlso": [
+      "lielisks"
+    ]
+  },
+  "viesmīlis": {
+    "glosses": [
+      "waiter"
+    ],
+    "note": "masc.; fem. viesmīle not yet used in the course (R15)"
+  },
+  "jūs": {
+    "glosses": [
+      "you"
+    ],
+    "note": "2pl and polite sg.; distinct lemma from tu",
+    "seeAlso": [
+      "tu"
+    ]
+  },
+  "vēlēties": {
+    "glosses": [
+      "wish"
+    ],
+    "note": "refl. form, non-refl. meaning (R5)"
+  },
+  "lūdzu": {
+    "glosses": [
+      "please"
+    ],
+    "note": "lit. 'I ask' (1sg of lūgt); treated as a fixed politeness particle"
+  },
+  "zaļš": {
+    "glosses": [
+      "green"
+    ]
+  },
+  "ar": {
+    "glosses": [
+      "with"
+    ],
+    "note": "+ acc. sg.; dat. in pl."
+  },
+  "govs": {
+    "glosses": [
+      "cow"
+    ],
+    "note": "govs piens = cow's milk (gen. modifier)"
+  },
+  "piens": {
+    "glosses": [
+      "milk"
+    ]
+  },
+  "auza": {
+    "glosses": [
+      "oats"
+    ],
+    "note": "gen. pl. auzu; auzu piens = oat milk"
+  },
+  "skriet": {
+    "glosses": [
+      "to-run",
+      "run"
+    ]
+  },
+  "katrs": {
+    "glosses": [
+      "every"
+    ]
+  },
+  "diena": {
+    "glosses": [
+      "day",
+      "in-day"
+    ]
+  },
+  "daudz": {
+    "glosses": [
+      "a-lot"
+    ],
+    "note": "adv.; the 'many' sense is not yet used"
+  },
+  "vasara": {
+    "glosses": [
+      "in-summer"
+    ],
+    "note": "loc. vasarā absorbs the preposition per R4"
+  },
+  "braukt": {
+    "glosses": [
+      "to-ride",
+      "ride"
+    ],
+    "note": "travel by vehicle; distinct from iet (on foot) and ceļot (travel)",
+    "seeAlso": [
+      "iet",
+      "ceļot"
+    ]
+  },
+  "jūra": {
+    "glosses": [
+      "sea"
+    ]
+  },
+  "maratons": {
+    "glosses": [
+      "marathon"
+    ]
+  },
+  "mežs": {
+    "glosses": [
+      "in-forest"
+    ],
+    "note": "loc. mežā absorbs the preposition per R4"
+  },
+  "spēlēt": {
+    "glosses": [
+      "play"
+    ]
+  },
+  "pludmale": {
+    "glosses": [
+      "beach"
+    ],
+    "note": "pludmales volejbols = beach volleyball (gen. modifier)"
+  },
+  "volejbols": {
+    "glosses": [
+      "volleyball"
+    ]
+  },
+  "ā": {
+    "glosses": [
+      "ah"
+    ],
+    "note": "interjection"
+  },
+  "Jūrmala": {
+    "glosses": [
+      "in-Jūrmala"
+    ],
+    "note": "seaside town; proper noun kept untranslated per R11"
+  },
+  "laukums": {
+    "glosses": [
+      "courts"
+    ],
+    "note": "sports court; only nom. pl. laukumi used so far"
+  },
+  "tieši": {
+    "glosses": [
+      "exactly"
+    ]
+  },
+  "tā": {
+    "glosses": [
+      "so"
+    ],
+    "note": "adv.; tieši tā = exactly so. Syncretic with tas fem. forms",
+    "seeAlso": [
+      "tas"
+    ]
+  },
+  "ja": {
+    "glosses": [
+      "if"
+    ]
+  },
+  "labprāt": {
+    "glosses": [
+      "gladly"
+    ],
+    "seeAlso": [
+      "labs"
+    ]
+  },
+  "instruments": {
+    "glosses": [
+      "instrument"
+    ]
+  },
+  "ģitāra": {
+    "glosses": [
+      "guitar"
+    ]
+  },
+  "dziedāt": {
+    "glosses": [
+      "sing",
+      "not-sing"
+    ],
+    "note": "nedziedu = negated per R7"
+  },
+  "gatavot": {
+    "glosses": [
+      "cook",
+      "to-cook",
+      "prepare"
+    ],
+    "note": "gatavot ēdienu = cook; gatavot dzērienu = prepare"
+  },
+  "zupa": {
+    "glosses": [
+      "soup"
+    ]
+  },
+  "cept": {
+    "glosses": [
+      "bake"
+    ],
+    "note": "also 'fry'; only the 'bake' sense is used so far"
+  },
+  "slepens": {
+    "glosses": [
+      "secret"
+    ]
+  },
+  "recepte": {
+    "glosses": [
+      "recipe"
+    ]
+  },
+  "burkāns": {
+    "glosses": [
+      "carrots"
+    ],
+    "note": "gen. pl. burkānu; burkānu kūka = carrot cake"
+  },
+  "reiz": {
+    "glosses": [
+      "once"
+    ],
+    "note": "here in the sense 'sometime'"
+  },
+  "nogaršot": {
+    "glosses": [
+      "to-taste"
+    ],
+    "note": "perfective of garšot",
+    "seeAlso": [
+      "garšot"
+    ]
+  },
+  "smaidīt": {
+    "glosses": [
+      "smiles"
+    ]
+  },
+  "varbūt": {
+    "glosses": [
+      "maybe"
+    ]
+  },
+  "atnest": {
+    "glosses": [
+      "brings"
+    ]
+  },
+  "o": {
+    "glosses": [
+      "oh"
+    ],
+    "note": "interjection"
+  },
+  "lielisks": {
+    "glosses": [
+      "wonderful"
+    ],
+    "note": "adj.; same gloss as the adv. lieliski",
+    "seeAlso": [
+      "lieliski"
+    ]
+  },
+  "teikt": {
+    "glosses": [
+      "say",
+      "said"
+    ],
+    "note": "saku = 1sg pres."
+  },
+  "fantastisks": {
+    "glosses": [
+      "fantastic"
+    ]
+  },
+  "vieta": {
+    "glosses": [
+      "place"
+    ]
+  },
+  "izvēle": {
+    "glosses": [
+      "choice"
+    ]
+  },
+  "priecāties": {
+    "glosses": [
+      "rejoice"
+    ],
+    "note": "refl. form, non-refl. meaning (R5); person-free per R2"
+  },
+  "ka": {
+    "glosses": [
+      "that"
+    ],
+    "note": "conj. complementizer; distinct from the demonstr. tas",
+    "seeAlso": [
+      "tas"
+    ]
+  },
+  "šodien": {
+    "glosses": [
+      "today"
+    ]
+  },
+  "sestdiena": {
+    "glosses": [
+      "Saturday"
+    ]
+  },
+  "celties": {
+    "glosses": [
+      "get-up"
+    ],
+    "note": "refl. form, non-reflexive meaning (R5)"
+  },
+  "pulksten": {
+    "glosses": [
+      "o'clock"
+    ],
+    "note": "adv. before a numeral to mark clock time"
+  },
+  "brokastis": {
+    "glosses": [
+      "at-breakfast"
+    ],
+    "note": "plural-only noun; loc. brokastīs absorbs at- per R4"
+  },
+  "ēst": {
+    "glosses": [
+      "eat"
+    ]
+  },
+  "tad": {
+    "glosses": [
+      "then"
+    ]
+  },
+  "grāmata": {
+    "glosses": [
+      "book"
+    ]
+  },
+  "klausīties": {
+    "glosses": [
+      "listen"
+    ],
+    "note": "refl. form, non-reflexive meaning (R5)"
+  },
+  "pēc": {
+    "glosses": [
+      "after"
+    ],
+    "note": "+ gen.; pēc tam is a fixed phrase"
+  },
+  "pusdienlaiks": {
+    "glosses": [
+      "at-lunchtime"
+    ],
+    "note": "loc. pusdienlaikā absorbs at- per R4"
+  },
+  "pēcpusdiena": {
+    "glosses": [
+      "in-afternoon"
+    ],
+    "note": "loc. pēcpusdienā absorbs in- per R4"
+  },
+  "vakars": {
+    "glosses": [
+      "in-evening"
+    ],
+    "note": "loc. vakarā absorbs in- per R4"
+  },
+  "gulēt": {
+    "glosses": [
+      "to-sleep"
+    ]
+  },
+  "tāds": {
+    "glosses": [
+      "such"
+    ],
+    "note": "demonstrative; tāda = fem. nom."
+  },
+  "zināt": {
+    "glosses": [
+      "know"
+    ]
+  },
+  "oi": {
+    "glosses": [
+      "oh"
+    ]
+  },
+  "grūts": {
+    "glosses": [
+      "difficult"
+    ]
+  },
+  "vārds": {
+    "glosses": [
+      "word"
+    ]
+  },
+  "vecāki": {
+    "glosses": [
+      "parents"
+    ]
+  },
+  "latvietis": {
+    "glosses": [
+      "Latvians",
+      "Latvian"
+    ]
+  },
+  "interesanti": {
+    "glosses": [
+      "interesting"
+    ]
+  },
+  "vāciski": {
+    "glosses": [
+      "German"
+    ]
+  },
+  "reize": {
+    "glosses": [
+      "times",
+      "time"
+    ]
+  },
+  "nedēļa": {
+    "glosses": [
+      "in-week"
+    ]
+  },
+  "jauns": {
+    "glosses": [
+      "new"
+    ]
+  },
+  "skolēns": {
+    "glosses": [
+      "pupils"
+    ]
+  },
+  "tiešām": {
+    "glosses": [
+      "really"
+    ]
+  },
+  "nu": {
+    "glosses": [
+      "well"
+    ]
+  },
+  "kopā": {
+    "glosses": [
+      "together"
+    ]
+  },
+  "tikties": {
+    "glosses": [
+      "see-each-other"
+    ]
+  },
+  "minūte": {
+    "glosses": [
+      "minutes"
+    ]
+  },
+  "cilvēks": {
+    "glosses": [
+      "people",
+      "person"
+    ]
+  },
+  "mēs": {
+    "glosses": [
+      "our",
+      "we"
+    ]
+  },
+  "klase": {
+    "glosses": [
+      "in-class"
+    ]
+  },
+  "domāt": {
+    "glosses": [
+      "think"
+    ]
+  },
+  "somiski": {
+    "glosses": [
+      "Finnish"
+    ]
+  },
+  "oho": {
+    "glosses": [
+      "wow"
+    ]
+  },
+  "slikts": {
+    "glosses": [
+      "bad"
+    ]
+  },
+  "stunda": {
+    "glosses": [
+      "hours"
+    ]
+  },
+  "gads": {
+    "glosses": [
+      "years"
+    ]
+  },
+  "kāpēc": {
+    "glosses": [
+      "why"
+    ]
+  },
+  "klients": {
+    "glosses": [
+      "customers",
+      "customer"
+    ]
+  },
+  "jo": {
+    "glosses": [
+      "because"
+    ]
+  },
+  "romantiķis": {
+    "glosses": [
+      "romantic"
+    ]
+  },
+  "saruna": {
+    "glosses": [
+      "conversation"
+    ]
+  },
+  "ne": {
+    "glosses": [
+      "not"
+    ]
+  },
+  "ak": {
+    "glosses": [
+      "oh"
+    ]
+  },
+  "pats": {
+    "glosses": [
+      "same"
+    ]
+  },
+  "rakstīt": {
+    "glosses": [
+      "writes",
+      "write"
+    ]
+  },
+  "atbildēt": {
+    "glosses": [
+      "answer"
+    ]
+  },
+  "prasīt": {
+    "glosses": [
+      "requires"
+    ]
+  },
+  "visi": {
+    "glosses": [
+      "everyone"
+    ]
+  },
+  "atkal": {
+    "glosses": [
+      "again"
+    ]
+  },
+  "par": {
+    "glosses": [
+      "about"
+    ]
+  },
+  "viss": {
+    "glosses": [
+      "all"
+    ]
+  }
 }

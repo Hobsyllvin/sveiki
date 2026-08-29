@@ -8,7 +8,7 @@ Run with:
     npm run audio -- --script content/lv/audio-scripts/voice-test.md
 
 The speaker name must match the key in `content/lv/voices.json`. Output goes to
-`content/lv/audio-elevenlabs/voice-test.*`.
+`content/lv/audio/voice-test.*`.
 
 s1 | Jānis | Mani sauc Jānis. Es mācos latviski.
 s2 | Jānis | [curiously] Kā tevi sauc?

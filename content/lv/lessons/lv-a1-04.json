@@ -1,410 +1,1694 @@
 {
   "lessonId": "lv-a1-04",
-  "title": "Mana sestdiena Rīgā (My Saturday in Riga)",
+  "title": "Mana sestdiena Rīgā",
   "cefr": "A1",
-  "newLemmas": ["šodien", "sestdiena", "celties", "pulksten", "brokastis", "ēst", "maize", "tad", "grāmata", "klausīties", "pēc", "pirkt", "pusdienlaiks", "pēcpusdiena", "vakars", "gulēt", "tāds"],
+  "newLemmas": [
+    "šodien",
+    "sestdiena",
+    "ne",
+    "celties",
+    "pulksten",
+    "pirkt",
+    "ak",
+    "pats",
+    "pusdienlaiks",
+    "rakstīt",
+    "atbildēt",
+    "prasīt",
+    "pēcpusdiena",
+    "visi",
+    "atkal",
+    "pēc",
+    "par",
+    "vakars",
+    "lasīt",
+    "grāmata",
+    "viss",
+    "gulēt",
+    "tāds"
+  ],
   "sections": [
     {
       "format": "narration",
-      "title": "Rīts",
+      "title": "Mana sestdiena",
       "sentences": [
         {
           "id": "s1",
           "speaker": "Emma",
-          "target": "Šodien ir sestdiena, un man ir brīva diena.",
+          "target": "Šodien ir sestdiena, un Rīgā ir skaists laiks.",
           "tokens": [
-            { "lv": "Šodien", "gloss": "today", "lemma": "šodien", "pos": "adv" },
-            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
-            { "lv": "sestdiena", "gloss": "Saturday", "lemma": "sestdiena", "pos": "noun", "note": "nom.", "punct": "," },
-            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
-            { "lv": "man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
-            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
-            { "lv": "brīva", "gloss": "free", "lemma": "brīvs", "pos": "adj", "note": "fem. nom." },
-            { "lv": "diena", "gloss": "day", "lemma": "diena", "pos": "noun", "note": "nom.", "punct": "." }
+            {
+              "lv": "Šodien",
+              "gloss": "today",
+              "lemma": "šodien",
+              "pos": "adv"
+            },
+            {
+              "lv": "ir",
+              "gloss": "is",
+              "lemma": "būt",
+              "pos": "verb",
+              "note": "3 pres."
+            },
+            {
+              "lv": "sestdiena",
+              "gloss": "Saturday",
+              "lemma": "sestdiena",
+              "pos": "noun",
+              "note": "nom.",
+              "punct": ","
+            },
+            {
+              "lv": "un",
+              "gloss": "and",
+              "lemma": "un",
+              "pos": "conj"
+            },
+            {
+              "lv": "Rīgā",
+              "gloss": "in-Riga",
+              "lemma": "Rīga",
+              "pos": "noun"
+            },
+            {
+              "lv": "ir",
+              "gloss": "is",
+              "lemma": "būt",
+              "pos": "verb",
+              "note": "3 pres."
+            },
+            {
+              "lv": "skaists",
+              "gloss": "beautiful",
+              "lemma": "skaists",
+              "pos": "adj",
+              "note": "masc. nom."
+            },
+            {
+              "lv": "laiks",
+              "gloss": "weather",
+              "lemma": "laiks",
+              "pos": "noun",
+              "note": "nom.",
+              "punct": "."
+            }
           ],
-          "natural": "Today is Saturday, and I have a day off.",
+          "natural": "Today is Saturday, and it is beautiful weather in Riga.",
           "audio": "lv-a1-04-s1.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Šodien",
+              "gloss": "today",
+              "lemma": "šodien",
+              "pos": "adv"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "runāju",
+              "gloss": "speak",
+              "lemma": "runāt",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "tikai",
+              "gloss": "only",
+              "lemma": "tikai",
+              "pos": "adv"
+            },
+            {
+              "lv": "latviski",
+              "gloss": "Latvian",
+              "lemma": "latviski",
+              "pos": "adv",
+              "punct": "."
+            },
+            {
+              "lv": "Ne",
+              "gloss": "not",
+              "lemma": "ne",
+              "pos": "part"
+            },
+            {
+              "lv": "angliski",
+              "gloss": "English",
+              "lemma": "angliski",
+              "pos": "noun",
+              "punct": "!"
+            }
+          ],
           "id": "s2",
           "speaker": "Emma",
-          "target": "Es ceļos pulksten astoņos.",
-          "tokens": [
-            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "ceļos", "gloss": "get-up", "lemma": "celties", "pos": "verb", "note": "refl. form, non-refl. meaning; 1sg pres." },
-            { "lv": "pulksten", "gloss": "o'clock", "lemma": "pulksten", "pos": "adv", "note": "marks clock time" },
-            { "lv": "astoņos", "gloss": "at-eight", "lemma": "astoņi", "pos": "num", "note": "loc.; clock time", "punct": "." }
-          ],
-          "natural": "I get up at eight o'clock.",
+          "target": "Šodien es runāju tikai latviski. Ne angliski!",
+          "natural": "Today I speak only Latvian. No English!",
           "audio": "lv-a1-04-s2.mp3",
           "audioApproved": false
         },
         {
           "id": "s3",
           "speaker": "Emma",
-          "target": "No rīta es vienmēr gribu kafiju ar auzu pienu.",
+          "target": "Es ceļos pulksten astoņos.",
           "tokens": [
-            { "lv": "No", "gloss": "from", "lemma": "no", "pos": "prep", "note": "+ gen." },
-            { "lv": "rīta", "gloss": "morning", "lemma": "rīts", "pos": "noun", "note": "gen. after no" },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "vienmēr", "gloss": "always", "lemma": "vienmēr", "pos": "adv" },
-            { "lv": "gribu", "gloss": "want", "lemma": "gribēt", "pos": "verb", "note": "1sg pres." },
-            { "lv": "kafiju", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "acc." },
-            { "lv": "ar", "gloss": "with", "lemma": "ar", "pos": "prep", "note": "+ acc." },
-            { "lv": "auzu", "gloss": "oats", "lemma": "auza", "pos": "noun", "note": "gen. pl.; auzu piens = oat milk" },
-            { "lv": "pienu", "gloss": "milk", "lemma": "piens", "pos": "noun", "note": "acc.", "punct": "." }
+            {
+              "lv": "Es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "ceļos",
+              "gloss": "get-up",
+              "lemma": "celties",
+              "pos": "verb",
+              "note": "refl. form, non-refl. meaning; 1sg pres."
+            },
+            {
+              "lv": "pulksten",
+              "gloss": "o'clock",
+              "lemma": "pulksten",
+              "pos": "adv",
+              "note": "marks clock time"
+            },
+            {
+              "lv": "astoņos",
+              "gloss": "at-eight",
+              "lemma": "astoņi",
+              "pos": "num",
+              "note": "loc.; clock time",
+              "punct": "."
+            }
           ],
-          "natural": "In the morning I always want coffee with oat milk.",
+          "natural": "I get up at eight o'clock.",
           "audio": "lv-a1-04-s3.mp3",
           "audioApproved": false
         },
         {
           "id": "s4",
           "speaker": "Emma",
-          "target": "Brokastīs es ēdu maizi un sieru.",
+          "target": "No rīta es vienmēr gribu kafiju ar auzu pienu.",
           "tokens": [
-            { "lv": "Brokastīs", "gloss": "at-breakfast", "lemma": "brokastis", "pos": "noun", "note": "loc. pl." },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "ēdu", "gloss": "eat", "lemma": "ēst", "pos": "verb", "note": "1sg pres." },
-            { "lv": "maizi", "gloss": "bread", "lemma": "maize", "pos": "noun", "note": "acc." },
-            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
-            { "lv": "sieru", "gloss": "cheese", "lemma": "siers", "pos": "noun", "note": "acc.", "punct": "." }
+            {
+              "lv": "No",
+              "gloss": "from",
+              "lemma": "no",
+              "pos": "prep",
+              "note": "+ gen."
+            },
+            {
+              "lv": "rīta",
+              "gloss": "morning",
+              "lemma": "rīts",
+              "pos": "noun",
+              "note": "gen. after no"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "vienmēr",
+              "gloss": "always",
+              "lemma": "vienmēr",
+              "pos": "adv"
+            },
+            {
+              "lv": "gribu",
+              "gloss": "want",
+              "lemma": "gribēt",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "kafiju",
+              "gloss": "coffee",
+              "lemma": "kafija",
+              "pos": "noun",
+              "note": "acc."
+            },
+            {
+              "lv": "ar",
+              "gloss": "with",
+              "lemma": "ar",
+              "pos": "prep",
+              "note": "+ acc."
+            },
+            {
+              "lv": "auzu",
+              "gloss": "oats",
+              "lemma": "auza",
+              "pos": "noun",
+              "note": "gen. pl.; auzu piens = oat milk"
+            },
+            {
+              "lv": "pienu",
+              "gloss": "milk",
+              "lemma": "piens",
+              "pos": "noun",
+              "note": "acc.",
+              "punct": "."
+            }
           ],
-          "natural": "For breakfast I eat bread and cheese.",
+          "natural": "In the morning I always want coffee with oat milk.",
           "audio": "lv-a1-04-s4.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Bet",
+              "gloss": "but",
+              "lemma": "bet",
+              "pos": "propn"
+            },
+            {
+              "lv": "man",
+              "gloss": "to-me",
+              "lemma": "es",
+              "pos": "pron",
+              "note": "dat."
+            },
+            {
+              "lv": "nav",
+              "gloss": "is-not",
+              "lemma": "būt",
+              "note": "negated 3rd person",
+              "pos": "verb"
+            },
+            {
+              "lv": "auzu",
+              "gloss": "oats",
+              "lemma": "auza",
+              "pos": "noun",
+              "note": "gen. pl.; auzu piens = oat milk"
+            },
+            {
+              "lv": "piena",
+              "gloss": "milk",
+              "lemma": "piens",
+              "pos": "noun",
+              "punct": "."
+            },
+            {
+              "lv": "Tad",
+              "gloss": "then",
+              "lemma": "tad",
+              "pos": "adv"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "eju",
+              "gloss": "go",
+              "lemma": "iet",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "uz",
+              "gloss": "to",
+              "lemma": "uz",
+              "pos": "prep",
+              "note": "+ acc.; direction"
+            },
+            {
+              "lv": "veikalu",
+              "gloss": "shop",
+              "lemma": "veikals",
+              "pos": "noun",
+              "note": "acc. after uz",
+              "punct": "."
+            }
+          ],
           "id": "s5",
           "speaker": "Emma",
-          "target": "Tad es mazliet mācos latviski.",
-          "tokens": [
-            { "lv": "Tad", "gloss": "then", "lemma": "tad", "pos": "adv" },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "mazliet", "gloss": "a-little", "lemma": "mazliet", "pos": "adv" },
-            { "lv": "mācos", "gloss": "learn", "lemma": "mācīties", "pos": "verb", "note": "refl. form, non-refl. meaning; 1sg pres." },
-            { "lv": "latviski", "gloss": "Latvian", "lemma": "latviski", "pos": "adv", "punct": "." }
-          ],
-          "natural": "Then I study a little Latvian.",
+          "target": "Bet man nav auzu piena. Tad es eju uz veikalu.",
+          "natural": "But I have no oat milk. So I go to the shop.",
           "audio": "lv-a1-04-s5.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Veikalā",
+              "gloss": "in-shop",
+              "lemma": "veikals",
+              "pos": "noun"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "pērku",
+              "gloss": "buy",
+              "lemma": "pirkt",
+              "pos": "verb"
+            },
+            {
+              "lv": "burkānus",
+              "gloss": "carrots",
+              "lemma": "burkāns",
+              "pos": "noun"
+            },
+            {
+              "lv": "un",
+              "gloss": "and",
+              "lemma": "un",
+              "pos": "conj"
+            },
+            {
+              "lv": "sieru",
+              "gloss": "cheese",
+              "lemma": "siers",
+              "pos": "noun",
+              "punct": "."
+            }
+          ],
           "id": "s6",
           "speaker": "Emma",
-          "target": "Es lasu grāmatu lietuviski un klausos mūziku.",
-          "tokens": [
-            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "lasu", "gloss": "read", "lemma": "lasīt", "pos": "verb", "note": "1sg pres." },
-            { "lv": "grāmatu", "gloss": "book", "lemma": "grāmata", "pos": "noun", "note": "acc." },
-            { "lv": "lietuviski", "gloss": "Lithuanian", "lemma": "lietuviski", "pos": "adv" },
-            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
-            { "lv": "klausos", "gloss": "listen", "lemma": "klausīties", "pos": "verb", "note": "refl. form, non-refl. meaning; 1sg pres." },
-            { "lv": "mūziku", "gloss": "music", "lemma": "mūzika", "pos": "noun", "note": "acc.", "punct": "." }
-          ],
-          "natural": "I read a book in Lithuanian and listen to music.",
+          "target": "Veikalā es pērku burkānus un sieru.",
+          "natural": "At the shop I buy carrots and cheese.",
           "audio": "lv-a1-04-s6.mp3",
           "audioApproved": false
-        }
-      ]
-    },
-    {
-      "format": "narration",
-      "title": "Veikalā un pusdienlaikā",
-      "sentences": [
+        },
         {
+          "tokens": [
+            {
+              "lv": "Bet",
+              "gloss": "but",
+              "lemma": "bet",
+              "pos": "noun"
+            },
+            {
+              "lv": "auzu",
+              "gloss": "oats",
+              "lemma": "auza",
+              "pos": "noun",
+              "note": "gen. pl.; auzu piens = oat milk"
+            },
+            {
+              "lv": "piena",
+              "gloss": "milk",
+              "lemma": "piens",
+              "pos": "noun"
+            },
+            {
+              "lv": "nav",
+              "gloss": "is-not",
+              "lemma": "būt",
+              "note": "negated 3rd person",
+              "pos": "noun",
+              "punct": "!"
+            }
+          ],
           "id": "s7",
           "speaker": "Emma",
-          "target": "Pēc tam es eju uz veikalu centrā.",
-          "tokens": [
-            { "lv": "Pēc", "gloss": "after", "lemma": "pēc", "pos": "prep", "note": "pēc tam = after that" },
-            { "lv": "tam", "gloss": "that", "lemma": "tas", "pos": "pron", "note": "dat.; fixed phrase pēc tam" },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "eju", "gloss": "go", "lemma": "iet", "pos": "verb", "note": "1sg pres." },
-            { "lv": "uz", "gloss": "to", "lemma": "uz", "pos": "prep", "note": "+ acc.; direction" },
-            { "lv": "veikalu", "gloss": "shop", "lemma": "veikals", "pos": "noun", "note": "acc. after uz" },
-            { "lv": "centrā", "gloss": "in-centre", "lemma": "centrs", "pos": "noun", "note": "loc.", "punct": "." }
-          ],
-          "natural": "After that, I go to a shop in the centre.",
+          "target": "Bet auzu piena nav!",
+          "natural": "But there's no oat milk!",
           "audio": "lv-a1-04-s7.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Ak",
+              "gloss": "oh",
+              "lemma": "ak",
+              "pos": "interj"
+            },
+            {
+              "lv": "nē",
+              "gloss": "no",
+              "lemma": "nē",
+              "pos": "noun",
+              "punct": "."
+            },
+            {
+              "lv": "Tā",
+              "gloss": "so",
+              "lemma": "tā",
+              "pos": "noun"
+            },
+            {
+              "lv": "ir",
+              "gloss": "is",
+              "lemma": "būt",
+              "pos": "verb",
+              "note": "3 pres."
+            },
+            {
+              "lv": "skumja",
+              "gloss": "sad",
+              "lemma": "skumjs",
+              "pos": "noun"
+            },
+            {
+              "lv": "dzīve",
+              "gloss": "life",
+              "lemma": "dzīve",
+              "pos": "noun",
+              "punct": " —"
+            },
+            {
+              "lv": "Pēteris",
+              "gloss": "Pēteris",
+              "lemma": "Pēteris",
+              "pos": "propn"
+            },
+            {
+              "lv": "tā",
+              "gloss": "so",
+              "lemma": "tā",
+              "pos": "pron"
+            },
+            {
+              "lv": "teica",
+              "gloss": "said",
+              "lemma": "teikt",
+              "pos": "verb",
+              "note": "3 past.",
+              "punct": ","
+            },
+            {
+              "lv": "haha",
+              "gloss": "haha",
+              "lemma": "haha",
+              "pos": "interj",
+              "punct": "."
+            }
+          ],
           "id": "s8",
           "speaker": "Emma",
-          "target": "Veikalā es pērku burkānus, auzu pienu un sieru.",
-          "tokens": [
-            { "lv": "Veikalā", "gloss": "in-shop", "lemma": "veikals", "pos": "noun", "note": "loc." },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "pērku", "gloss": "buy", "lemma": "pirkt", "pos": "verb", "note": "1sg pres." },
-            { "lv": "burkānus", "gloss": "carrots", "lemma": "burkāns", "pos": "noun", "note": "acc. pl.", "punct": "," },
-            { "lv": "auzu", "gloss": "oats", "lemma": "auza", "pos": "noun", "note": "gen. pl.; auzu piens = oat milk" },
-            { "lv": "pienu", "gloss": "milk", "lemma": "piens", "pos": "noun", "note": "acc." },
-            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
-            { "lv": "sieru", "gloss": "cheese", "lemma": "siers", "pos": "noun", "note": "acc.", "punct": "." }
-          ],
-          "natural": "At the shop I buy carrots, oat milk and cheese.",
+          "target": "Ak nē. Tā ir skumja dzīve — Pēteris tā teica, haha.",
+          "natural": "Oh no. That is a sad life, like Pēteris said, haha.",
           "audio": "lv-a1-04-s8.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "pērku",
+              "gloss": "buy",
+              "lemma": "pirkt",
+              "pos": "verb"
+            },
+            {
+              "lv": "govs",
+              "gloss": "cow",
+              "lemma": "govs",
+              "pos": "noun"
+            },
+            {
+              "lv": "pienu",
+              "gloss": "milk",
+              "lemma": "piens",
+              "pos": "noun",
+              "punct": "."
+            },
+            {
+              "lv": "Tas",
+              "gloss": "that",
+              "lemma": "tas",
+              "pos": "noun"
+            },
+            {
+              "lv": "nav",
+              "gloss": "is-not",
+              "lemma": "būt",
+              "note": "negated 3rd person",
+              "pos": "noun"
+            },
+            {
+              "lv": "tas",
+              "gloss": "that",
+              "lemma": "tas",
+              "pos": "noun"
+            },
+            {
+              "lv": "pats",
+              "gloss": "same",
+              "lemma": "pats",
+              "pos": "noun",
+              "punct": "."
+            }
+          ],
           "id": "s9",
           "speaker": "Emma",
-          "target": "Pusdienlaikā es gatavoju burkānu zupu.",
-          "tokens": [
-            { "lv": "Pusdienlaikā", "gloss": "at-lunchtime", "lemma": "pusdienlaiks", "pos": "noun", "note": "loc." },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "gatavoju", "gloss": "cook", "lemma": "gatavot", "pos": "verb", "note": "food sense; 1sg pres." },
-            { "lv": "burkānu", "gloss": "carrots", "lemma": "burkāns", "pos": "noun", "note": "gen. pl." },
-            { "lv": "zupu", "gloss": "soup", "lemma": "zupa", "pos": "noun", "note": "acc.", "punct": "." }
-          ],
-          "natural": "At lunchtime I make carrot soup.",
+          "target": "Es pērku govs pienu. Tas nav tas pats.",
+          "natural": "I buy cow's milk. It's not the same.",
           "audio": "lv-a1-04-s9.mp3",
           "audioApproved": false
         },
         {
           "id": "s10",
           "speaker": "Emma",
-          "target": "Man ļoti garšo burkānu zupa.",
+          "target": "Pusdienlaikā es gatavoju burkānu zupu.",
           "tokens": [
-            { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
-            { "lv": "ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
-            { "lv": "garšo", "gloss": "tastes", "lemma": "garšot", "pos": "verb", "note": "3 pres.; dative construction" },
-            { "lv": "burkānu", "gloss": "carrots", "lemma": "burkāns", "pos": "noun", "note": "gen. pl." },
-            { "lv": "zupa", "gloss": "soup", "lemma": "zupa", "pos": "noun", "note": "nom.", "punct": "." }
+            {
+              "lv": "Pusdienlaikā",
+              "gloss": "at-lunchtime",
+              "lemma": "pusdienlaiks",
+              "pos": "noun",
+              "note": "loc."
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "gatavoju",
+              "gloss": "cook",
+              "lemma": "gatavot",
+              "pos": "verb",
+              "note": "food sense; 1sg pres."
+            },
+            {
+              "lv": "burkānu",
+              "gloss": "carrots",
+              "lemma": "burkāns",
+              "pos": "noun",
+              "note": "gen. pl."
+            },
+            {
+              "lv": "zupu",
+              "gloss": "soup",
+              "lemma": "zupa",
+              "pos": "noun",
+              "note": "acc.",
+              "punct": "."
+            }
           ],
-          "natural": "I really like carrot soup.",
+          "natural": "At lunchtime I make carrot soup.",
           "audio": "lv-a1-04-s10.mp3",
           "audioApproved": false
-        }
-      ]
-    },
-    {
-      "format": "narration",
-      "title": "Darbs kafejnīcā",
-      "sentences": [
+        },
         {
           "id": "s11",
           "speaker": "Emma",
-          "target": "Pēcpusdienā es eju uz darbu.",
+          "target": "Man ļoti garšo burkānu zupa.",
           "tokens": [
-            { "lv": "Pēcpusdienā", "gloss": "in-afternoon", "lemma": "pēcpusdiena", "pos": "noun", "note": "loc." },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "eju", "gloss": "go", "lemma": "iet", "pos": "verb", "note": "1sg pres." },
-            { "lv": "uz", "gloss": "to", "lemma": "uz", "pos": "prep", "note": "+ acc.; direction" },
-            { "lv": "darbu", "gloss": "work", "lemma": "darbs", "pos": "noun", "note": "acc. after uz", "punct": "." }
+            {
+              "lv": "Man",
+              "gloss": "to-me",
+              "lemma": "es",
+              "pos": "pron",
+              "note": "dat."
+            },
+            {
+              "lv": "ļoti",
+              "gloss": "very",
+              "lemma": "ļoti",
+              "pos": "adv"
+            },
+            {
+              "lv": "garšo",
+              "gloss": "tastes",
+              "lemma": "garšot",
+              "pos": "verb",
+              "note": "3 pres.; dative construction"
+            },
+            {
+              "lv": "burkānu",
+              "gloss": "carrots",
+              "lemma": "burkāns",
+              "pos": "noun",
+              "note": "gen. pl."
+            },
+            {
+              "lv": "zupa",
+              "gloss": "soup",
+              "lemma": "zupa",
+              "pos": "noun",
+              "note": "nom.",
+              "punct": "."
+            }
           ],
-          "natural": "In the afternoon I go to work.",
+          "natural": "I really like carrot soup.",
           "audio": "lv-a1-04-s11.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Tad",
+              "gloss": "then",
+              "lemma": "tad",
+              "pos": "adv"
+            },
+            {
+              "lv": "Jānis",
+              "gloss": "Jānis",
+              "lemma": "Jānis",
+              "pos": "propn"
+            },
+            {
+              "lv": "raksta:",
+              "gloss": "writes",
+              "lemma": "rakstīt",
+              "pos": "verb"
+            },
+            {
+              "lv": "\"Vai",
+              "gloss": "whether",
+              "lemma": "vai",
+              "pos": "part"
+            },
+            {
+              "lv": "mēs",
+              "gloss": "we",
+              "lemma": "mēs",
+              "pos": "pron"
+            },
+            {
+              "lv": "mācāmies",
+              "gloss": "learn",
+              "lemma": "mācīties",
+              "pos": "verb"
+            },
+            {
+              "lv": "kopā?\"",
+              "gloss": "together",
+              "lemma": "kopā",
+              "pos": "adv"
+            }
+          ],
           "id": "s12",
           "speaker": "Emma",
-          "target": "Es strādāju kafejnīcā Vecrīgā.",
-          "tokens": [
-            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "strādāju", "gloss": "work", "lemma": "strādāt", "pos": "verb", "note": "1sg pres." },
-            { "lv": "kafejnīcā", "gloss": "in-café", "lemma": "kafejnīca", "pos": "noun", "note": "loc." },
-            { "lv": "Vecrīgā", "gloss": "in-Vecrīga", "lemma": "Vecrīga", "pos": "propn", "note": "loc.", "punct": "." }
-          ],
-          "natural": "I work in a café in the Old Town.",
+          "target": "Tad Jānis raksta: \"Vai mēs mācāmies kopā?\"",
+          "natural": "Then Jānis writes: \"Shall we study together?\"",
           "audio": "lv-a1-04-s12.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "atbildu",
+              "gloss": "answer",
+              "lemma": "atbildēt",
+              "pos": "verb"
+            },
+            {
+              "lv": "latviski",
+              "gloss": "Latvian",
+              "lemma": "latviski",
+              "pos": "adv",
+              "punct": "."
+            },
+            {
+              "lv": "Tas",
+              "gloss": "that",
+              "lemma": "tas",
+              "pos": "pron"
+            },
+            {
+              "lv": "prasa",
+              "gloss": "requires",
+              "lemma": "prasīt",
+              "pos": "verb",
+              "note": "3 pres."
+            },
+            {
+              "lv": "laiku",
+              "gloss": "time",
+              "lemma": "laiks",
+              "pos": "noun",
+              "note": "acc.",
+              "punct": ","
+            },
+            {
+              "lv": "bet",
+              "gloss": "but",
+              "lemma": "bet",
+              "pos": "conj"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "rakstu",
+              "gloss": "write",
+              "lemma": "rakstīt",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "latviski",
+              "gloss": "Latvian",
+              "lemma": "latviski",
+              "pos": "adv",
+              "punct": "!"
+            }
+          ],
           "id": "s13",
           "speaker": "Emma",
-          "target": "Tur es gatavoju kafiju un tēju.",
-          "tokens": [
-            { "lv": "Tur", "gloss": "there", "lemma": "tur", "pos": "adv" },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "gatavoju", "gloss": "prepare", "lemma": "gatavot", "pos": "verb", "note": "drink sense; 1sg pres." },
-            { "lv": "kafiju", "gloss": "coffee", "lemma": "kafija", "pos": "noun", "note": "acc." },
-            { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
-            { "lv": "tēju", "gloss": "tea", "lemma": "tēja", "pos": "noun", "note": "acc.", "punct": "." }
-          ],
-          "natural": "There I make coffee and tea.",
+          "target": "Es atbildu latviski. Tas prasa laiku, bet es rakstu latviski!",
+          "natural": "I answer in Latvian. It takes some time, but I write in Latvian!",
           "audio": "lv-a1-04-s13.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Pēcpusdienā",
+              "gloss": "in-afternoon",
+              "lemma": "pēcpusdiena",
+              "pos": "noun"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "eju",
+              "gloss": "go",
+              "lemma": "iet",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "uz",
+              "gloss": "to",
+              "lemma": "uz",
+              "pos": "prep",
+              "note": "+ acc.; direction"
+            },
+            {
+              "lv": "darbu",
+              "gloss": "work",
+              "lemma": "darbs",
+              "pos": "noun",
+              "punct": "."
+            },
+            {
+              "lv": "Es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "strādāju",
+              "gloss": "work",
+              "lemma": "strādāt",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "kafejnīcā",
+              "gloss": "in-café",
+              "lemma": "kafejnīca",
+              "pos": "noun",
+              "note": "loc."
+            },
+            {
+              "lv": "Vecrīgā",
+              "gloss": "in-Vecrīga",
+              "lemma": "Vecrīga",
+              "pos": "propn",
+              "punct": "."
+            }
+          ],
           "id": "s14",
           "speaker": "Emma",
-          "target": "Kafejnīcā es bieži runāju latviski.",
-          "tokens": [
-            { "lv": "Kafejnīcā", "gloss": "in-café", "lemma": "kafejnīca", "pos": "noun", "note": "loc." },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "bieži", "gloss": "often", "lemma": "bieži", "pos": "adv" },
-            { "lv": "runāju", "gloss": "speak", "lemma": "runāt", "pos": "verb", "note": "1sg pres." },
-            { "lv": "latviski", "gloss": "Latvian", "lemma": "latviski", "pos": "adv", "punct": "." }
-          ],
-          "natural": "At the café I often speak Latvian.",
+          "target": "Pēcpusdienā es eju uz darbu. Es strādāju kafejnīcā Vecrīgā.",
+          "natural": "In the afternoon I go to work. I work in a café in the Old Town.",
           "audio": "lv-a1-04-s14.mp3",
           "audioApproved": false
         },
         {
           "id": "s15",
           "speaker": "Emma",
-          "target": "Es vēl nerunāju ļoti labi, bet es jau daudz saprotu.",
+          "target": "Tur es gatavoju kafiju un tēju.",
           "tokens": [
-            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "vēl", "gloss": "still", "lemma": "vēl", "pos": "adv", "note": "'still' sense here, not 'else'" },
-            { "lv": "nerunāju", "gloss": "not-speak", "lemma": "runāt", "pos": "verb", "note": "neg. 1sg pres." },
-            { "lv": "ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
-            { "lv": "labi", "gloss": "well", "lemma": "labi", "pos": "adv", "punct": "," },
-            { "lv": "bet", "gloss": "but", "lemma": "bet", "pos": "conj" },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "jau", "gloss": "already", "lemma": "jau", "pos": "adv" },
-            { "lv": "daudz", "gloss": "a-lot", "lemma": "daudz", "pos": "adv" },
-            { "lv": "saprotu", "gloss": "understand", "lemma": "saprast", "pos": "verb", "note": "1sg pres.", "punct": "." }
+            {
+              "lv": "Tur",
+              "gloss": "there",
+              "lemma": "tur",
+              "pos": "adv"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "gatavoju",
+              "gloss": "prepare",
+              "lemma": "gatavot",
+              "pos": "verb",
+              "note": "drink sense; 1sg pres."
+            },
+            {
+              "lv": "kafiju",
+              "gloss": "coffee",
+              "lemma": "kafija",
+              "pos": "noun",
+              "note": "acc."
+            },
+            {
+              "lv": "un",
+              "gloss": "and",
+              "lemma": "un",
+              "pos": "conj"
+            },
+            {
+              "lv": "tēju",
+              "gloss": "tea",
+              "lemma": "tēja",
+              "pos": "noun",
+              "note": "acc.",
+              "punct": "."
+            }
           ],
-          "natural": "I don't speak very well yet, but I already understand a lot.",
+          "natural": "There I make coffee and tea.",
           "audio": "lv-a1-04-s15.mp3",
           "audioApproved": false
-        }
-      ]
-    },
-    {
-      "format": "narration",
-      "title": "Pēc darba",
-      "sentences": [
+        },
         {
+          "tokens": [
+            {
+              "lv": "Kafejnīcā",
+              "gloss": "in-café",
+              "lemma": "kafejnīca",
+              "pos": "noun"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "runāju",
+              "gloss": "speak",
+              "lemma": "runāt",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "latviski",
+              "gloss": "Latvian",
+              "lemma": "latviski",
+              "pos": "adv"
+            },
+            {
+              "lv": "ar",
+              "gloss": "with",
+              "lemma": "ar",
+              "pos": "prep",
+              "note": "+ acc."
+            },
+            {
+              "lv": "visiem",
+              "gloss": "everyone",
+              "lemma": "visi",
+              "pos": "pron",
+              "punct": "."
+            }
+          ],
           "id": "s16",
           "speaker": "Emma",
-          "target": "Pēc darba man ir brīvs laiks.",
-          "tokens": [
-            { "lv": "Pēc", "gloss": "after", "lemma": "pēc", "pos": "prep", "note": "+ gen." },
-            { "lv": "darba", "gloss": "work", "lemma": "darbs", "pos": "noun", "note": "gen. after pēc" },
-            { "lv": "man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
-            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
-            { "lv": "brīvs", "gloss": "free", "lemma": "brīvs", "pos": "adj", "note": "masc. nom." },
-            { "lv": "laiks", "gloss": "time", "lemma": "laiks", "pos": "noun", "note": "'time' sense; nom.", "punct": "." }
-          ],
-          "natural": "After work I have free time.",
+          "target": "Kafejnīcā es runāju latviski ar visiem.",
+          "natural": "At the café I speak Latvian with everyone.",
           "audio": "lv-a1-04-s16.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Bet",
+              "gloss": "but",
+              "lemma": "bet",
+              "pos": "noun"
+            },
+            {
+              "lv": "viens",
+              "gloss": "one",
+              "lemma": "viens",
+              "pos": "noun"
+            },
+            {
+              "lv": "klients",
+              "gloss": "customer",
+              "lemma": "klients",
+              "pos": "noun"
+            },
+            {
+              "lv": "runā",
+              "gloss": "speak",
+              "lemma": "runāt",
+              "pos": "verb"
+            },
+            {
+              "lv": "ar",
+              "gloss": "with",
+              "lemma": "ar",
+              "pos": "prep",
+              "note": "+ acc."
+            },
+            {
+              "lv": "mani",
+              "gloss": "me",
+              "lemma": "es",
+              "pos": "noun"
+            },
+            {
+              "lv": "angliski",
+              "gloss": "English",
+              "lemma": "angliski",
+              "pos": "noun",
+              "punct": "."
+            }
+          ],
           "id": "s17",
           "speaker": "Emma",
-          "target": "Ja laiks ir labs, es skrienu mežā.",
-          "tokens": [
-            { "lv": "Ja", "gloss": "if", "lemma": "ja", "pos": "conj" },
-            { "lv": "laiks", "gloss": "weather", "lemma": "laiks", "pos": "noun", "note": "'weather' sense; nom." },
-            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
-            { "lv": "labs", "gloss": "good", "lemma": "labs", "pos": "adj", "note": "masc. nom.", "punct": "," },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "skrienu", "gloss": "run", "lemma": "skriet", "pos": "verb", "note": "1sg pres." },
-            { "lv": "mežā", "gloss": "in-forest", "lemma": "mežs", "pos": "noun", "note": "loc.", "punct": "." }
-          ],
-          "natural": "If the weather is good, I run in the forest.",
+          "target": "Bet viens klients runā ar mani angliski.",
+          "natural": "But one customer speaks English to me.",
           "audio": "lv-a1-04-s17.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "atbildu",
+              "gloss": "answer",
+              "lemma": "atbildēt",
+              "pos": "verb"
+            },
+            {
+              "lv": "latviski",
+              "gloss": "Latvian",
+              "lemma": "latviski",
+              "pos": "adv",
+              "punct": "."
+            },
+            {
+              "lv": "Viņš",
+              "gloss": "he",
+              "lemma": "viņš",
+              "pos": "noun"
+            },
+            {
+              "lv": "atkal",
+              "gloss": "again",
+              "lemma": "atkal",
+              "pos": "adv"
+            },
+            {
+              "lv": "runā",
+              "gloss": "speak",
+              "lemma": "runāt",
+              "pos": "verb"
+            },
+            {
+              "lv": "angliski",
+              "gloss": "English",
+              "lemma": "angliski",
+              "pos": "noun",
+              "punct": "."
+            }
+          ],
           "id": "s18",
           "speaker": "Emma",
-          "target": "Vasarā es arī bieži braucu uz jūru.",
-          "tokens": [
-            { "lv": "Vasarā", "gloss": "in-summer", "lemma": "vasara", "pos": "noun", "note": "loc." },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "arī", "gloss": "also", "lemma": "arī", "pos": "adv" },
-            { "lv": "bieži", "gloss": "often", "lemma": "bieži", "pos": "adv" },
-            { "lv": "braucu", "gloss": "ride", "lemma": "braukt", "pos": "verb", "note": "1sg pres.; travel by vehicle" },
-            { "lv": "uz", "gloss": "to", "lemma": "uz", "pos": "prep", "note": "+ acc.; direction" },
-            { "lv": "jūru", "gloss": "sea", "lemma": "jūra", "pos": "noun", "note": "acc. after uz", "punct": "." }
-          ],
-          "natural": "In summer I also often go to the sea.",
+          "target": "Es atbildu latviski. Viņš atkal runā angliski.",
+          "natural": "I answer in Latvian. He speaks English again.",
           "audio": "lv-a1-04-s18.mp3",
           "audioApproved": false
-        }
-      ]
-    },
-    {
-      "format": "narration",
-      "title": "Vakars",
-      "sentences": [
+        },
         {
+          "tokens": [
+            {
+              "lv": "Tas",
+              "gloss": "that",
+              "lemma": "tas",
+              "pos": "noun"
+            },
+            {
+              "lv": "ir",
+              "gloss": "is",
+              "lemma": "būt",
+              "pos": "verb",
+              "note": "3 pres."
+            },
+            {
+              "lv": "grūti",
+              "gloss": "difficult",
+              "lemma": "grūts",
+              "pos": "noun",
+              "punct": "."
+            },
+            {
+              "lv": "Es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "gribu",
+              "gloss": "want",
+              "lemma": "gribēt",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "runāt",
+              "gloss": "speak",
+              "lemma": "runāt",
+              "pos": "verb"
+            },
+            {
+              "lv": "latviski",
+              "gloss": "Latvian",
+              "lemma": "latviski",
+              "pos": "adv",
+              "punct": "!"
+            }
+          ],
           "id": "s19",
           "speaker": "Emma",
-          "target": "Vakarā es gatavoju zupu vai cepu kūku.",
-          "tokens": [
-            { "lv": "Vakarā", "gloss": "in-evening", "lemma": "vakars", "pos": "noun", "note": "loc." },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "gatavoju", "gloss": "cook", "lemma": "gatavot", "pos": "verb", "note": "food sense; 1sg pres." },
-            { "lv": "zupu", "gloss": "soup", "lemma": "zupa", "pos": "noun", "note": "acc." },
-            { "lv": "vai", "gloss": "or", "lemma": "vai", "pos": "conj", "note": "choice conjunction, not question particle" },
-            { "lv": "cepu", "gloss": "bake", "lemma": "cept", "pos": "verb", "note": "1sg pres." },
-            { "lv": "kūku", "gloss": "cake", "lemma": "kūka", "pos": "noun", "note": "acc.", "punct": "." }
-          ],
-          "natural": "In the evening I make soup or bake a cake.",
+          "target": "Tas ir grūti. Es gribu runāt latviski!",
+          "natural": "That's hard. I want to speak Latvian!",
           "audio": "lv-a1-04-s19.mp3",
           "audioApproved": false
         },
         {
           "id": "s20",
           "speaker": "Emma",
-          "target": "Es arī lasu grāmatu latviski.",
+          "target": "Pēc darba man ir brīvs laiks.",
           "tokens": [
-            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "arī", "gloss": "also", "lemma": "arī", "pos": "adv" },
-            { "lv": "lasu", "gloss": "read", "lemma": "lasīt", "pos": "verb", "note": "1sg pres." },
-            { "lv": "grāmatu", "gloss": "book", "lemma": "grāmata", "pos": "noun", "note": "acc." },
-            { "lv": "latviski", "gloss": "Latvian", "lemma": "latviski", "pos": "adv", "punct": "." }
+            {
+              "lv": "Pēc",
+              "gloss": "after",
+              "lemma": "pēc",
+              "pos": "prep",
+              "note": "+ gen."
+            },
+            {
+              "lv": "darba",
+              "gloss": "work",
+              "lemma": "darbs",
+              "pos": "noun",
+              "note": "gen. after pēc"
+            },
+            {
+              "lv": "man",
+              "gloss": "to-me",
+              "lemma": "es",
+              "pos": "pron",
+              "note": "dat."
+            },
+            {
+              "lv": "ir",
+              "gloss": "is",
+              "lemma": "būt",
+              "pos": "verb",
+              "note": "3 pres."
+            },
+            {
+              "lv": "brīvs",
+              "gloss": "free",
+              "lemma": "brīvs",
+              "pos": "adj",
+              "note": "masc. nom."
+            },
+            {
+              "lv": "laiks",
+              "gloss": "time",
+              "lemma": "laiks",
+              "pos": "noun",
+              "note": "'time' sense; nom.",
+              "punct": "."
+            }
           ],
-          "natural": "I also read a book in Latvian.",
+          "natural": "After work I have free time.",
           "audio": "lv-a1-04-s20.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Laiks",
+              "gloss": "weather",
+              "lemma": "laiks",
+              "pos": "noun"
+            },
+            {
+              "lv": "ir",
+              "gloss": "is",
+              "lemma": "būt",
+              "pos": "verb",
+              "note": "3 pres."
+            },
+            {
+              "lv": "labs",
+              "gloss": "good",
+              "lemma": "labs",
+              "pos": "adj",
+              "punct": ","
+            },
+            {
+              "lv": "un",
+              "gloss": "and",
+              "lemma": "un",
+              "pos": "conj"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "skrienu",
+              "gloss": "run",
+              "lemma": "skriet",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "mežā",
+              "gloss": "in-forest",
+              "lemma": "mežs",
+              "pos": "noun",
+              "punct": "."
+            }
+          ],
           "id": "s21",
           "speaker": "Emma",
-          "target": "Es saprotu tikai mazliet, bet man ļoti patīk mācīties.",
-          "tokens": [
-            { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "saprotu", "gloss": "understand", "lemma": "saprast", "pos": "verb", "note": "1sg pres." },
-            { "lv": "tikai", "gloss": "only", "lemma": "tikai", "pos": "adv" },
-            { "lv": "mazliet", "gloss": "a-little", "lemma": "mazliet", "pos": "adv", "punct": "," },
-            { "lv": "bet", "gloss": "but", "lemma": "bet", "pos": "conj" },
-            { "lv": "man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
-            { "lv": "ļoti", "gloss": "very", "lemma": "ļoti", "pos": "adv" },
-            { "lv": "patīk", "gloss": "pleases", "lemma": "patikt", "pos": "verb", "note": "3 pres.; dative construction" },
-            { "lv": "mācīties", "gloss": "to-learn", "lemma": "mācīties", "pos": "verb", "note": "inf.", "punct": "." }
-          ],
-          "natural": "I understand only a little, but I really like learning.",
+          "target": "Laiks ir labs, un es skrienu mežā.",
+          "natural": "The weather is good, and I run in the forest.",
           "audio": "lv-a1-04-s21.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "domāju",
+              "gloss": "think",
+              "lemma": "domāt",
+              "pos": "verb"
+            },
+            {
+              "lv": "par",
+              "gloss": "about",
+              "lemma": "par",
+              "pos": "prep"
+            },
+            {
+              "lv": "Pēteri",
+              "gloss": "Pēteris",
+              "lemma": "Pēteris",
+              "pos": "propn",
+              "punct": "."
+            },
+            {
+              "lv": "Vasarā",
+              "gloss": "in-summer",
+              "lemma": "vasara",
+              "pos": "noun"
+            },
+            {
+              "lv": "viņš",
+              "gloss": "he",
+              "lemma": "viņš",
+              "pos": "noun"
+            },
+            {
+              "lv": "spēlē",
+              "gloss": "play",
+              "lemma": "spēlēt",
+              "pos": "noun"
+            },
+            {
+              "lv": "volejbolu",
+              "gloss": "volleyball",
+              "lemma": "volejbols",
+              "pos": "noun"
+            },
+            {
+              "lv": "Jūrmalā",
+              "gloss": "in-Jūrmala",
+              "lemma": "Jūrmala",
+              "pos": "propn",
+              "punct": "."
+            }
+          ],
           "id": "s22",
           "speaker": "Emma",
-          "target": "Pulksten desmitos es eju gulēt.",
-          "tokens": [
-            { "lv": "Pulksten", "gloss": "o'clock", "lemma": "pulksten", "pos": "adv", "note": "marks clock time" },
-            { "lv": "desmitos", "gloss": "at-ten", "lemma": "desmit", "pos": "num", "note": "loc.; clock time" },
-            { "lv": "es", "gloss": "I", "lemma": "es", "pos": "pron" },
-            { "lv": "eju", "gloss": "go", "lemma": "iet", "pos": "verb", "note": "1sg pres." },
-            { "lv": "gulēt", "gloss": "to-sleep", "lemma": "gulēt", "pos": "verb", "note": "inf.", "punct": "." }
-          ],
-          "natural": "At ten o'clock I go to bed.",
+          "target": "Es domāju par Pēteri. Vasarā viņš spēlē volejbolu Jūrmalā.",
+          "natural": "I think about Pēteris. In summer he plays volleyball in Jūrmala.",
           "audio": "lv-a1-04-s22.mp3",
           "audioApproved": false
         },
         {
+          "tokens": [
+            {
+              "lv": "Varbūt",
+              "gloss": "maybe",
+              "lemma": "varbūt",
+              "pos": "adv"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "arī",
+              "gloss": "also",
+              "lemma": "arī",
+              "pos": "adv"
+            },
+            {
+              "lv": "braucu",
+              "gloss": "ride",
+              "lemma": "braukt",
+              "pos": "verb"
+            },
+            {
+              "lv": "uz",
+              "gloss": "to",
+              "lemma": "uz",
+              "pos": "prep",
+              "note": "+ acc.; direction"
+            },
+            {
+              "lv": "Jūrmalu",
+              "gloss": "in-Jūrmala",
+              "lemma": "Jūrmala",
+              "pos": "propn",
+              "punct": "."
+            },
+            {
+              "lv": "Man",
+              "gloss": "to-me",
+              "lemma": "es",
+              "pos": "pron",
+              "note": "dat."
+            },
+            {
+              "lv": "patīk",
+              "gloss": "pleases",
+              "lemma": "patikt",
+              "pos": "verb",
+              "note": "3 pres.; dative construction"
+            },
+            {
+              "lv": "jūra",
+              "gloss": "sea",
+              "lemma": "jūra",
+              "pos": "noun",
+              "punct": "."
+            }
+          ],
           "id": "s23",
+          "speaker": "Emma",
+          "target": "Varbūt es arī braucu uz Jūrmalu. Man patīk jūra.",
+          "natural": "Maybe I'll go to Jūrmala too. I like the sea.",
+          "audio": "lv-a1-04-s23.mp3",
+          "audioApproved": false
+        },
+        {
+          "tokens": [
+            {
+              "lv": "Vakarā",
+              "gloss": "in-evening",
+              "lemma": "vakars",
+              "pos": "noun"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "cepu",
+              "gloss": "bake",
+              "lemma": "cept",
+              "pos": "verb"
+            },
+            {
+              "lv": "kūku",
+              "gloss": "cake",
+              "lemma": "kūka",
+              "pos": "noun"
+            },
+            {
+              "lv": "un",
+              "gloss": "and",
+              "lemma": "un",
+              "pos": "conj"
+            },
+            {
+              "lv": "lasu",
+              "gloss": "read",
+              "lemma": "lasīt",
+              "pos": "verb"
+            },
+            {
+              "lv": "grāmatu",
+              "gloss": "book",
+              "lemma": "grāmata",
+              "pos": "noun"
+            },
+            {
+              "lv": "latviski",
+              "gloss": "Latvian",
+              "lemma": "latviski",
+              "pos": "adv",
+              "punct": "."
+            }
+          ],
+          "id": "s24",
+          "speaker": "Emma",
+          "target": "Vakarā es cepu kūku un lasu grāmatu latviski.",
+          "natural": "In the evening I bake a cake and read a book in Latvian.",
+          "audio": "lv-a1-04-s24.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s25",
+          "speaker": "Emma",
+          "target": "Es saprotu tikai mazliet, bet man ļoti patīk mācīties.",
+          "tokens": [
+            {
+              "lv": "Es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "saprotu",
+              "gloss": "understand",
+              "lemma": "saprast",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "tikai",
+              "gloss": "only",
+              "lemma": "tikai",
+              "pos": "adv"
+            },
+            {
+              "lv": "mazliet",
+              "gloss": "a-little",
+              "lemma": "mazliet",
+              "pos": "adv",
+              "punct": ","
+            },
+            {
+              "lv": "bet",
+              "gloss": "but",
+              "lemma": "bet",
+              "pos": "conj"
+            },
+            {
+              "lv": "man",
+              "gloss": "to-me",
+              "lemma": "es",
+              "pos": "pron",
+              "note": "dat."
+            },
+            {
+              "lv": "ļoti",
+              "gloss": "very",
+              "lemma": "ļoti",
+              "pos": "adv"
+            },
+            {
+              "lv": "patīk",
+              "gloss": "pleases",
+              "lemma": "patikt",
+              "pos": "verb",
+              "note": "3 pres.; dative construction"
+            },
+            {
+              "lv": "mācīties",
+              "gloss": "to-learn",
+              "lemma": "mācīties",
+              "pos": "verb",
+              "note": "inf.",
+              "punct": "."
+            }
+          ],
+          "natural": "I understand only a little, but I really like learning.",
+          "audio": "lv-a1-04-s25.mp3",
+          "audioApproved": false
+        },
+        {
+          "tokens": [
+            {
+              "lv": "Šodien",
+              "gloss": "today",
+              "lemma": "šodien",
+              "pos": "adv"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "runāju",
+              "gloss": "speak",
+              "lemma": "runāt",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "latviski",
+              "gloss": "Latvian",
+              "lemma": "latviski",
+              "pos": "adv"
+            },
+            {
+              "lv": "visu",
+              "gloss": "all",
+              "lemma": "viss",
+              "pos": "pron"
+            },
+            {
+              "lv": "dienu",
+              "gloss": "day",
+              "lemma": "diena",
+              "pos": "noun",
+              "punct": "."
+            }
+          ],
+          "id": "s26",
+          "speaker": "Emma",
+          "target": "Šodien es runāju latviski visu dienu.",
+          "natural": "Today I speak Latvian all day.",
+          "audio": "lv-a1-04-s26.mp3",
+          "audioApproved": false
+        },
+        {
+          "tokens": [
+            {
+              "lv": "Tikai",
+              "gloss": "only",
+              "lemma": "tikai",
+              "pos": "adv"
+            },
+            {
+              "lv": "viens",
+              "gloss": "one",
+              "lemma": "viens",
+              "pos": "noun"
+            },
+            {
+              "lv": "cilvēks",
+              "gloss": "person",
+              "lemma": "cilvēks",
+              "pos": "noun"
+            },
+            {
+              "lv": "runā",
+              "gloss": "speak",
+              "lemma": "runāt",
+              "pos": "verb"
+            },
+            {
+              "lv": "angliski",
+              "gloss": "English",
+              "lemma": "angliski",
+              "pos": "noun",
+              "punct": " —"
+            },
+            {
+              "lv": "bet",
+              "gloss": "but",
+              "lemma": "bet",
+              "pos": "conj"
+            },
+            {
+              "lv": "tas",
+              "gloss": "that",
+              "lemma": "tas",
+              "pos": "noun"
+            },
+            {
+              "lv": "neesmu",
+              "gloss": "am-not",
+              "lemma": "būt",
+              "note": "negated 1sg",
+              "pos": "verb"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron",
+              "punct": "!"
+            }
+          ],
+          "id": "s27",
+          "speaker": "Emma",
+          "target": "Tikai viens cilvēks runā angliski — bet tas neesmu es!",
+          "natural": "Only one person speaks English — but that isn't me!",
+          "audio": "lv-a1-04-s27.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s28",
+          "speaker": "Emma",
+          "target": "Pulksten desmitos es eju gulēt.",
+          "tokens": [
+            {
+              "lv": "Pulksten",
+              "gloss": "o'clock",
+              "lemma": "pulksten",
+              "pos": "adv",
+              "note": "marks clock time"
+            },
+            {
+              "lv": "desmitos",
+              "gloss": "at-ten",
+              "lemma": "desmit",
+              "pos": "num",
+              "note": "loc.; clock time"
+            },
+            {
+              "lv": "es",
+              "gloss": "I",
+              "lemma": "es",
+              "pos": "pron"
+            },
+            {
+              "lv": "eju",
+              "gloss": "go",
+              "lemma": "iet",
+              "pos": "verb",
+              "note": "1sg pres."
+            },
+            {
+              "lv": "gulēt",
+              "gloss": "to-sleep",
+              "lemma": "gulēt",
+              "pos": "verb",
+              "note": "inf.",
+              "punct": "."
+            }
+          ],
+          "natural": "At ten o'clock I go to bed.",
+          "audio": "lv-a1-04-s28.mp3",
+          "audioApproved": false
+        },
+        {
+          "id": "s29",
           "speaker": "Emma",
           "target": "Tāda ir mana sestdiena Rīgā.",
           "tokens": [
-            { "lv": "Tāda", "gloss": "such", "lemma": "tāds", "pos": "pron", "note": "demonstr.; fem. nom." },
-            { "lv": "ir", "gloss": "is", "lemma": "būt", "pos": "verb", "note": "3 pres." },
-            { "lv": "mana", "gloss": "my", "lemma": "mans", "pos": "pron", "note": "fem. nom." },
-            { "lv": "sestdiena", "gloss": "Saturday", "lemma": "sestdiena", "pos": "noun", "note": "nom." },
-            { "lv": "Rīgā", "gloss": "in-Riga", "lemma": "Rīga", "pos": "propn", "note": "loc.", "punct": "." }
+            {
+              "lv": "Tāda",
+              "gloss": "such",
+              "lemma": "tāds",
+              "pos": "pron",
+              "note": "demonstr.; fem. nom."
+            },
+            {
+              "lv": "ir",
+              "gloss": "is",
+              "lemma": "būt",
+              "pos": "verb",
+              "note": "3 pres."
+            },
+            {
+              "lv": "mana",
+              "gloss": "my",
+              "lemma": "mans",
+              "pos": "pron",
+              "note": "fem. nom."
+            },
+            {
+              "lv": "sestdiena",
+              "gloss": "Saturday",
+              "lemma": "sestdiena",
+              "pos": "noun",
+              "note": "nom."
+            },
+            {
+              "lv": "Rīgā",
+              "gloss": "in-Riga",
+              "lemma": "Rīga",
+              "pos": "propn",
+              "note": "loc.",
+              "punct": "."
+            }
           ],
           "natural": "That is what my Saturday in Riga is like.",
-          "audio": "lv-a1-04-s23.mp3",
+          "audio": "lv-a1-04-s29.mp3",
           "audioApproved": false
         }
       ]

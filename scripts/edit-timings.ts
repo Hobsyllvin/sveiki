@@ -8,12 +8,13 @@
 import fs from "fs";
 import path from "path";
 import http from "http";
+import os from "os";
 import { spawn, spawnSync } from "child_process";
 import { AudioTimingsSchema, LessonSchema, TimingEditsSchema } from "../src/lib/content/schema";
-import type { Lesson, Sentence } from "../src/lib/content/schema";
+import type { AudioTimings, Lesson, Sentence } from "../src/lib/content/schema";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
-const AUDIO_DIR_NAME = "audio-elevenlabs";
+const AUDIO_DIR_NAME = "audio";
 const DEFAULT_PORT = 4321;
 const DEFAULT_NOISE = "-30dB";
 const DEFAULT_SILENCE_DURATION = "0.12";
@@ -36,6 +37,54 @@ function fail(message: string): never {
 function flag(argv: string[], name: string): string | null {
   const i = argv.indexOf(name);
   return i !== -1 ? (argv[i + 1] ?? null) : null;
+}
+
+function insertSilence(
+  audioPath: string,
+  outputPath: string,
+  atSeconds: number,
+  silenceSeconds: number
+): void {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "valoda-silence-"));
+  const tempPath = path.join(tempDir, "audio.mp3");
+  const filter =
+    `[0:a]atrim=start=0:end=${atSeconds},asetpts=PTS-STARTPTS[before];` +
+    `anullsrc=r=44100:cl=stereo:d=${silenceSeconds}[pause];` +
+    `[0:a]atrim=start=${atSeconds},asetpts=PTS-STARTPTS[after];` +
+    `[before][pause][after]concat=n=3:v=0:a=1[out]`;
+  const result = spawnSync(
+    "ffmpeg",
+    ["-y", "-i", audioPath, "-filter_complex", filter, "-map", "[out]", "-codec:a", "libmp3lame", "-b:a", "128k", tempPath],
+    { encoding: "utf-8" }
+  );
+  if (result.error || result.status !== 0 || !fs.existsSync(tempPath)) {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+    fail(`ffmpeg could not insert silence: ${(result.stderr ?? "").slice(-800)}`);
+  }
+  fs.renameSync(tempPath, outputPath);
+  fs.rmSync(tempDir, { recursive: true, force: true });
+}
+
+function shiftTimingsAfter(
+  timings: AudioTimings,
+  sentenceIds: string[],
+  afterId: string,
+  seconds: number
+): AudioTimings {
+  const index = sentenceIds.indexOf(afterId);
+  if (index === -1) fail(`unknown sentence id: ${afterId}`);
+  const shifted = Object.fromEntries(
+    Object.entries(timings.sentences).map(([id, range]) => {
+      const sentenceIndex = sentenceIds.indexOf(id);
+      return [
+        id,
+        sentenceIndex > index
+          ? { start: range.start + seconds, end: range.end + seconds }
+          : range,
+      ];
+    })
+  );
+  return { ...timings, sentences: shifted };
 }
 
 /**
@@ -100,6 +149,10 @@ function readJson<T>(filePath: string, schema: { parse: (v: unknown) => T }, lab
   return schema.parse(JSON.parse(fs.readFileSync(filePath, "utf-8")));
 }
 
+function writeJson(filePath: string, value: unknown): void {
+  fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
 function main() {
   const argv = process.argv.slice(2);
   const lessonId = flag(argv, "--lesson");
@@ -113,7 +166,7 @@ function main() {
   requireFfmpeg();
 
   const lang = lessonId.split("-")[0];
-  const audioDir = path.join(CONTENT_ROOT, lang, AUDIO_DIR_NAME, lessonId);
+  const audioDir = path.join(CONTENT_ROOT, lang, AUDIO_DIR_NAME);
   const lesson = readJson(
     path.join(CONTENT_ROOT, lang, "lessons", `${lessonId}.json`),
     LessonSchema,
@@ -134,6 +187,37 @@ function main() {
   const silenceDuration = flag(argv, "--silence-duration") ?? DEFAULT_SILENCE_DURATION;
 
   const duration = probeDuration(audioPath);
+
+  const insertAfter = flag(argv, "--insert-silence-after");
+  const insertSeconds = flag(argv, "--seconds");
+  if (insertAfter || insertSeconds) {
+    if (!insertAfter || !insertSeconds) {
+      fail("both --insert-silence-after <sentenceId> and --seconds <positive number> are required");
+    }
+    const seconds = Number.parseFloat(insertSeconds);
+    if (!Number.isFinite(seconds) || seconds <= 0) fail("--seconds must be a positive number");
+    const orderedIds = lessonSentences(lesson).map((sentence) => sentence.id);
+    const current = edits.sentences[insertAfter] ?? timings.sentences[insertAfter];
+    if (!current) fail(`no timing found for ${insertAfter}`);
+    const updated = shiftTimingsAfter(timings, orderedIds, insertAfter, seconds);
+    insertSilence(audioPath, audioPath, current.end, seconds);
+    writeJson(timingsPath, updated);
+    if (Object.keys(edits.sentences).length > 0) {
+      writeJson(editsPath, {
+        sentences: shiftTimingsAfter(
+          { audio: timings.audio, sentences: edits.sentences },
+          orderedIds,
+          insertAfter,
+          seconds
+        ).sentences,
+      });
+    }
+    console.log(
+      green(`inserted ${seconds.toFixed(3)}s of silence after ${insertAfter}; shifted later timings in ${path.basename(timingsPath)}`)
+    );
+    return;
+  }
+
   const silences = detectSilences(audioPath, noise, silenceDuration, duration);
 
   const sentences = lessonSentences(lesson)

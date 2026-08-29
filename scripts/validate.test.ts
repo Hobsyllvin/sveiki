@@ -702,7 +702,7 @@ describe("check 7 — audio coverage", () => {
     });
   });
 
-  it("ignores non-mp3 files such as the manifest", () => {
+  it("ignores non-mp3 files", () => {
     withAudioDir(["lv-a1-01-s1.mp3", "lv-a1-01-s2.mp3", "manifest.json", ".gitkeep"], (dir) => {
       expect(checkAudioCoverage(lessons, dir).warnings).toEqual([]);
     });

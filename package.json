@@ -12,6 +12,7 @@
     "lint": "eslint",
     "validate": "tsx scripts/validate.ts",
     "audio": "tsx scripts/generate-dialogue-audio.ts",
+    "audio-monologue": "tsx scripts/generate-monologue-audio.ts",
     "timings": "tsx scripts/edit-timings.ts",
     "verify-drafts": "tsx scripts/verify-against-draft.ts",
     "critic": "tsx scripts/critic.ts",

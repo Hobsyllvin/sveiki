@@ -23,12 +23,13 @@ The validator reports a coloured PASS/FAIL per lesson and exits with code 1 on a
 Each lesson is synthesized in one Text-to-Dialogue request so ElevenLabs sees
 the complete conversation and can keep voices, pacing, and prosody coherent.
 Generated source files live together under
-`content/<lang>/audio-elevenlabs/<lessonId>/`; `npm run sync-audio` copies only
+`content/<lang>/audio/`; `npm run sync-audio` copies only
 the lesson MP3 to the public directory used by the app.
 
 ```bash
 npm run audio -- --lesson lv-a1-03    # regenerate the complete lesson take
 npm run timings -- --lesson lv-a1-03  # review/correct sentence boundaries
+npm run timings -- --lesson lv-a1-03 --insert-silence-after s1 --seconds 0.5
 npm run sync-audio                    # copy lesson MP3s into public/audio
 ```
 

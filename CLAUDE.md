@@ -2,6 +2,8 @@
 
 # Valoda Project Guide
 
+Character facts and lesson planning must stay consistent with [docs/CHARACTER-BIBLE.md](docs/CHARACTER-BIBLE.md) and [docs/CURRICULUM.md](docs/CURRICULUM.md).
+
 ## Project context
 
 - **Product**: Web app for learning Latvian (A1/A2) via the Birkenbihl method: (1) Decoding — word-for-word interlinear translation, (2) Active Listening — audio + decoded text with highlighting, (3) Passive Listening — background audio loops, (4) pointers to further activities.
@@ -19,8 +21,7 @@ content/
     lessons/
       lv-a1-00.json      ← lesson files (validated in CI)
     audio-scripts/       ← tagged whole-lesson dialogue scripts
-    audio-elevenlabs/
-      lv-a1-00/          ← one lesson take: MP3, alignment, timings, edits
+    audio/               ← one full-lesson MP3 plus alignment, timings, edits
   _shared/
     GLOSSING_RULES.md    ← authoritative gloss contract
 scripts/
