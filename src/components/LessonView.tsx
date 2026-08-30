@@ -28,6 +28,14 @@ export default function LessonView({ lesson, timings = null, audioSrc = null }: 
     setOpenNoteId((prev) => (prev === id ? null : id));
   };
 
+  const handleOpenNote = (id: string) => {
+    setOpenNoteId(id);
+  };
+
+  const handleCloseNote = (id: string) => {
+    setOpenNoteId((prev) => (prev === id ? null : prev));
+  };
+
   return (
     <div className="lesson-view">
       <header className="lesson-header">
@@ -36,8 +44,11 @@ export default function LessonView({ lesson, timings = null, audioSrc = null }: 
           <h1 className="lesson-title">{lesson.title}</h1>
           <span className="cefr-badge">{lesson.cefr}</span>
         </div>
-        <LessonModeToggle mode={mode} onChange={setMode} />
       </header>
+
+      <div className="lesson-mode-bar">
+        <LessonModeToggle mode={mode} onChange={setMode} />
+      </div>
 
       <main className="lesson-sections">
         {lesson.sections.map((section) => (
@@ -51,9 +62,15 @@ export default function LessonView({ lesson, timings = null, audioSrc = null }: 
                   showSpeaker={section.format === "dialogue"}
                   openNoteId={openNoteId}
                   onToggleNote={handleToggleNote}
+                  onOpenNote={handleOpenNote}
+                  onCloseNote={handleCloseNote}
                   isActive={hasAudio && audio.activeId === sentence.id}
                   onPlayFrom={hasAudio ? () => audio.playFrom(sentence.id) : undefined}
-                  onPlayOnly={hasAudio ? () => audio.playOnly(sentence.id) : undefined}
+                  onPlayOnly={
+                    hasAudio && section.format === "dialogue"
+                      ? () => audio.playOnly(sentence.id)
+                      : undefined
+                  }
                   shouldAutoScroll={audio.shouldAutoScroll}
                 />
               ))}

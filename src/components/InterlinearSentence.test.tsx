@@ -22,6 +22,8 @@ function TestSentence({
       showSpeaker={showSpeaker}
       openNoteId={openNoteId}
       onToggleNote={(id) => setOpenNoteId((prev) => (prev === id ? null : id))}
+      onOpenNote={(id) => setOpenNoteId(id)}
+      onCloseNote={(id) => setOpenNoteId((prev) => (prev === id ? null : prev))}
     />
   );
 }
@@ -84,16 +86,10 @@ describe("InterlinearSentence — decode mode", () => {
     }
   });
 
-  it("natural translation is hidden by default", () => {
+  it("does not render the natural translation or a per-sentence disclosure", () => {
     render(<TestSentence sentence={sentence} mode="decode" />);
     expect(screen.queryByText("I want to buy bread.")).not.toBeInTheDocument();
-  });
-
-  it("natural translation revealed after toggle click", () => {
-    render(<TestSentence sentence={sentence} mode="decode" />);
-    const toggle = screen.getByRole("button", { name: /natural translation/i });
-    fireEvent.click(toggle);
-    expect(screen.getByText("I want to buy bread.")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /natural translation/i })).not.toBeInTheDocument();
   });
 
   it("token with note exposes note via disclosure on click", () => {
@@ -110,6 +106,15 @@ describe("InterlinearSentence — decode mode", () => {
     fireEvent.click(gribu);
     expect(screen.getByText("1sg pres.")).toBeInTheDocument();
     fireEvent.click(gribu);
+    expect(screen.queryByText("1sg pres.")).not.toBeInTheDocument();
+  });
+
+  it("opens a note on hover and closes it when the pointer leaves", () => {
+    render(<TestSentence sentence={sentence} mode="decode" />);
+    const gribu = screen.getByText("gribu");
+    fireEvent.pointerEnter(gribu, { pointerType: "mouse" });
+    expect(screen.getByText("1sg pres.")).toBeInTheDocument();
+    fireEvent.pointerLeave(gribu, { pointerType: "mouse" });
     expect(screen.queryByText("1sg pres.")).not.toBeInTheDocument();
   });
 
@@ -215,6 +220,33 @@ describe("InterlinearSentence — punctuation rendering", () => {
   it("latvian-only mode renders the target sentence with punctuation intact", () => {
     render(<TestSentence sentence={sentenceWithPunct} mode="latvian" />);
     expect(screen.getByText("Kur tu dzīvo?")).toBeInTheDocument();
+  });
+});
+
+describe("InterlinearSentence — sentence grid", () => {
+  const sentenceWithLongGloss: Sentence = {
+    id: "s-long",
+    speaker: "TEST",
+    target: "Es mazgājos.",
+    tokens: [
+      { lv: "Es", gloss: "I", lemma: "es", pos: "pron" },
+      { lv: "mazgājos", gloss: "washes-oneself", lemma: "mazgāties", pos: "verb", punct: "." },
+    ],
+    natural: "I wash myself.",
+    audio: "lv-a1-00-s-long.mp3",
+    audioApproved: false,
+  };
+
+  it("keeps each Latvian word and gloss in one pair inside the sentence content column", () => {
+    const { container } = render(
+      <TestSentence sentence={sentenceWithLongGloss} mode="decode" showSpeaker />
+    );
+    const block = container.querySelector(".sentence-block");
+    expect(block).not.toBeNull();
+    expect(block!.querySelector(".sentence-gutter .speaker-label")).toHaveTextContent("TEST");
+    const pair = screen.getByText("washes-oneself").closest(".token-pair");
+    expect(pair).not.toBeNull();
+    expect(pair!.querySelector(".lv-line")?.textContent).toBe("mazgājos.");
   });
 });
 

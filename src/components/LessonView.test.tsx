@@ -131,8 +131,8 @@ describe("LessonView — player", () => {
     fireEvent.keyDown(document.body, { key: " " });
     expect(play).toHaveBeenCalledTimes(1);
 
-    const disclosures = screen.getAllByRole("button", { name: /natural translation/i });
-    fireEvent.keyDown(disclosures[0], { key: " " });
+    const sentencePlay = screen.getAllByRole("button", { name: /Play just this sentence/ })[0];
+    fireEvent.keyDown(sentencePlay, { key: " " });
     expect(play).toHaveBeenCalledTimes(1);
   });
 });
