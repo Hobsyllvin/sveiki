@@ -1,4 +1,5 @@
 import { loadCourse } from "@/lib/content/load";
+import { displayLessonTitle } from "@/lib/presentation/lessonTitles";
 import Link from "next/link";
 import fs from "fs";
 import path from "path";
@@ -16,17 +17,29 @@ export default function Home() {
 
   return (
     <main className="home-page">
-      <h1 className="home-title">Valoda</h1>
-      <p className="home-subtitle">Learn languages through interlinear reading</p>
+      <header className="home-masthead">
+        <p className="home-eyebrow">Language field notes · 01</p>
+        <h1 className="home-title">Valoda</h1>
+        <div className="home-intro">
+          <p className="home-subtitle">Learn languages through interlinear reading.</p>
+          <p className="home-method">Read closely. Hear the rhythm. Keep the words.</p>
+        </div>
+      </header>
+
       {courses.map((course) => (
         <section key={course.language} className="home-course">
-          <h2 className="home-course-name">{course.languageName}</h2>
+          <p className="home-course-meta">
+            {course.lessons.length} studies · {course.glossLanguage} gloss
+          </p>
           <ul className="home-lesson-list">
-            {course.lessons.map((lesson) => (
+            {course.lessons.map((lesson, index) => (
               <li key={lesson.lessonId}>
                 <Link href={`/lessons/${lesson.lessonId}`} className="home-lesson-link">
-                  <span className="home-lesson-id">{lesson.lessonId}</span>
-                  <span className="home-lesson-theme">{lesson.theme}</span>
+                  <span className="home-lesson-id">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="home-lesson-theme">
+                    <span className="home-lesson-label">Lesson {lesson.lessonId.slice(-2)}</span>
+                    {displayLessonTitle(lesson.lessonId, lesson.theme)}
+                  </span>
                   <span className="home-cefr-badge">{lesson.cefr}</span>
                 </Link>
               </li>

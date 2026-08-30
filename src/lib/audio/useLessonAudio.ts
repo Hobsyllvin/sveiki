@@ -26,8 +26,6 @@ export interface LessonAudio {
   togglePlay: () => void;
   /** Seek to a sentence and keep playing through the rest of the scene. */
   playFrom: (id: string) => void;
-  /** Play that one sentence, then stop, cued to replay it. */
-  playOnly: (id: string) => void;
   step: (delta: 1 | -1) => void;
   shouldAutoScroll: () => boolean;
 }
@@ -45,9 +43,8 @@ export function useLessonAudio(
   const [repeat, setRepeat] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  // The sentence the listener last picked, and whether playback should end there.
+  // The sentence the listener last picked.
   const targetRef = useRef<string | null>(null);
-  const soloRef = useRef(false);
   const repeatRef = useRef(repeat);
   const activeIdRef = useRef(activeId);
   const isPlayingRef = useRef(isPlaying);
@@ -73,11 +70,10 @@ export function useLessonAudio(
     if (!audio) return;
     const time = audio.currentTime;
 
-    const holdId = repeatRef.current || soloRef.current ? targetRef.current : null;
+    const holdId = repeatRef.current ? targetRef.current : null;
     const hold = holdId ? entryById.get(holdId) : undefined;
     if (hold && time >= hold.end) {
       audio.currentTime = hold.start;
-      if (!repeatRef.current) audio.pause();
       setCurrentTime(hold.start);
       setActiveId(hold.id);
       return;
@@ -151,11 +147,10 @@ export function useLessonAudio(
   );
 
   const cueSentence = useCallback(
-    (id: string, { solo, play }: { solo: boolean; play: boolean }) => {
+    (id: string, { play }: { play: boolean }) => {
       const audio = audioRef.current;
       const entry = entryById.get(id);
       if (!audio || !entry) return;
-      soloRef.current = solo;
       targetRef.current = id;
       audio.currentTime = entry.start;
       setCurrentTime(entry.start);
@@ -166,12 +161,7 @@ export function useLessonAudio(
   );
 
   const playFrom = useCallback(
-    (id: string) => cueSentence(id, { solo: false, play: true }),
-    [cueSentence]
-  );
-
-  const playOnly = useCallback(
-    (id: string) => cueSentence(id, { solo: true, play: true }),
+    (id: string) => cueSentence(id, { play: true }),
     [cueSentence]
   );
 
@@ -179,7 +169,6 @@ export function useLessonAudio(
     const audio = audioRef.current;
     if (!audio) return;
     if (audio.paused) {
-      soloRef.current = false;
       void audio.play().catch(() => {});
     } else {
       audio.pause();
@@ -193,7 +182,7 @@ export function useLessonAudio(
       const current = indexOfSentence(timeline, activeIdRef.current);
       const next = current === -1 ? (delta === 1 ? 0 : timeline.length - 1) : current + delta;
       if (next < 0 || next >= timeline.length) return;
-      cueSentence(timeline[next].id, { solo: false, play: isPlayingRef.current });
+      cueSentence(timeline[next].id, { play: isPlayingRef.current });
     },
     [cueSentence, timeline]
   );
@@ -237,7 +226,6 @@ export function useLessonAudio(
     activeId,
     togglePlay,
     playFrom,
-    playOnly,
     step,
     shouldAutoScroll,
   };

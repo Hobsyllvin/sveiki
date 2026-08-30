@@ -131,9 +131,13 @@ describe("LessonView — player", () => {
     fireEvent.keyDown(document.body, { key: " " });
     expect(play).toHaveBeenCalledTimes(1);
 
-    const sentencePlay = screen.getAllByRole("button", { name: /Play just this sentence/ })[0];
-    fireEvent.keyDown(sentencePlay, { key: " " });
+    fireEvent.keyDown(screen.getByRole("button", { name: "Decode" }), { key: " " });
     expect(play).toHaveBeenCalledTimes(1);
+  });
+
+  it("uses the sentence body as the only per-sentence audio control", () => {
+    renderWithAudio();
+    expect(screen.queryByRole("button", { name: /Play just this sentence/ })).not.toBeInTheDocument();
   });
 });
 
@@ -183,17 +187,6 @@ describe("LessonView — sync", () => {
     fireEvent(audio, new Event("timeupdate"));
     expect(pause).not.toHaveBeenCalled();
     expect(audio.currentTime).toBe(2.9);
-  });
-
-  it("the per-sentence button plays that sentence alone and stops at its end", () => {
-    const { audio } = renderWithAudio();
-    fireEvent.click(screen.getByRole("button", { name: /Play just this sentence: Sveiki!/ }));
-    expect(audio.currentTime).toBe(1.84);
-
-    time = 2.85;
-    fireEvent(audio, new Event("timeupdate"));
-    expect(pause).toHaveBeenCalled();
-    expect(audio.currentTime).toBe(1.84);
   });
 
   it("repeat loops the selected sentence instead of stopping", () => {

@@ -9,10 +9,12 @@ function TestSentence({
   sentence,
   mode,
   showSpeaker,
+  showGutter,
 }: {
   sentence: Sentence;
   mode: ViewMode;
   showSpeaker?: boolean;
+  showGutter?: boolean;
 }) {
   const [openNoteId, setOpenNoteId] = useState<string | null>(null);
   return (
@@ -20,6 +22,7 @@ function TestSentence({
       sentence={sentence}
       mode={mode}
       showSpeaker={showSpeaker}
+      showGutter={showGutter}
       openNoteId={openNoteId}
       onToggleNote={(id) => setOpenNoteId((prev) => (prev === id ? null : id))}
       onOpenNote={(id) => setOpenNoteId(id)}
@@ -162,6 +165,14 @@ describe("InterlinearSentence — speaker label gating", () => {
   it("dialogue section: renders speaker label when showSpeaker is true", () => {
     render(<TestSentence sentence={sentenceNoNotes} mode="decode" showSpeaker={true} />);
     expect(screen.getByText("A")).toBeInTheDocument();
+  });
+
+  it("single-speaker and narration sections start at the gutter origin", () => {
+    const { container } = render(
+      <TestSentence sentence={sentenceNoNotes} mode="decode" showGutter={false} />
+    );
+    expect(container.querySelector(".sentence-block")).toHaveClass("sentence-block--unguttered");
+    expect(screen.queryByText("A")).not.toBeInTheDocument();
   });
 });
 

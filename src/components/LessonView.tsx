@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { AudioTimings, Lesson } from "@/lib/content/schema";
 import { buildTimeline } from "@/lib/audio/timeline";
 import { useLessonAudio } from "@/lib/audio/useLessonAudio";
+import { displayLessonTitle } from "@/lib/presentation/lessonTitles";
 import InterlinearSentence, { type ViewMode } from "./InterlinearSentence";
 import LessonModeToggle from "./LessonModeToggle";
 import AudioPlayer from "./AudioPlayer";
@@ -41,7 +42,7 @@ export default function LessonView({ lesson, timings = null, audioSrc = null }: 
       <header className="lesson-header">
         <Link href="/" className="back-link">← all lessons</Link>
         <div className="lesson-title-row">
-          <h1 className="lesson-title">{lesson.title}</h1>
+          <h1 className="lesson-title">{displayLessonTitle(lesson.lessonId, lesson.title)}</h1>
           <span className="cefr-badge">{lesson.cefr}</span>
         </div>
       </header>
@@ -51,32 +52,33 @@ export default function LessonView({ lesson, timings = null, audioSrc = null }: 
       </div>
 
       <main className="lesson-sections">
-        {lesson.sections.map((section) => (
-          <section key={section.title} className={`lesson-section section-${section.format}`}>
-            <div className={`${section.format}-block`}>
-              {section.sentences.map((sentence) => (
-                <InterlinearSentence
-                  key={sentence.id}
-                  sentence={sentence}
-                  mode={mode}
-                  showSpeaker={section.format === "dialogue"}
-                  openNoteId={openNoteId}
-                  onToggleNote={handleToggleNote}
-                  onOpenNote={handleOpenNote}
-                  onCloseNote={handleCloseNote}
-                  isActive={hasAudio && audio.activeId === sentence.id}
-                  onPlayFrom={hasAudio ? () => audio.playFrom(sentence.id) : undefined}
-                  onPlayOnly={
-                    hasAudio && section.format === "dialogue"
-                      ? () => audio.playOnly(sentence.id)
-                      : undefined
-                  }
-                  shouldAutoScroll={audio.shouldAutoScroll}
-                />
-              ))}
-            </div>
-          </section>
-        ))}
+        {lesson.sections.map((section) => {
+          const speakers = new Set(section.sentences.flatMap((sentence) => sentence.speaker ?? []));
+          const useSpeakerGutter = section.format === "dialogue" && speakers.size > 1;
+
+          return (
+            <section key={section.title} className={`lesson-section section-${section.format}`}>
+              <div className={`${section.format}-block`}>
+                {section.sentences.map((sentence) => (
+                  <InterlinearSentence
+                    key={sentence.id}
+                    sentence={sentence}
+                    mode={mode}
+                    showSpeaker={useSpeakerGutter}
+                    showGutter={useSpeakerGutter}
+                    openNoteId={openNoteId}
+                    onToggleNote={handleToggleNote}
+                    onOpenNote={handleOpenNote}
+                    onCloseNote={handleCloseNote}
+                    isActive={hasAudio && audio.activeId === sentence.id}
+                    onPlayFrom={hasAudio ? () => audio.playFrom(sentence.id) : undefined}
+                    shouldAutoScroll={audio.shouldAutoScroll}
+                  />
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </main>
 
       {hasAudio && (

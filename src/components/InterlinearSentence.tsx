@@ -9,6 +9,7 @@ interface Props {
   sentence: Sentence;
   mode: ViewMode;
   showSpeaker?: boolean;
+  showGutter?: boolean;
   openNoteId: string | null;
   onToggleNote: (id: string) => void;
   onOpenNote?: (id: string) => void;
@@ -16,8 +17,6 @@ interface Props {
   isActive?: boolean;
   /** Clicking the sentence body plays onward from here. */
   onPlayFrom?: () => void;
-  /** The ▸ button plays this sentence alone. */
-  onPlayOnly?: () => void;
   shouldAutoScroll?: () => boolean;
 }
 
@@ -25,13 +24,13 @@ export default function InterlinearSentence({
   sentence,
   mode,
   showSpeaker,
+  showGutter = true,
   openNoteId,
   onToggleNote,
   onOpenNote,
   onCloseNote,
   isActive = false,
   onPlayFrom,
-  onPlayOnly,
   shouldAutoScroll,
 }: Props) {
   const blockRef = useRef<HTMLDivElement | null>(null);
@@ -55,25 +54,13 @@ export default function InterlinearSentence({
       ref={blockRef}
       className={`sentence-block${isActive ? " sentence-block--active" : ""}${
         onPlayFrom ? " sentence-block--seekable" : ""
-      }`}
+      }${showGutter ? "" : " sentence-block--unguttered"}`}
       aria-current={isActive ? "true" : undefined}
       onClick={handleBodyClick}
     >
       <div className="sentence-gutter">
         {showSpeaker && sentence.speaker && (
           <span className="speaker-label">{sentence.speaker}</span>
-        )}
-        {onPlayOnly && (
-          <button
-            className="sentence-play"
-            onClick={(event) => {
-              event.stopPropagation();
-              onPlayOnly();
-            }}
-            aria-label={`Play just this sentence: ${sentence.target}`}
-          >
-            ▸
-          </button>
         )}
       </div>
 
