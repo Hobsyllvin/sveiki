@@ -14,20 +14,20 @@ Design principles: **one new grammar concept per lesson**, vocabulary in themes 
 - **01 — Classroom.** Introductions, names, countries, languages, frequency (1–3). Debitive introduced (`mums jārunā`).
 - **02 — Classroom.** Work, family, siblings. Numbers 4–10 and 0. Dative possession (`man ir` / `man nav` + genitive).
 - **03 — Café.** Ordering food and drink, preferences, free time. Formal `jūs`.
-- **04 — Emma's Saturday.** Daily routine, telling time (`pulksten`), sequencing (`tad`, `pēc tam`), parts of the day. First monologue.
+- **04 — Paula's Saturday.** Daily routine, telling time (`pulksten`), sequencing (`tad`, `pēc tam`), parts of the day. First monologue.
 - **05 — Central Market.** Food, quantities, money, prices. Numbers 11–100. First non-accommodating speaker: the fast-talking seller.
 
 ## Block 2 — Time and place (06–09)
 
-- **06 — Emma's flat.** Rooms of the house, furniture, prepositions of position (`uz`, `zem`, `pie`, `blakus`). Locative consolidated. Marta visits.
+- **06 — Paula's flat.** Rooms of the house, furniture, prepositions of position (`uz`, `zem`, `pie`, `blakus`). Locative consolidated. Marta visits.
 - **07 — Getting around Riga.** Directions, transport, tram and bus, asking the way. Accusative of direction vs locative of place.
 - **08 — The week ahead.** Days of the week (built from the ordinals), months, seasons. Making plans. **Future tense introduced** — plans need it.
 - **09 — Colours and things.** Colours, clothes, describing objects and people. Adjective agreement made explicit. A shopping scene.
 
 ## Block 3 — The past (10–12)
 
-- **10 — Mushroom picking.** Forest, nature, weather. **Past tense introduced** — you can only tell someone what you did after you did it. Jānis over-explains; Emma loves it and can't say so.
-- **11 — Emma's café, a slow evening.** Work vocabulary, telling a story about the day. Past tense consolidated. Pēteris turns out to be a regular. The carrot cake pays off.
+- **10 — Mushroom picking.** Forest, nature, weather. **Past tense introduced** — you can only tell someone what you did after you did it. Jānis over-explains; Paula loves it and can't say so.
+- **11 — Paula's café, a slow evening.** Work vocabulary, telling a story about the day. Past tense consolidated. Pēteris turns out to be a regular. The carrot cake pays off.
 - **12 — Jānis's story.** Why his parents left, why he came back. **Latvian history enters here** — occupation, emigration, restored independence, the Baltic Way. The most emotionally loaded lesson, and the past tense earns its place.
 
 ## Block 4 — Wider world (13–15)
@@ -72,6 +72,6 @@ _All historical and cultural content to be checked with the native reviewer befo
 - Tea versus coffee — recurring argument, ideally never resolved
 - `Tā ir skumja dzīve` — the running joke
 - The carrot cake — promised in 03, paid off in 11 or 14
-- Emma's want: to stop being spoken to slowly
+- Paula's want: to stop being spoken to slowly
 - Jānis's want: to belong to a country he's supposed to be from
-- Marta's pragmatism against Emma's romanticism
+- Marta's pragmatism against Paula's romanticism

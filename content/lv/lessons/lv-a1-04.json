@@ -34,7 +34,7 @@
       "sentences": [
         {
           "id": "s1",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Šodien ir sestdiena, un Rīgā ir skaists laiks.",
           "tokens": [
             {
@@ -146,7 +146,7 @@
             }
           ],
           "id": "s2",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Šodien es runāju tikai latviski. Ne angliski!",
           "natural": "Today I speak only Latvian. No English!",
           "audio": "lv-a1-04-s2.mp3",
@@ -154,7 +154,7 @@
         },
         {
           "id": "s3",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es ceļos pulksten astoņos.",
           "tokens": [
             {
@@ -192,7 +192,7 @@
         },
         {
           "id": "s4",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "No rīta es vienmēr gribu kafiju ar auzu pienu.",
           "tokens": [
             {
@@ -334,7 +334,7 @@
             }
           ],
           "id": "s5",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Bet man nav auzu piena. Tad es eju uz veikalu.",
           "natural": "But I have no oat milk. So I go to the shop.",
           "audio": "lv-a1-04-s5.mp3",
@@ -381,7 +381,7 @@
             }
           ],
           "id": "s6",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Veikalā es pērku burkānus un sieru.",
           "natural": "At the shop I buy carrots and cheese.",
           "audio": "lv-a1-04-s6.mp3",
@@ -418,7 +418,7 @@
             }
           ],
           "id": "s7",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Bet auzu piena nav!",
           "natural": "But there's no oat milk!",
           "audio": "lv-a1-04-s7.mp3",
@@ -494,7 +494,7 @@
             }
           ],
           "id": "s8",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Ak nē. Tā ir skumja dzīve — Pēteris tā teica, haha.",
           "natural": "Oh no. That is a sad life, like Pēteris said, haha.",
           "audio": "lv-a1-04-s8.mp3",
@@ -555,7 +555,7 @@
             }
           ],
           "id": "s9",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es pērku govs pienu. Tas nav tas pats.",
           "natural": "I buy cow's milk. It's not the same.",
           "audio": "lv-a1-04-s9.mp3",
@@ -563,7 +563,7 @@
         },
         {
           "id": "s10",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Pusdienlaikā es gatavoju burkānu zupu.",
           "tokens": [
             {
@@ -608,7 +608,7 @@
         },
         {
           "id": "s11",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Man ļoti garšo burkānu zupa.",
           "tokens": [
             {
@@ -697,7 +697,7 @@
             }
           ],
           "id": "s12",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Tad Jānis raksta: \"Vai mēs mācāmies kopā?\"",
           "natural": "Then Jānis writes: \"Shall we study together?\"",
           "audio": "lv-a1-04-s12.mp3",
@@ -773,7 +773,7 @@
             }
           ],
           "id": "s13",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es atbildu latviski. Tas prasa laiku, bet es rakstu latviski!",
           "natural": "I answer in Latvian. It takes some time, but I write in Latvian!",
           "audio": "lv-a1-04-s13.mp3",
@@ -843,7 +843,7 @@
             }
           ],
           "id": "s14",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Pēcpusdienā es eju uz darbu. Es strādāju kafejnīcā Vecrīgā.",
           "natural": "In the afternoon I go to work. I work in a café in the Old Town.",
           "audio": "lv-a1-04-s14.mp3",
@@ -851,7 +851,7 @@
         },
         {
           "id": "s15",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Tur es gatavoju kafiju un tēju.",
           "tokens": [
             {
@@ -942,7 +942,7 @@
             }
           ],
           "id": "s16",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Kafejnīcā es runāju latviski ar visiem.",
           "natural": "At the café I speak Latvian with everyone.",
           "audio": "lv-a1-04-s16.mp3",
@@ -996,7 +996,7 @@
             }
           ],
           "id": "s17",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Bet viens klients runā ar mani angliski.",
           "natural": "But one customer speaks English to me.",
           "audio": "lv-a1-04-s17.mp3",
@@ -1050,7 +1050,7 @@
             }
           ],
           "id": "s18",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es atbildu latviski. Viņš atkal runā angliski.",
           "natural": "I answer in Latvian. He speaks English again.",
           "audio": "lv-a1-04-s18.mp3",
@@ -1106,7 +1106,7 @@
             }
           ],
           "id": "s19",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Tas ir grūti. Es gribu runāt latviski!",
           "natural": "That's hard. I want to speak Latvian!",
           "audio": "lv-a1-04-s19.mp3",
@@ -1114,7 +1114,7 @@
         },
         {
           "id": "s20",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Pēc darba man ir brīvs laiks.",
           "tokens": [
             {
@@ -1215,7 +1215,7 @@
             }
           ],
           "id": "s21",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Laiks ir labs, un es skrienu mežā.",
           "natural": "The weather is good, and I run in the forest.",
           "audio": "lv-a1-04-s21.mp3",
@@ -1281,7 +1281,7 @@
             }
           ],
           "id": "s22",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es domāju par Pēteri. Vasarā viņš spēlē volejbolu Jūrmalā.",
           "natural": "I think about Pēteris. In summer he plays volleyball in Jūrmala.",
           "audio": "lv-a1-04-s22.mp3",
@@ -1350,7 +1350,7 @@
             }
           ],
           "id": "s23",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Varbūt es arī braucu uz Jūrmalu. Man patīk jūra.",
           "natural": "Maybe I'll go to Jūrmala too. I like the sea.",
           "audio": "lv-a1-04-s23.mp3",
@@ -1409,7 +1409,7 @@
             }
           ],
           "id": "s24",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Vakarā es cepu kūku un lasu grāmatu latviski.",
           "natural": "In the evening I bake a cake and read a book in Latvian.",
           "audio": "lv-a1-04-s24.mp3",
@@ -1417,7 +1417,7 @@
         },
         {
           "id": "s25",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es saprotu tikai mazliet, bet man ļoti patīk mācīties.",
           "tokens": [
             {
@@ -1527,7 +1527,7 @@
             }
           ],
           "id": "s26",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Šodien es runāju latviski visu dienu.",
           "natural": "Today I speak Latvian all day.",
           "audio": "lv-a1-04-s26.mp3",
@@ -1594,7 +1594,7 @@
             }
           ],
           "id": "s27",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Tikai viens cilvēks runā angliski — bet tas neesmu es!",
           "natural": "Only one person speaks English — but that isn't me!",
           "audio": "lv-a1-04-s27.mp3",
@@ -1602,7 +1602,7 @@
         },
         {
           "id": "s28",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Pulksten desmitos es eju gulēt.",
           "tokens": [
             {
@@ -1647,7 +1647,7 @@
         },
         {
           "id": "s29",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Tāda ir mana sestdiena Rīgā.",
           "tokens": [
             {

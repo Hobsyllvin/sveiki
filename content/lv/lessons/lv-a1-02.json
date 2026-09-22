@@ -108,8 +108,8 @@
         },
         {
           "id": "s2",
-          "speaker": "Emma",
-          "target": "Sveika, Marta! Es esmu Emma. Prieks iepazīties!",
+          "speaker": "Paula",
+          "target": "Sveika, Marta! Es esmu Paula. Prieks iepazīties!",
           "tokens": [
             {
               "lv": "Sveika",
@@ -141,9 +141,9 @@
               "note": "1sg pres."
             },
             {
-              "lv": "Emma",
-              "gloss": "Emma",
-              "lemma": "Emma",
+              "lv": "Paula",
+              "gloss": "Paula",
+              "lemma": "Paula",
               "pos": "propn",
               "note": "nom.",
               "punct": "."
@@ -164,13 +164,13 @@
               "punct": "!"
             }
           ],
-          "natural": "Hello, Marta! I'm Emma. Nice to meet you!",
+          "natural": "Hello, Marta! I'm Paula. Nice to meet you!",
           "audio": "lv-a1-02-s2.mp3",
           "audioApproved": false
         },
         {
           "id": "s3",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Cik ilgi mums jārunā?",
           "tokens": [
             {
@@ -230,8 +230,8 @@
         },
         {
           "id": "s5",
-          "speaker": "Emma",
-          "target": "Labi. Cik cilvēku ir mūsu klasē?",
+          "speaker": "Paula",
+          "target": "Labi! Cik cilvēku ir mūsu klasē?",
           "tokens": [
             {
               "lv": "Labi",
@@ -322,7 +322,7 @@
         },
         {
           "id": "s7",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Un cik latviešu?",
           "tokens": [
             {
@@ -368,7 +368,7 @@
         },
         {
           "id": "s9",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Haha, jā! Nulle latviešu latviešu klasē.",
           "tokens": [
             {
@@ -417,7 +417,7 @@
         },
         {
           "id": "s10",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "No kuras valsts tu esi?",
           "tokens": [
             {
@@ -513,7 +513,7 @@
         },
         {
           "id": "s12",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es esmu no Lietuvas, bet tagad es dzīvoju Rīgā.",
           "tokens": [
             {
@@ -627,7 +627,7 @@
         },
         {
           "id": "s14",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es dzīvoju Vecrīgā. Un tu?",
           "tokens": [
             {
@@ -731,7 +731,7 @@
         },
         {
           "id": "s16",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Jā, ļoti. Rīga ir skaista pilsēta.",
           "tokens": [
             {
@@ -816,7 +816,7 @@
         },
         {
           "id": "s18",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Kādas valodas tu runā?",
           "tokens": [
             {
@@ -903,7 +903,7 @@
         },
         {
           "id": "s20",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Četras valodas! Oho! Es runāju lietuviski, poliski un latviski.",
           "tokens": [
             {
@@ -1066,7 +1066,7 @@
         },
         {
           "id": "s22",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es strādāju kafejnīcā, sešas stundas, bet tikai trīs reizes nedēļā. Un tu?",
           "tokens": [
             {
@@ -1206,7 +1206,7 @@
         },
         {
           "id": "s24",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Astoņas stundas! Tas ir daudz.",
           "tokens": [
             {
@@ -1250,7 +1250,7 @@
         },
         {
           "id": "s25",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Vai tev ir brāļi un māsas?",
           "tokens": [
             {
@@ -1509,7 +1509,7 @@
         },
         {
           "id": "s29",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Man nav brāļa, man ir tikai māsa. Mēs esam četri.",
           "tokens": [
             {
@@ -1655,7 +1655,7 @@
         },
         {
           "id": "s31",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Viļņā. Es viņus ļoti mīlu.",
           "tokens": [
             {
@@ -1700,7 +1700,7 @@
         },
         {
           "id": "s32",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Kāpēc tu mācies latviski?",
           "tokens": [
             {
@@ -1801,7 +1801,7 @@
         },
         {
           "id": "s34",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es mācos, jo es dzīvoju Latvijā un man ļoti patīk šī valsts.",
           "tokens": [
             {
@@ -1928,7 +1928,7 @@
         },
         {
           "id": "s36",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Varbūt, haha! Nu, jauka saruna!",
           "tokens": [
             {

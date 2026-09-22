@@ -13,7 +13,7 @@
     "labi",
     "darīt",
     "saukt",
-    "Emma",
+    "Paula",
     "kā",
     "tu",
     "būt",
@@ -129,8 +129,8 @@
         },
         {
           "id": "s2",
-          "speaker": "Emma",
-          "target": "Jā, es zinu. Labi, darām! Mani sauc Emma. Kā tevi sauc?",
+          "speaker": "Paula",
+          "target": "Jā, es zinu. Labi, darām! Mani sauc Paula. Kā tevi sauc?",
           "tokens": [
             {
               "lv": "Jā",
@@ -183,9 +183,9 @@
               "note": "3 pres."
             },
             {
-              "lv": "Emma",
-              "gloss": "Emma",
-              "lemma": "Emma",
+              "lv": "Paula",
+              "gloss": "Paula",
+              "lemma": "Paula",
               "pos": "propn",
               "note": "nom.",
               "punct": "."
@@ -212,7 +212,7 @@
               "punct": "?"
             }
           ],
-          "natural": "Yes, I know. Alright, let's do it! My name is Emma. What's your name?",
+          "natural": "Yes, I know. Alright, let's do it! My name is Paula. What's your name?",
           "audio": "lv-a1-01-s2.mp3",
           "audioApproved": false
         },
@@ -334,7 +334,7 @@
         },
         {
           "id": "s6",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Haha, jā! Prieks iepazīties.",
           "tokens": [
             {
@@ -379,7 +379,7 @@
       "sentences": [
         {
           "id": "s7",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Kā tev iet, Jāni?",
           "tokens": [
             {
@@ -462,7 +462,7 @@
         },
         {
           "id": "s9",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Arī labi. Vai tu esi no Latvijas?",
           "tokens": [
             {
@@ -591,7 +591,7 @@
         },
         {
           "id": "s11",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Ā, interesanti! Tad tu runā vāciski?",
           "tokens": [
             {
@@ -703,7 +703,7 @@
         },
         {
           "id": "s13",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es saprotu. Es esmu no Lietuvas.",
           "tokens": [
             {
@@ -798,7 +798,7 @@
         },
         {
           "id": "s15",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es dzīvoju šeit desmit mēnešus.",
           "tokens": [
             {
@@ -904,7 +904,7 @@
         },
         {
           "id": "s17",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Paldies! Bet es saprotu tikai mazliet.",
           "tokens": [
             {
@@ -996,7 +996,7 @@
         },
         {
           "id": "s19",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Divas reizes nedēļā. Bet man vajag trīs reizes!",
           "tokens": [
             {
@@ -1167,7 +1167,7 @@
         },
         {
           "id": "s21",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Kur tu strādā?",
           "tokens": [
             {
@@ -1264,7 +1264,7 @@
         },
         {
           "id": "s23",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Ā, tas ir daudz darba, tiešām.",
           "tokens": [
             {
@@ -1371,7 +1371,7 @@
         },
         {
           "id": "s25",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es arī! Nu, tad mums jāmācās kopā. Uz redzēšanos, Jāni!",
           "tokens": [
             {

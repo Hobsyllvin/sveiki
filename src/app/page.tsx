@@ -19,7 +19,7 @@ export default function Home() {
     <main className="home-page">
       <header className="home-masthead">
         <p className="home-eyebrow">Language field notes · 01</p>
-        <h1 className="home-title">Valoda</h1>
+        <h1 className="home-title">Sveiki</h1>
         <div className="home-intro">
           <p className="home-subtitle">Learn languages through interlinear reading.</p>
           <p className="home-method">Read closely. Hear the rhythm. Keep the words.</p>

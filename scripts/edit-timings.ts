@@ -29,6 +29,28 @@ export interface Silence {
   end: number;
 }
 
+interface SentenceRow {
+  id: string;
+  speaker: string;
+  target: string;
+  start: number;
+  end: number;
+  generatedStart: number;
+  generatedEnd: number;
+  edited: boolean;
+}
+
+interface EditorData {
+  lessonId: string;
+  title: string;
+  audio: string;
+  duration: number;
+  noise: string;
+  silenceDuration: string;
+  sentences: SentenceRow[];
+  silences: Silence[];
+}
+
 function fail(message: string): never {
   console.error(red(message));
   process.exit(1);
@@ -39,13 +61,20 @@ function flag(argv: string[], name: string): string | null {
   return i !== -1 ? (argv[i + 1] ?? null) : null;
 }
 
+// Lets `npm run timings lv-a1-02` work with no `--` and no `--lesson` label;
+// `--lesson <id>` still works for scripts/muscle memory that expect a flag.
+function firstPositional(argv: string[]): string | null {
+  const arg = argv[0];
+  return arg && !arg.startsWith("-") ? arg : null;
+}
+
 function insertSilence(
   audioPath: string,
   outputPath: string,
   atSeconds: number,
   silenceSeconds: number
 ): void {
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "valoda-silence-"));
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "sveiki-silence-"));
   const tempPath = path.join(tempDir, "audio.mp3");
   const filter =
     `[0:a]atrim=start=0:end=${atSeconds},asetpts=PTS-STARTPTS[before];` +
@@ -155,10 +184,10 @@ function writeJson(filePath: string, value: unknown): void {
 
 function main() {
   const argv = process.argv.slice(2);
-  const lessonId = flag(argv, "--lesson");
+  const lessonId = firstPositional(argv) ?? flag(argv, "--lesson");
   if (!lessonId) {
     fail(
-      "usage: npm run timings -- --lesson <lessonId>\n" +
+      "usage: npm run timings <lessonId>\n" +
         `  [--port ${DEFAULT_PORT}] [--noise ${DEFAULT_NOISE}] [--silence-duration ${DEFAULT_SILENCE_DURATION}] [--no-open]`
     );
   }
@@ -173,9 +202,9 @@ function main() {
     `lesson ${lessonId}`
   );
   const timingsPath = path.join(audioDir, `${lessonId}.timings.json`);
-  const timings = readJson(timingsPath, AudioTimingsSchema, `timings for ${lessonId}`);
+  let timings = readJson(timingsPath, AudioTimingsSchema, `timings for ${lessonId}`);
   const editsPath = path.join(audioDir, `${lessonId}.timings.edits.json`);
-  const edits = fs.existsSync(editsPath)
+  let edits = fs.existsSync(editsPath)
     ? readJson(editsPath, TimingEditsSchema, `edits for ${lessonId}`)
     : { sentences: {} };
 
@@ -185,8 +214,6 @@ function main() {
   const port = Number.parseInt(flag(argv, "--port") ?? String(DEFAULT_PORT), 10);
   const noise = flag(argv, "--noise") ?? DEFAULT_NOISE;
   const silenceDuration = flag(argv, "--silence-duration") ?? DEFAULT_SILENCE_DURATION;
-
-  const duration = probeDuration(audioPath);
 
   const insertAfter = flag(argv, "--insert-silence-after");
   const insertSeconds = flag(argv, "--seconds");
@@ -218,35 +245,50 @@ function main() {
     return;
   }
 
-  const silences = detectSilences(audioPath, noise, silenceDuration, duration);
+  // Recomputed after every save (cheap: no ffmpeg) and after every silence
+  // insertion (which also re-probes duration and re-detects silences, since
+  // the audio file itself changed).
+  let duration = 0;
+  let silences: Silence[] = [];
+  let sentences: SentenceRow[] = [];
+  let data: EditorData;
 
-  const sentences = lessonSentences(lesson)
-    .filter((sentence) => timings.sentences[sentence.id])
-    .map((sentence) => {
-      const generated = timings.sentences[sentence.id];
-      const edited = edits.sentences[sentence.id];
-      return {
-        id: sentence.id,
-        speaker: sentence.speaker ?? "",
-        target: sentence.target,
-        start: (edited ?? generated).start,
-        end: (edited ?? generated).end,
-        generatedStart: generated.start,
-        generatedEnd: generated.end,
-        edited: Boolean(edited),
-      };
-    });
+  function rebuildSentenceRows(): void {
+    sentences = lessonSentences(lesson)
+      .filter((sentence) => timings.sentences[sentence.id])
+      .map((sentence) => {
+        const generated = timings.sentences[sentence.id];
+        const edited = edits.sentences[sentence.id];
+        return {
+          id: sentence.id,
+          speaker: sentence.speaker ?? "",
+          target: sentence.target,
+          start: (edited ?? generated).start,
+          end: (edited ?? generated).end,
+          generatedStart: generated.start,
+          generatedEnd: generated.end,
+          edited: Boolean(edited),
+        };
+      });
+    data = {
+      lessonId: lessonId as string,
+      title: lesson.title,
+      audio: timings.audio,
+      duration,
+      noise,
+      silenceDuration,
+      sentences,
+      silences,
+    };
+  }
 
-  const data = {
-    lessonId,
-    title: lesson.title,
-    audio: timings.audio,
-    duration,
-    noise,
-    silenceDuration,
-    sentences,
-    silences,
-  };
+  function refreshAfterAudioChange(): void {
+    duration = probeDuration(audioPath);
+    silences = detectSilences(audioPath, noise, silenceDuration, duration);
+    rebuildSentenceRows();
+  }
+
+  refreshAfterAudioChange();
 
   const htmlPath = path.join(process.cwd(), "scripts", "timings-editor.html");
   if (!fs.existsSync(htmlPath)) fail(`editor page not found at ${htmlPath}`);
@@ -273,18 +315,66 @@ function main() {
           );
           if (Object.keys(ordered).length === 0) {
             fs.rmSync(editsPath, { force: true });
+            edits = { sentences: {} };
             console.log(dim("  all corrections cleared — edits file removed"));
           } else {
             fs.writeFileSync(editsPath, `${JSON.stringify({ sentences: ordered }, null, 2)}\n`);
+            edits = { sentences: ordered };
             console.log(
               green(`  saved ${Object.keys(ordered).length} corrected boundary set(s) to ${path.basename(editsPath)}`)
             );
           }
+          rebuildSentenceRows();
           response.writeHead(200, { "Content-Type": "application/json" });
           response.end(JSON.stringify({ ok: true }));
         } catch (error) {
           const message = error instanceof Error ? error.message : String(error);
           console.error(red(`  save rejected — ${message}`));
+          response.writeHead(400, { "Content-Type": "application/json" });
+          response.end(JSON.stringify({ ok: false, error: message }));
+        }
+      });
+      return;
+    }
+
+    if (request.method === "POST" && url === "/insert-silence") {
+      const chunks: Buffer[] = [];
+      request.on("data", (chunk: Buffer) => chunks.push(chunk));
+      request.on("end", () => {
+        try {
+          const body = JSON.parse(Buffer.concat(chunks).toString("utf-8"));
+          const afterId = typeof body.afterId === "string" ? body.afterId : "";
+          const seconds = Number(body.seconds);
+          if (!afterId) throw new Error("afterId is required");
+          if (!Number.isFinite(seconds) || seconds <= 0) throw new Error("seconds must be a positive number");
+
+          const orderedIds = lessonSentences(lesson).map((sentence) => sentence.id);
+          const current = edits.sentences[afterId] ?? timings.sentences[afterId];
+          if (!current) throw new Error(`no timing found for ${afterId}`);
+
+          timings = shiftTimingsAfter(timings, orderedIds, afterId, seconds);
+          insertSilence(audioPath, audioPath, current.end, seconds);
+          writeJson(timingsPath, timings);
+
+          if (Object.keys(edits.sentences).length > 0) {
+            edits = {
+              sentences: shiftTimingsAfter(
+                { audio: timings.audio, sentences: edits.sentences },
+                orderedIds,
+                afterId,
+                seconds
+              ).sentences,
+            };
+            writeJson(editsPath, edits);
+          }
+
+          refreshAfterAudioChange();
+          console.log(green(`  inserted ${seconds.toFixed(3)}s of silence after ${afterId}`));
+          response.writeHead(200, { "Content-Type": "application/json" });
+          response.end(JSON.stringify({ ok: true, data }));
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          console.error(red(`  insert-silence rejected — ${message}`));
           response.writeHead(400, { "Content-Type": "application/json" });
           response.end(JSON.stringify({ ok: false, error: message }));
         }
@@ -304,7 +394,11 @@ function main() {
     }
     if (url === "/audio.mp3") {
       const stat = fs.statSync(audioPath);
-      response.writeHead(200, { "Content-Type": "audio/mpeg", "Content-Length": stat.size });
+      response.writeHead(200, {
+        "Content-Type": "audio/mpeg",
+        "Content-Length": stat.size,
+        "Cache-Control": "no-store",
+      });
       fs.createReadStream(audioPath).pipe(response);
       return;
     }

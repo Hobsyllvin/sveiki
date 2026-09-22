@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { z } from "zod";
 import { DialogueVoicesSchema, LessonSchema } from "../src/lib/content/schema";
-import type { AudioTimings } from "../src/lib/content/schema";
+import type { AudioTimings, DialogueVoices } from "../src/lib/content/schema";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 const API_URL = "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/with-timestamps";
@@ -71,11 +71,24 @@ function sentenceTimings(text: string, sentences: { id: string; text: string }[]
   return result;
 }
 
-async function request(text: string, voiceId: string, modelId: string, languageCode: string, apiKey: string) {
+async function request(
+  text: string,
+  voiceId: string,
+  modelId: string,
+  languageCode: string,
+  settings: DialogueVoices["settings"],
+  apiKey: string
+) {
   const response = await fetch(API_URL.replace("{voice_id}", voiceId), {
     method: "POST",
     headers: { "xi-api-key": apiKey, "Content-Type": "application/json" },
-    body: JSON.stringify({ text, model_id: modelId, language_code: languageCode, output_format: OUTPUT_FORMAT }),
+    body: JSON.stringify({
+      text,
+      model_id: modelId,
+      language_code: languageCode,
+      voice_settings: settings,
+      output_format: OUTPUT_FORMAT,
+    }),
   });
   if (!response.ok) fail(`request failed (HTTP ${response.status}): ${(await response.text()).slice(0, 800)}`);
   const parsed = ResponseSchema.safeParse(await response.json());
@@ -97,12 +110,12 @@ async function main() {
   const lesson = LessonSchema.parse(JSON.parse(fs.readFileSync(path.join(langDir, "lessons", `${lessonId}.json`), "utf8")));
   const voices = DialogueVoicesSchema.parse(JSON.parse(fs.readFileSync(path.join(langDir, "voices.json"), "utf8")));
   const sentences = lesson.sections.flatMap((section) => section.sentences).map((sentence) => ({ id: sentence.id, text: sentence.target }));
-  const voiceId = voices.speakers["Emma"];
-  if (!voiceId) fail("Emma has no voice mapping");
+  const voiceId = voices.speakers["Paula"];
+  if (!voiceId) fail("Paula has no voice mapping");
 
   if (argv.includes("--probe")) {
     const text = sentences[0].text;
-    const result = await request(text, voiceId, voices.model_id, voices.language_code, apiKey);
+    const result = await request(text, voiceId, voices.model_id, voices.language_code, voices.settings, apiKey);
     const timings = sentenceTimings(text, [sentences[0]], result.alignment!);
     const audio = Buffer.from(result.audio_base64, "base64");
     if (audio.length < MIN_MP3_BYTES) fail(`probe audio is only ${audio.length} bytes`);
@@ -111,7 +124,7 @@ async function main() {
   }
 
   const text = sentences.map((sentence) => sentence.text).join(" ");
-  const result = await request(text, voiceId, voices.model_id, voices.language_code, apiKey);
+  const result = await request(text, voiceId, voices.model_id, voices.language_code, voices.settings, apiKey);
   const timings: AudioTimings = { audio: `${lessonId}.mp3`, sentences: sentenceTimings(text, sentences, result.alignment!) };
   const outputDir = path.join(langDir, "audio");
   fs.mkdirSync(outputDir, { recursive: true });

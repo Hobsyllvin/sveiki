@@ -1,6 +1,6 @@
 @AGENTS.md
 
-# Valoda Project Guide
+# Sveiki Project Guide
 
 Character facts and lesson planning must stay consistent with [docs/CHARACTER-BIBLE.md](docs/CHARACTER-BIBLE.md) and [docs/CURRICULUM.md](docs/CURRICULUM.md).
 
@@ -36,6 +36,7 @@ src/lib/content/
 ## Standing instructions
 
 - `content/_shared/GLOSSING_RULES.md` is authoritative for all gloss decisions. Never invent a gloss convention; if a rule is missing, add it to the rules doc first.
+- NEVER run `npm run audio`without prior consent from me, as it overwrites old timing files and burns my credits.
 - Never add presentation/layout information (colors, CSS classes, HTML) to content JSON files.
 - All content changes must pass `npm run validate` before commit.
 - New lemmas require a `dictionary.json` entry; flag them explicitly in commit messages for human review.
@@ -49,6 +50,6 @@ npm run test        # run vitest suite
 npm run lint        # ESLint
 npx tsc --noEmit    # type check
 npm run dev         # dev server
-npm run audio -- --lesson lv-a1-03    # regenerate one coherent lesson take
-npm run timings -- --lesson lv-a1-03  # review sentence timing corrections
+npm run audio lv-a1-03                # regenerate one coherent lesson take
+npm run timings lv-a1-03              # review sentence timing corrections
 ```

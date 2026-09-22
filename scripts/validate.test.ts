@@ -402,7 +402,7 @@ describe("vocab coverage check (check 4)", () => {
 
 describe("findLanguageDirs", () => {
   it("skips underscore dirs, files, and dirs without course.json", () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), "valoda-langdirs-"));
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "sveiki-langdirs-"));
 
     fs.mkdirSync(path.join(root, "lv"));
     fs.writeFileSync(path.join(root, "lv", "course.json"), "{}");
@@ -664,7 +664,7 @@ describe("check 7 — audio coverage", () => {
   ];
 
   function withAudioDir(files: string[], run: (dir: string) => void) {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "valoda-audio-"));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "sveiki-audio-"));
     files.forEach((f) => fs.writeFileSync(path.join(dir, f), "x"));
     try {
       run(dir);
@@ -683,7 +683,7 @@ describe("check 7 — audio coverage", () => {
   });
 
   it("tolerates a missing audio directory", () => {
-    const result = checkAudioCoverage(lessons, path.join(os.tmpdir(), "valoda-audio-does-not-exist"));
+    const result = checkAudioCoverage(lessons, path.join(os.tmpdir(), "sveiki-audio-does-not-exist"));
     expect(result.pass).toBe(true);
     expect(result.warnings?.[0]).toMatch(/no audio file yet/);
   });

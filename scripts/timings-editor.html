@@ -14,6 +14,7 @@
     --accent: #9a6b3f;
     --edited: #b4531a;
     --sel-row: #f3eee5;
+    --warn: #b3261e;
   }
   * { box-sizing: border-box; }
   body {
@@ -56,6 +57,8 @@
   td.text { white-space: normal; color: #4a4239; max-width: 44ch; }
   tr.sel td { background: var(--sel-row); }
   tr.edited td.id { color: var(--edited); font-weight: 600; }
+  tr.oor { background: rgba(179, 38, 30, .06); }
+  tr.oor td.id { color: var(--warn); font-weight: 600; }
   .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
   .hint { padding: 7px 16px; font-size: 12px; color: var(--muted); }
   .row-actions button { padding: 1px 7px; font-size: 11px; }
@@ -72,7 +75,7 @@
   <button id="zoomOut">−</button><button id="zoomIn">+</button><span id="zoomLabel">60 px/s</span>
   <span class="sep"></span>
   <button id="linked" class="on">linked boundaries</button>
-  <button id="snap" class="on">snap to silence</button>
+  <button id="snap">snap to silence</button>
   <span class="sep"></span>
   <button id="revertAll">revert all</button>
   <button id="save">save</button>
@@ -146,9 +149,11 @@ let playhead = 0;
 let pxPerSecond = 60;
 let selected = 0;
 let linkedMode = true;
-let snapMode = true;
+let snapMode = false;
 let dragging = null;         // { kind: 'boundary'|'start'|'end', index }
 let dirty = false;
+let lastPlayhead = -1;       // tracks playhead moves so the highlight follows it
+                              // without fighting explicit row/handle selections
 
 const fmt = (t) => {
   const m = Math.floor(t / 60);
@@ -158,6 +163,10 @@ const fmt = (t) => {
 };
 
 const isEdited = (s) => s.start !== s.generatedStart || s.end !== s.generatedEnd;
+// A saved correction can outlive the audio it was made against — e.g. a lesson
+// gets a new take with a different length — leaving a boundary past the new
+// end. Saves reject these, so flag them on sight rather than only at save time.
+const isOutOfRange = (s) => s.end > data.duration + 0.01 || s.start < -0.01;
 
 function setDirty(value) {
   dirty = value;
@@ -174,6 +183,8 @@ async function boot() {
   buildPeaks();
   layout();
   renderRows();
+  const outOfRange = data.sentences.filter(isOutOfRange).length;
+  if (outOfRange > 0) statusEl.textContent = `⚠ ${outOfRange} out of range`;
   requestAnimationFrame(tick);
 }
 
@@ -303,6 +314,12 @@ function tick() {
       scroller.scrollLeft = x - scroller.clientWidth / 3;
     }
   }
+  // Only re-derive the selection when the playhead itself has moved, so an explicit
+  // row/handle pick (which doesn't move the playhead) isn't immediately overridden.
+  if (playhead !== lastPlayhead) {
+    lastPlayhead = playhead;
+    followPlayhead();
+  }
   clockEl.textContent = fmt(playhead);
   drawOverlay();
   requestAnimationFrame(tick);
@@ -414,14 +431,11 @@ overlay.addEventListener('pointerdown', (event) => {
   const hit = handleAt(x);
   if (hit) {
     dragging = hit;
-    selected = hit.kind === 'boundary' ? hit.index : hit.index;
+    setSelected(hit.index);
     overlay.setPointerCapture(event.pointerId);
-    renderRows();
     return;
   }
   const time = xToTime(x);
-  const index = data.sentences.findIndex((s) => time >= s.start && time <= s.end);
-  if (index !== -1) { selected = index; renderRows(); }
   playhead = time;
   if (playing) startPlayback(time, data.duration);
 });
@@ -468,9 +482,26 @@ function nudge(seconds) {
   renderRows();
 }
 
-function select(index) {
-  selected = Math.min(data.sentences.length - 1, Math.max(0, index));
+function scrollRowIntoView() {
+  rowsBody.children[selected]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+
+function setSelected(index) {
+  if (index === selected) return;
+  selected = index;
   renderRows();
+  scrollRowIntoView();
+}
+
+// Highlights whichever sentence the playhead is currently inside, in both the
+// waveform (via `selected`, read by drawOverlay) and the row list.
+function followPlayhead() {
+  const index = data.sentences.findIndex((s) => playhead >= s.start && playhead <= s.end);
+  if (index !== -1) setSelected(index);
+}
+
+function select(index) {
+  setSelected(Math.min(data.sentences.length - 1, Math.max(0, index)));
   const x = timeToX(data.sentences[selected].start);
   if (x < scroller.scrollLeft || x > scroller.scrollLeft + scroller.clientWidth - 40) {
     scroller.scrollLeft = x - scroller.clientWidth / 3;
@@ -504,8 +535,10 @@ function renderRows() {
     const tr = document.createElement('tr');
     if (i === selected) tr.className = 'sel';
     if (isEdited(s)) tr.className += ' edited';
+    const outOfRange = isOutOfRange(s);
+    if (outOfRange) tr.className += ' oor';
     tr.innerHTML = `
-      <td class="id">${s.id}</td>
+      <td class="id" title="${outOfRange ? 'past the current audio — revert or drag within bounds' : ''}">${outOfRange ? '⚠ ' : ''}${s.id}</td>
       <td>${s.speaker}</td>
       <td class="text">${s.target.replace(/</g, '&lt;')}</td>
       <td class="num">${fmt(s.start)}</td>
@@ -520,7 +553,7 @@ function renderRows() {
       button.onclick = (event) => { event.stopPropagation(); fn(); };
       actions.appendChild(button);
     };
-    add('▸', 'play this range', () => { selected = i; renderRows(); startPlayback(s.start, s.end); });
+    add('▸', 'play this range', () => { setSelected(i); startPlayback(s.start, s.end); });
     add('|←', 'snap start to nearest silence edge', () => {
       moveEdge(i, 'start', nearestSilenceEdge(s.start));
       renderRows();
@@ -536,7 +569,8 @@ function renderRows() {
       setDirty(true);
       renderRows();
     });
-    tr.onclick = () => { selected = i; renderRows(); };
+    add('‖+', 'insert silence after this sentence', () => insertSilenceAfter(s.id));
+    tr.onclick = () => setSelected(i);
     rowsBody.appendChild(tr);
   });
   const count = data.sentences.filter(isEdited).length;
@@ -562,24 +596,21 @@ document.getElementById('revertAll').onclick = () => {
   renderRows();
 };
 
-saveBtn.onclick = async () => {
+async function saveEdits() {
   const sentences = {};
   for (const s of data.sentences) {
     if (isEdited(s)) sentences[s.id] = { start: s.start, end: s.end };
   }
   const body = JSON.stringify({ sentences }, null, 2);
+  let response;
   try {
-    const response = await fetch('/save', {
+    response = await fetch('/save', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body,
     });
-    const result = await response.json();
-    if (!result.ok) throw new Error(result.error || 'rejected');
-    setDirty(false);
-    statusEl.textContent = `saved ${Object.keys(sentences).length}`;
-  } catch (error) {
-    // No server (page opened from disk, or it was stopped): fall back to a download.
+  } catch (networkError) {
+    // No server reachable (page opened from disk, or it was stopped): fall back to a download.
     statusEl.textContent = 'saved to downloads';
     const url = URL.createObjectURL(new Blob([body], { type: 'application/json' }));
     const link = document.createElement('a');
@@ -587,8 +618,69 @@ saveBtn.onclick = async () => {
     link.download = `${data.lessonId}.timings.edits.json`;
     link.click();
     URL.revokeObjectURL(url);
+    return;
+  }
+  // A reachable server that rejects the save (bad data) is not the same as no
+  // server at all — surface the real reason instead of silently downloading.
+  const result = await response.json();
+  if (!result.ok) {
+    statusEl.textContent = 'save rejected';
+    throw new Error(result.error || 'rejected');
+  }
+  setDirty(false);
+  statusEl.textContent = `saved ${Object.keys(sentences).length}`;
+}
+
+saveBtn.onclick = async () => {
+  try {
+    await saveEdits();
+  } catch (error) {
+    alert(`could not save: ${error.message}`);
   }
 };
+
+// Re-reads audio + boundaries after the server has rewritten the audio file
+// in place (silence insertion), since the decoded buffer and peaks are stale.
+async function reload(newData) {
+  stopPlayback();
+  data = newData;
+  document.getElementById('title').textContent =
+    `${data.lessonId} — ${data.sentences.length} sentences, ${data.duration.toFixed(2)}s`;
+  const bytes = await (await fetch('/audio.mp3', { cache: 'no-store' })).arrayBuffer();
+  buffer = await audioCtx.decodeAudioData(bytes);
+  buildPeaks();
+  playhead = 0;
+  selected = Math.min(selected, data.sentences.length - 1);
+  layout();
+  renderRows();
+  setDirty(false);
+}
+
+async function insertSilenceAfter(id) {
+  const input = window.prompt(`seconds of silence to insert after ${id}`, '0.5');
+  if (input === null) return;
+  const seconds = Number.parseFloat(input);
+  if (!Number.isFinite(seconds) || seconds <= 0) {
+    alert('enter a positive number of seconds');
+    return;
+  }
+  try {
+    if (dirty) await saveEdits();
+    statusEl.textContent = 'inserting silence…';
+    const response = await fetch('/insert-silence', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ afterId: id, seconds }),
+    });
+    const result = await response.json();
+    if (!result.ok) throw new Error(result.error || 'rejected');
+    await reload(result.data);
+    statusEl.textContent = `inserted ${seconds.toFixed(3)}s after ${id}`;
+  } catch (error) {
+    statusEl.textContent = 'insert failed';
+    alert(`could not insert silence: ${error.message}`);
+  }
+}
 
 window.addEventListener('beforeunload', (event) => {
   if (dirty) event.preventDefault();

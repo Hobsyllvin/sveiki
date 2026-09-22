@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Valoda — Latvian with Birkenbihl",
+  title: "Sveiki — Latvian with Birkenbihl",
   description: "Learn Latvian through interlinear decoding",
 };
 

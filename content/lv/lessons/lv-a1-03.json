@@ -11,16 +11,16 @@
         {
           "id": "s1",
           "speaker": "Narrator",
-          "target": "Pēteris un Emma satiekas kafejnīcā Vecrīgā.",
+          "target": "Pēteris un Paula satiekas kafejnīcā Vecrīgā.",
           "tokens": [
             { "lv": "Pēteris", "gloss": "Pēteris", "lemma": "Pēteris", "pos": "propn", "note": "nom." },
             { "lv": "un", "gloss": "and", "lemma": "un", "pos": "conj" },
-            { "lv": "Emma", "gloss": "Emma", "lemma": "Emma", "pos": "propn", "note": "nom." },
+            { "lv": "Paula", "gloss": "Paula", "lemma": "Paula", "pos": "propn", "note": "nom." },
             { "lv": "satiekas", "gloss": "meet", "lemma": "satikties", "pos": "verb", "note": "refl. form, reciprocal; 3 pres." },
             { "lv": "kafejnīcā", "gloss": "in-café", "lemma": "kafejnīca", "pos": "noun", "note": "loc." },
             { "lv": "Vecrīgā", "gloss": "in-Vecrīga", "lemma": "Vecrīga", "pos": "propn", "note": "loc.", "punct": "." }
           ],
-          "natural": "Pēteris and Emma meet in a café in Riga's Old Town.",
+          "natural": "Pēteris and Paula meet in a café in Riga's Old Town.",
           "audio": "lv-a1-03-s1.mp3",
           "audioApproved": false
         }
@@ -33,21 +33,21 @@
         {
           "id": "s2",
           "speaker": "Pēteris",
-          "target": "Sveika, Emma! Prieks tevi redzēt.",
+          "target": "Sveika, Paula! Prieks tevi redzēt.",
           "tokens": [
             { "lv": "Sveika", "gloss": "hello", "lemma": "sveiks", "pos": "interj", "note": "fem. addressee", "punct": "," },
-            { "lv": "Emma", "gloss": "Emma", "lemma": "Emma", "pos": "propn", "note": "voc.", "punct": "!" },
+            { "lv": "Paula", "gloss": "Paula", "lemma": "Paula", "pos": "propn", "note": "voc.", "punct": "!" },
             { "lv": "Prieks", "gloss": "joy", "lemma": "prieks", "pos": "noun", "note": "nom.; prieks redzēt = nice to see" },
             { "lv": "tevi", "gloss": "you", "lemma": "tu", "pos": "pron", "note": "acc." },
             { "lv": "redzēt", "gloss": "to-see", "lemma": "redzēt", "pos": "verb", "note": "inf.", "punct": "." }
           ],
-          "natural": "Hello, Emma! Nice to see you.",
+          "natural": "Hello, Paula! Nice to see you.",
           "audio": "lv-a1-03-s2.mp3",
           "audioApproved": false
         },
         {
           "id": "s3",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Sveiks, Pēteri! Man arī.",
           "tokens": [
             { "lv": "Sveiks", "gloss": "hello", "lemma": "sveiks", "pos": "interj", "note": "masc. addressee", "punct": "," },
@@ -61,7 +61,7 @@
         },
         {
           "id": "s4",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Šī ir ļoti jauka kafejnīca.",
           "tokens": [
             { "lv": "Šī", "gloss": "this", "lemma": "šis", "pos": "pron", "note": "demonstr.; fem. nom." },
@@ -98,7 +98,7 @@
         },
         {
           "id": "s6",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Jā! Šeit ir brīvs galds.",
           "tokens": [
             { "lv": "Jā", "gloss": "yes", "lemma": "jā", "pos": "interj", "punct": "!" },
@@ -133,7 +133,7 @@
         },
         {
           "id": "s8",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es gribu kafiju. Un tu?",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -164,7 +164,7 @@
         },
         {
           "id": "s10",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Ko? Tev negaršo kafija? Cik skumja dzīve!",
           "tokens": [
             { "lv": "Ko", "gloss": "what", "lemma": "kas", "pos": "pron", "note": "acc.", "punct": "?" },
@@ -197,7 +197,7 @@
         },
         {
           "id": "s12",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "No rīta man vienmēr vajag kafiju.",
           "tokens": [
             { "lv": "No", "gloss": "from", "lemma": "no", "pos": "prep", "note": "+ gen." },
@@ -248,7 +248,7 @@
         },
         {
           "id": "s14",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Tas skan lieliski! Es ļoti mīlu kūkas.",
           "tokens": [
             { "lv": "Tas", "gloss": "that", "lemma": "tas", "pos": "pron", "note": "demonstr.; masc. nom." },
@@ -367,7 +367,7 @@
         },
         {
           "id": "s21",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Ar auzu pienu, lūdzu. Paldies!",
           "tokens": [
             { "lv": "Ar", "gloss": "with", "lemma": "ar", "pos": "prep", "note": "+ acc. sg.; dat. in pl." },
@@ -414,7 +414,7 @@
         },
         {
           "id": "s24",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Man patīk skriet. Es skrienu katru dienu.",
           "tokens": [
             { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
@@ -431,7 +431,7 @@
         },
         {
           "id": "s25",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Es arī daudz peldu. Vasarā man patīk braukt uz jūru.",
           "tokens": [
             { "lv": "Es", "gloss": "I", "lemma": "es", "pos": "pron" },
@@ -467,7 +467,7 @@
         },
         {
           "id": "s27",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Nē, es skrienu tikai priekam! Un tu?",
           "tokens": [
             { "lv": "Nē", "gloss": "no", "lemma": "nē", "pos": "interj", "punct": "," },
@@ -508,7 +508,7 @@
         },
         {
           "id": "s29",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Ā, Jūrmalā? Tur ir jauki laukumi!",
           "tokens": [
             { "lv": "Ā", "gloss": "ah", "lemma": "ā", "pos": "interj", "punct": "," },
@@ -544,7 +544,7 @@
         },
         {
           "id": "s31",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Jā, labprāt! Ko vēl tu dari? Vai tu spēlē kādu instrumentu?",
           "tokens": [
             { "lv": "Jā", "gloss": "yes", "lemma": "jā", "pos": "interj", "punct": "," },
@@ -588,7 +588,7 @@
         },
         {
           "id": "s33",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Cik jauki! Es nedziedu, bet es labi gatavoju.",
           "tokens": [
             { "lv": "Cik", "gloss": "how", "lemma": "cik", "pos": "adv", "note": "cik + adv. = how" },
@@ -619,7 +619,7 @@
         },
         {
           "id": "s35",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Man patīk gatavot zupu, un es cepu kūkas.",
           "tokens": [
             { "lv": "Man", "gloss": "to-me", "lemma": "es", "pos": "pron", "note": "dat." },
@@ -649,7 +649,7 @@
         },
         {
           "id": "s37",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Arī. Bet mana slepenā recepte ir burkānu kūka.",
           "tokens": [
             { "lv": "Arī", "gloss": "also", "lemma": "arī", "pos": "adv", "punct": "." },
@@ -690,7 +690,7 @@
       "sentences": [
         {
           "id": "s39",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Varbūt kādu dienu.",
           "tokens": [
             { "lv": "Varbūt", "gloss": "maybe", "lemma": "varbūt", "pos": "adv" },
@@ -733,7 +733,7 @@
       "sentences": [
         {
           "id": "s41",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "O, siera kūka ir lieliska! Man ļoti garšo.",
           "tokens": [
             { "lv": "O", "gloss": "oh", "lemma": "o", "pos": "interj", "punct": "," },
@@ -768,7 +768,7 @@
         },
         {
           "id": "s43",
-          "speaker": "Emma",
+          "speaker": "Paula",
           "target": "Jā, šī ir ļoti jauka vieta. Laba izvēle!",
           "tokens": [
             { "lv": "Jā", "gloss": "yes", "lemma": "jā", "pos": "interj", "punct": "," },

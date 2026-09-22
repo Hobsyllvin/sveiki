@@ -17,8 +17,8 @@ import {
 
 describe("whole-lesson dialogue scripts", () => {
   it("parses tagged lines and preserves pipes inside dialogue", () => {
-    expect(parseScript("s1 | Emma | [warmly] Sveika!\ns2 | Marta | A | B")).toEqual([
-      { id: "s1", speaker: "Emma", text: "[warmly] Sveika!" },
+    expect(parseScript("s1 | Paula | [warmly] Sveika!\ns2 | Marta | A | B")).toEqual([
+      { id: "s1", speaker: "Paula", text: "[warmly] Sveika!" },
       { id: "s2", speaker: "Marta", text: "A | B" },
     ]);
     expect(stripTags("[warmly]  Sveika!")).toBe("Sveika!");
@@ -42,6 +42,13 @@ describe("whole-lesson dialogue scripts", () => {
 
       expect(checkScriptAgainstLesson(script, lessonSentences(lesson))).toEqual([]);
       expect(dialogueCharacterCount(resolveVoices(script, voices))).toBeLessThanOrEqual(2_000);
+      expect(voices.settings).toEqual({
+        stability: 0.6,
+        similarity_boost: 0.75,
+        use_speaker_boost: true,
+        style: 0,
+        speed: 0.8,
+      });
     }
   );
 });

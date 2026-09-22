@@ -86,6 +86,15 @@ export type Dictionary = z.infer<typeof DictionarySchema>;
 export const DialogueVoicesSchema = z.object({
   model_id: z.string().min(1),
   language_code: z.string().min(1),
+  // Kept with the voice map so each synthesis path uses the same deliberate,
+  // reproducible settings rather than the mutable provider defaults.
+  settings: z.object({
+    stability: z.number().min(0).max(1),
+    similarity_boost: z.number().min(0).max(1),
+    use_speaker_boost: z.boolean(),
+    style: z.number().min(0).max(1),
+    speed: z.number().min(0.7).max(1.2),
+  }),
   speakers: z.record(z.string(), z.string().min(1)),
 });
 

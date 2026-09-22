@@ -1,4 +1,4 @@
-# valoda
+# Sveiki
 
 Latvian language learning platform built on the **Birkenbihl method** — a four-step approach that prioritizes understanding over memorisation: (1) **Decoding** — every word translated literally in source word order, creating a strange-but-readable interlinear text; (2) **Active Listening** — audio plays alongside the decoded text with word-level highlighting; (3) **Passive Listening** — the same audio loops in the background while you do other things; (4) further activities like shadowing and free production.
 
@@ -27,9 +27,9 @@ Generated source files live together under
 the lesson MP3 to the public directory used by the app.
 
 ```bash
-npm run audio -- --lesson lv-a1-03    # regenerate the complete lesson take
-npm run timings -- --lesson lv-a1-03  # review/correct sentence boundaries
-npm run timings -- --lesson lv-a1-03 --insert-silence-after s1 --seconds 0.5
+npm run audio lv-a1-03                # regenerate the complete lesson take
+npm run timings lv-a1-03              # review/correct sentence boundaries
+npm run timings lv-a1-03 --insert-silence-after s1 --seconds 0.5
 npm run sync-audio                    # copy lesson MP3s into public/audio
 ```
 

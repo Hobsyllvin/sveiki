@@ -57,7 +57,7 @@ export function lessonSentences(lesson: Lesson): Sentence[] {
   return lesson.sections.flatMap((section) => section.sentences);
 }
 
-// `s12 | Emma | [surprised] Ko?` — speaker and delivery tags live here,
+// `s12 | Paula | [surprised] Ko?` — speaker and delivery tags live here,
 // never in lesson JSON.
 export function parseScript(markdown: string): ScriptLine[] {
   const lines = markdown.split("\n").filter((line) => /^s\d+\s*\|/.test(line));
@@ -222,6 +222,7 @@ async function generate(
       inputs,
       model_id: voices.model_id,
       language_code: voices.language_code,
+      settings: voices.settings,
       output_format: OUTPUT_FORMAT,
       seed,
     }),
@@ -246,12 +247,17 @@ function flag(argv: string[], name: string): string | null {
   return index !== -1 ? (argv[index + 1] ?? null) : null;
 }
 
+function firstPositional(argv: string[]): string | null {
+  const arg = argv[0];
+  return arg && !arg.startsWith("-") ? arg : null;
+}
+
 async function main() {
   const argv = process.argv.slice(2);
-  const lessonId = flag(argv, "--lesson");
+  const lessonId = firstPositional(argv) ?? flag(argv, "--lesson");
   const scriptArg = flag(argv, "--script");
   if (!lessonId && !scriptArg) {
-    fail("usage: npm run audio -- --lesson <lessonId> | --script <path to .md>");
+    fail("usage: npm run audio <lessonId> | npm run audio -- --script <path to .md>");
   }
 
   if (fs.existsSync(".env.local")) process.loadEnvFile(".env.local");
@@ -332,7 +338,7 @@ async function main() {
     console.log(
       yellow(
         `\n  ${path.basename(editsPath)} still holds ${edited} corrected boundary set(s) from ` +
-          `the previous take. Recheck them with: npm run timings -- --lesson ${name}`
+          `the previous take. Recheck them with: npm run timings ${name}`
       )
     );
   }
