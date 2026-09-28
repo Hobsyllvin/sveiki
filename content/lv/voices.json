@@ -2,7 +2,7 @@
   "model_id": "eleven_v3",
   "language_code": "lv",
   "settings": {
-    "stability": 0.6,
+    "stability": 1,
     "similarity_boost": 0.75,
     "use_speaker_boost": true,
     "style": 0,

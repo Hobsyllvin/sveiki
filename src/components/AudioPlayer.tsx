@@ -1,6 +1,6 @@
 "use client";
 
-const RATES = [0.75, 1];
+const RATES = [0.75, 1, 1.25];
 
 function formatTime(seconds: number): string {
   const whole = Math.max(0, Math.floor(seconds));

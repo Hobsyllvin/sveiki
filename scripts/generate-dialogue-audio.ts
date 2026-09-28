@@ -209,6 +209,7 @@ function readJson<T>(filePath: string, schema: z.ZodType<T>, label: string): T {
 async function generate(
   inputs: { text: string; voice_id: string }[],
   voices: DialogueVoices,
+  settings: DialogueVoices["settings"],
   apiKey: string,
   seed: number
 ): Promise<DialogueResponse> {
@@ -222,7 +223,7 @@ async function generate(
       inputs,
       model_id: voices.model_id,
       language_code: voices.language_code,
-      settings: voices.settings,
+      settings,
       output_format: OUTPUT_FORMAT,
       seed,
     }),
@@ -257,7 +258,16 @@ async function main() {
   const lessonId = firstPositional(argv) ?? flag(argv, "--lesson");
   const scriptArg = flag(argv, "--script");
   if (!lessonId && !scriptArg) {
-    fail("usage: npm run audio <lessonId> | npm run audio -- --script <path to .md>");
+    fail(
+      "usage: npm run audio <lessonId> [--speed 0.7-1.2] | " +
+        "npm run audio -- --script <path to .md> [--speed 0.7-1.2]"
+    );
+  }
+
+  const speedArg = flag(argv, "--speed");
+  const speed = speedArg !== null ? Number.parseFloat(speedArg) : 1;
+  if (!Number.isFinite(speed) || speed < 0.7 || speed > 1.2) {
+    fail("--speed must be a number between 0.7 and 1.2");
   }
 
   if (fs.existsSync(".env.local")) process.loadEnvFile(".env.local");
@@ -273,6 +283,7 @@ async function main() {
     DialogueVoicesSchema,
     "voices.json"
   );
+  const settings = { ...voices.settings, speed };
 
   // --script is for scratch scripts that are not lesson content.
   const name = lessonId ?? path.basename(scriptArg!, ".md");
@@ -307,11 +318,11 @@ async function main() {
   console.log(
     bold(
       `\n${name} — one coherent take, ${inputs.length} inputs, ${characterCount} characters, ` +
-        `model ${voices.model_id}, seed ${seed}`
+        `model ${voices.model_id}, seed ${seed}, speed ${speed}`
     )
   );
 
-  const result = await generate(inputs, voices, apiKey, seed);
+  const result = await generate(inputs, voices, settings, apiKey, seed);
   const audioName = `${name}.mp3`;
   const mp3 = Buffer.from(result.audio_base64, "base64");
   if (mp3.length < MIN_MP3_BYTES) {
@@ -327,18 +338,22 @@ async function main() {
   writeJson(path.join(outputDir, `${name}.timings.json`), timings);
   writeJson(path.join(outputDir, `${name}.alignment.json`), result.alignment);
 
-  // Corrections are measured against a particular take. Keep them visible, but
-  // warn because they must be reviewed after every new full-lesson generation.
+  // Corrections are measured against the take they were made on, so a new take
+  // makes them meaningless — clear them rather than leave stale boundaries in
+  // charge of playback (edits always win over generated timings). Backed up in
+  // case the previous take's corrections are still wanted for reference.
   const editsPath = path.join(outputDir, `${name}.timings.edits.json`);
   if (fs.existsSync(editsPath)) {
     const edited = Object.keys(
       (JSON.parse(fs.readFileSync(editsPath, "utf-8")) as { sentences?: object })
         .sentences ?? {}
     ).length;
+    fs.copyFileSync(editsPath, `${editsPath}.bak`);
+    fs.rmSync(editsPath);
     console.log(
       yellow(
-        `\n  ${path.basename(editsPath)} still holds ${edited} corrected boundary set(s) from ` +
-          `the previous take. Recheck them with: npm run timings ${name}`
+        `\n  cleared ${edited} corrected boundary set(s) from the previous take ` +
+          `(backed up to ${path.basename(editsPath)}.bak) — re-review with: npm run timings ${name}`
       )
     );
   }

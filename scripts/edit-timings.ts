@@ -9,18 +9,42 @@ import fs from "fs";
 import path from "path";
 import http from "http";
 import os from "os";
+import crypto from "crypto";
 import { spawn, spawnSync } from "child_process";
-import { AudioTimingsSchema, LessonSchema, TimingEditsSchema } from "../src/lib/content/schema";
-import type { AudioTimings, Lesson, Sentence } from "../src/lib/content/schema";
+import { z } from "zod";
+import {
+  AudioTimingsSchema,
+  DialogueVoicesSchema,
+  LessonSchema,
+  TimingEditsSchema,
+} from "../src/lib/content/schema";
+import type {
+  AudioTimings,
+  DialogueVoices,
+  Lesson,
+  Sentence,
+  TimingEdits,
+} from "../src/lib/content/schema";
+import { parseScript, stripTags } from "./generate-dialogue-audio";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 const AUDIO_DIR_NAME = "audio";
 const DEFAULT_PORT = 4321;
 const DEFAULT_NOISE = "-30dB";
 const DEFAULT_SILENCE_DURATION = "0.12";
+// A single-sentence take, unlike a full-scene take, has no neighbouring dialogue
+// filling the space around it, so ElevenLabs pads it with silence that must be
+// trimmed before splicing it in.
+const REGEN_TRIM_PAD_SECONDS = 0.02;
+const REGEN_API_URL = "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/with-timestamps";
+const REGEN_OUTPUT_FORMAT = "mp3_44100_128";
+const REGEN_MIN_MP3_BYTES = 1_000;
+
+export const round = (t: number) => Math.round(t * 1000) / 1000;
 
 const green = (s: string) => `\x1b[32m${s}\x1b[0m`;
 const red = (s: string) => `\x1b[31m${s}\x1b[0m`;
+const yellow = (s: string) => `\x1b[33m${s}\x1b[0m`;
 const bold = (s: string) => `\x1b[1m${s}\x1b[0m`;
 const dim = (s: string) => `\x1b[2m${s}\x1b[0m`;
 
@@ -33,6 +57,7 @@ interface SentenceRow {
   id: string;
   speaker: string;
   target: string;
+  scriptText: string | null;
   start: number;
   end: number;
   generatedStart: number;
@@ -94,7 +119,7 @@ function insertSilence(
   fs.rmSync(tempDir, { recursive: true, force: true });
 }
 
-function shiftTimingsAfter(
+export function shiftTimingsAfter(
   timings: AudioTimings,
   sentenceIds: string[],
   afterId: string,
@@ -114,6 +139,152 @@ function shiftTimingsAfter(
     })
   );
   return { ...timings, sentences: shifted };
+}
+
+// The regenerated sentence's own boundary is known exactly — the splice point is
+// unchanged, and its duration comes straight from the trimmed replacement clip —
+// while everything after it shifts by the resulting delta, positive or negative.
+export function applyRegeneratedDuration(
+  timings: AudioTimings,
+  sentenceIds: string[],
+  sentenceId: string,
+  oldStart: number,
+  oldEnd: number,
+  newDuration: number
+): AudioTimings {
+  const delta = newDuration - (oldEnd - oldStart);
+  const shifted = shiftTimingsAfter(timings, sentenceIds, sentenceId, delta);
+  return {
+    ...shifted,
+    sentences: {
+      ...roundAll(shifted.sentences),
+      [sentenceId]: { start: round(oldStart), end: round(oldStart + newDuration) },
+    },
+  };
+}
+
+function roundAll(sentences: Record<string, { start: number; end: number }>): Record<string, { start: number; end: number }> {
+  return Object.fromEntries(
+    Object.entries(sentences).map(([id, range]) => [id, { start: round(range.start), end: round(range.end) }])
+  );
+}
+
+// A prior hand correction for the regenerated sentence itself is void — the audio
+// under it just changed — so it is dropped rather than shifted like everything after it.
+export function dropRegeneratedEdit(
+  edits: TimingEdits,
+  sentenceIds: string[],
+  sentenceId: string,
+  oldStart: number,
+  oldEnd: number,
+  newDuration: number,
+  audioName: string
+): TimingEdits {
+  const delta = newDuration - (oldEnd - oldStart);
+  const shifted = roundAll(
+    shiftTimingsAfter({ audio: audioName, sentences: edits.sentences }, sentenceIds, sentenceId, delta).sentences
+  );
+  const { [sentenceId]: _dropped, ...rest } = shifted;
+  return { sentences: rest };
+}
+
+// Trims leading/trailing silence ElevenLabs adds around a single-sentence take so the
+// splice doesn't insert a dead-air gap the full-scene original never had.
+export function regenTrimBounds(
+  duration: number,
+  silences: Silence[],
+  pad = REGEN_TRIM_PAD_SECONDS
+): { start: number; end: number } {
+  let start = 0;
+  let end = duration;
+  const leading = silences.find((s) => s.start <= 0.0005);
+  if (leading) start = round(Math.min(duration, Math.max(0, leading.end - pad)));
+  const trailing = [...silences].reverse().find((s) => duration - s.end <= 0.0005);
+  if (trailing) end = round(Math.max(start, Math.min(duration, trailing.start + pad)));
+  return { start, end };
+}
+
+export interface SpliceSegment {
+  source: "original" | "candidate";
+  start?: number;
+  end?: number;
+}
+
+// Whatever sits strictly before/after the regenerated sentence in the *original* file
+// carries over untouched; only the middle segment is the freshly generated clip.
+export function buildSpliceSegments(
+  oldStart: number,
+  oldEnd: number,
+  totalDuration: number
+): SpliceSegment[] {
+  const segments: SpliceSegment[] = [];
+  if (oldStart > 0.0005) segments.push({ source: "original", start: 0, end: oldStart });
+  segments.push({ source: "candidate" });
+  if (totalDuration - oldEnd > 0.0005) {
+    segments.push({ source: "original", start: oldEnd, end: totalDuration });
+  }
+  return segments;
+}
+
+export function buildConcatFilter(segments: SpliceSegment[]): string {
+  const parts: string[] = [];
+  const labels: string[] = [];
+  segments.forEach((segment, i) => {
+    const label = `s${i}`;
+    if (segment.source === "candidate") {
+      parts.push(`[1:a]asetpts=PTS-STARTPTS[${label}]`);
+    } else {
+      parts.push(`[0:a]atrim=start=${segment.start}:end=${segment.end},asetpts=PTS-STARTPTS[${label}]`);
+    }
+    labels.push(`[${label}]`);
+  });
+  parts.push(`${labels.join("")}concat=n=${segments.length}:v=0:a=1[out]`);
+  return parts.join(";");
+}
+
+const RegenAlignmentSchema = z.object({
+  characters: z.array(z.string()),
+  character_start_times_seconds: z.array(z.number()),
+  character_end_times_seconds: z.array(z.number()),
+});
+
+const RegenTtsResponseSchema = z.object({
+  audio_base64: z.string().min(1),
+  alignment: RegenAlignmentSchema.nullable().optional(),
+});
+
+async function synthesizeSentence(
+  text: string,
+  voiceId: string,
+  voices: DialogueVoices,
+  apiKey: string
+): Promise<Buffer> {
+  const response = await fetch(REGEN_API_URL.replace("{voice_id}", voiceId), {
+    method: "POST",
+    headers: { "xi-api-key": apiKey, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      text,
+      model_id: voices.model_id,
+      language_code: voices.language_code,
+      voice_settings: voices.settings,
+      output_format: REGEN_OUTPUT_FORMAT,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`ElevenLabs request failed (HTTP ${response.status}): ${(await response.text()).slice(0, 800)}`);
+  }
+  const parsed = RegenTtsResponseSchema.safeParse(await response.json());
+  if (!parsed.success) throw new Error(`unexpected ElevenLabs response shape: ${parsed.error.message}`);
+  const audio = Buffer.from(parsed.data.audio_base64, "base64");
+  if (audio.length < REGEN_MIN_MP3_BYTES) throw new Error(`generated audio is only ${audio.length} bytes`);
+  return audio;
+}
+
+function runFfmpeg(args: string[], label: string): void {
+  const result = spawnSync("ffmpeg", args, { encoding: "utf-8" });
+  if (result.error || result.status !== 0) {
+    throw new Error(`ffmpeg could not ${label}: ${(result.stderr ?? "").slice(-800)}`);
+  }
 }
 
 /**
@@ -195,21 +366,46 @@ function main() {
   requireFfmpeg();
 
   const lang = lessonId.split("-")[0];
-  const audioDir = path.join(CONTENT_ROOT, lang, AUDIO_DIR_NAME);
-  const lesson = readJson(
-    path.join(CONTENT_ROOT, lang, "lessons", `${lessonId}.json`),
-    LessonSchema,
-    `lesson ${lessonId}`
-  );
+  const langDir = path.join(CONTENT_ROOT, lang);
+  const audioDir = path.join(langDir, AUDIO_DIR_NAME);
+  const lessonPath = path.join(langDir, "lessons", `${lessonId}.json`);
+  const lesson = readJson(lessonPath, LessonSchema, `lesson ${lessonId}`);
   const timingsPath = path.join(audioDir, `${lessonId}.timings.json`);
   let timings = readJson(timingsPath, AudioTimingsSchema, `timings for ${lessonId}`);
   const editsPath = path.join(audioDir, `${lessonId}.timings.edits.json`);
-  let edits = fs.existsSync(editsPath)
+  let edits: TimingEdits = fs.existsSync(editsPath)
     ? readJson(editsPath, TimingEditsSchema, `edits for ${lessonId}`)
     : { sentences: {} };
 
   const audioPath = path.join(audioDir, timings.audio);
   if (!fs.existsSync(audioPath)) fail(`audio not found at ${audioPath}`);
+
+  const orderedIds = lessonSentences(lesson).map((sentence) => sentence.id);
+  const sentenceById = new Map(lessonSentences(lesson).map((sentence) => [sentence.id, sentence]));
+
+  // The regenerate feature (single-sentence take -> spliced back in) is optional:
+  // it needs the audio script and voice map, but plain boundary editing does not,
+  // so their absence only blocks regeneration, not the whole editor.
+  const audioScriptPath = path.join(langDir, "audio-scripts", `${lessonId}.md`);
+  const scriptById = new Map(
+    (fs.existsSync(audioScriptPath) ? parseScript(fs.readFileSync(audioScriptPath, "utf-8")) : []).map(
+      (line) => [line.id, line]
+    )
+  );
+  const voicesPath = path.join(langDir, "voices.json");
+  const voices: DialogueVoices | null = fs.existsSync(voicesPath)
+    ? DialogueVoicesSchema.parse(JSON.parse(fs.readFileSync(voicesPath, "utf-8")))
+    : null;
+  if (fs.existsSync(".env.local")) process.loadEnvFile(".env.local");
+  const apiKey = process.env.ELEVENLABS_API_KEY ?? null;
+
+  const regenTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "sveiki-regen-"));
+  interface Candidate {
+    sentenceId: string;
+    filePath: string;
+    duration: number;
+  }
+  const candidates = new Map<string, Candidate>();
 
   const port = Number.parseInt(flag(argv, "--port") ?? String(DEFAULT_PORT), 10);
   const noise = flag(argv, "--noise") ?? DEFAULT_NOISE;
@@ -223,7 +419,6 @@ function main() {
     }
     const seconds = Number.parseFloat(insertSeconds);
     if (!Number.isFinite(seconds) || seconds <= 0) fail("--seconds must be a positive number");
-    const orderedIds = lessonSentences(lesson).map((sentence) => sentence.id);
     const current = edits.sentences[insertAfter] ?? timings.sentences[insertAfter];
     if (!current) fail(`no timing found for ${insertAfter}`);
     const updated = shiftTimingsAfter(timings, orderedIds, insertAfter, seconds);
@@ -263,6 +458,7 @@ function main() {
           id: sentence.id,
           speaker: sentence.speaker ?? "",
           target: sentence.target,
+          scriptText: scriptById.get(sentence.id)?.text ?? null,
           start: (edited ?? generated).start,
           end: (edited ?? generated).end,
           generatedStart: generated.start,
@@ -289,6 +485,137 @@ function main() {
   }
 
   refreshAfterAudioChange();
+
+  // Regenerates one sentence via single-voice Text-to-Speech (Text-to-Dialogue can't
+  // usefully redo just one line — no scene context, and v3 doesn't support stitching
+  // requests) and returns a trimmed candidate clip for the browser to audition before
+  // committing. Does not touch any file.
+  async function handleRegenerate(sentenceId: string) {
+    if (!apiKey) throw new Error("ELEVENLABS_API_KEY is not set — add it to .env.local");
+    if (!voices) throw new Error(`voices.json not found for ${lang}`);
+    const sentence = sentenceById.get(sentenceId);
+    if (!sentence) throw new Error(`unknown sentence id: ${sentenceId}`);
+    const line = scriptById.get(sentenceId);
+    if (!line) throw new Error(`${sentenceId} is missing from ${path.basename(audioScriptPath)}`);
+    const stripped = stripTags(line.text);
+    if (stripped.toLowerCase() !== sentence.target.toLowerCase()) {
+      throw new Error(
+        `${sentenceId}: audio script text differs from the lesson target — fix the drift before regenerating ` +
+          `(script: ${JSON.stringify(stripped)}, target: ${JSON.stringify(sentence.target)})`
+      );
+    }
+    const voiceId = voices.speakers[line.speaker];
+    if (!voiceId) throw new Error(`no voice_id in voices.json for speaker "${line.speaker}"`);
+
+    const current = edits.sentences[sentenceId] ?? timings.sentences[sentenceId];
+    if (!current) throw new Error(`no timing found for ${sentenceId}`);
+    const isEdited = Boolean(edits.sentences[sentenceId]);
+
+    const rawAudio = await synthesizeSentence(line.text, voiceId, voices, apiKey);
+    const stamp = Date.now();
+    const rawPath = path.join(regenTmpDir, `${sentenceId}-${stamp}-raw.mp3`);
+    fs.writeFileSync(rawPath, rawAudio);
+    const rawDuration = probeDuration(rawPath);
+    const rawSilences = detectSilences(rawPath, noise, silenceDuration, rawDuration);
+    const { start, end } = regenTrimBounds(rawDuration, rawSilences);
+
+    const trimmedPath = path.join(regenTmpDir, `${sentenceId}-${stamp}-trimmed.mp3`);
+    runFfmpeg(
+      [
+        "-y", "-i", rawPath,
+        "-af", `atrim=start=${start}:end=${end},asetpts=PTS-STARTPTS`,
+        "-codec:a", "libmp3lame", "-b:a", "128k", trimmedPath,
+      ],
+      "trim the candidate clip"
+    );
+    const trimmedDuration = probeDuration(trimmedPath);
+
+    const candidateId = crypto.randomUUID();
+    candidates.set(candidateId, { sentenceId, filePath: trimmedPath, duration: trimmedDuration });
+
+    return {
+      candidateId,
+      text: line.text,
+      oldStart: current.start,
+      oldEnd: current.end,
+      oldDuration: round(current.end - current.start),
+      newDuration: round(trimmedDuration),
+      edited: isEdited,
+    };
+  }
+
+  // Splices a previously generated candidate into the audio in place, shifts every
+  // later boundary by the exact duration delta, and drops any stale hand correction
+  // for the patched sentence itself (the audio under it just changed).
+  function handleRegenerateCommit(sentenceId: string, candidateId: string, confirmed: boolean): void {
+    const candidate = candidates.get(candidateId);
+    if (!candidate || candidate.sentenceId !== sentenceId) {
+      throw new Error("candidate not found or does not match this sentence — regenerate again");
+    }
+    const current = edits.sentences[sentenceId] ?? timings.sentences[sentenceId];
+    if (!current) throw new Error(`no timing found for ${sentenceId}`);
+    const isEdited = Boolean(edits.sentences[sentenceId]);
+    if (!isEdited && !confirmed) {
+      throw new Error(`${sentenceId}'s boundary has never been human-reviewed. Type "y" to proceed anyway.`);
+    }
+
+    const totalDuration = probeDuration(audioPath);
+    const segments = buildSpliceSegments(current.start, current.end, totalDuration);
+    const outPath = path.join(regenTmpDir, `${lessonId}-spliced-${Date.now()}.mp3`);
+    runFfmpeg(
+      [
+        "-y", "-i", audioPath, "-i", candidate.filePath,
+        "-filter_complex", buildConcatFilter(segments),
+        "-map", "[out]", "-codec:a", "libmp3lame", "-b:a", "128k", outPath,
+      ],
+      "splice the replacement in"
+    );
+
+    // Rolling backups: only the most recent regeneration is undoable, which is
+    // enough for "that take was worse, put the old one back."
+    fs.copyFileSync(audioPath, `${audioPath}.bak`);
+    fs.copyFileSync(timingsPath, `${timingsPath}.bak`);
+    if (fs.existsSync(editsPath)) fs.copyFileSync(editsPath, `${editsPath}.bak`);
+
+    fs.copyFileSync(outPath, audioPath);
+
+    timings = applyRegeneratedDuration(timings, orderedIds, sentenceId, current.start, current.end, candidate.duration);
+    writeJson(timingsPath, timings);
+
+    const nextEdits = dropRegeneratedEdit(
+      edits, orderedIds, sentenceId, current.start, current.end, candidate.duration, timings.audio
+    );
+    if (Object.keys(nextEdits.sentences).length > 0) {
+      edits = nextEdits;
+      writeJson(editsPath, edits);
+    } else if (fs.existsSync(editsPath)) {
+      fs.rmSync(editsPath);
+      edits = { sentences: {} };
+    }
+
+    const sentence = sentenceById.get(sentenceId)!;
+    if (sentence.audioApproved) {
+      sentence.audioApproved = false;
+      writeJson(lessonPath, lesson);
+      console.log(yellow(`  ${sentenceId} was marked audioApproved — reset to false, needs a fresh native-speaker check`));
+    }
+
+    candidates.delete(candidateId);
+    refreshAfterAudioChange();
+    const delta = candidate.duration - (current.end - current.start);
+    console.log(
+      green(
+        `  regenerated ${sentenceId}: ${(current.end - current.start).toFixed(3)}s -> ` +
+          `${candidate.duration.toFixed(3)}s (Δ ${delta >= 0 ? "+" : ""}${delta.toFixed(3)}s)`
+      )
+    );
+    console.log(
+      yellow(
+        `  re-check ${sentenceId} by ear (and anything shifted after it) — ` +
+          `${lessonId}.alignment.json is now stale from here on`
+      )
+    );
+  }
 
   const htmlPath = path.join(process.cwd(), "scripts", "timings-editor.html");
   if (!fs.existsSync(htmlPath)) fail(`editor page not found at ${htmlPath}`);
@@ -348,7 +675,6 @@ function main() {
           if (!afterId) throw new Error("afterId is required");
           if (!Number.isFinite(seconds) || seconds <= 0) throw new Error("seconds must be a positive number");
 
-          const orderedIds = lessonSentences(lesson).map((sentence) => sentence.id);
           const current = edits.sentences[afterId] ?? timings.sentences[afterId];
           if (!current) throw new Error(`no timing found for ${afterId}`);
 
@@ -379,6 +705,86 @@ function main() {
           response.end(JSON.stringify({ ok: false, error: message }));
         }
       });
+      return;
+    }
+
+    if (request.method === "POST" && url === "/regenerate") {
+      const chunks: Buffer[] = [];
+      request.on("data", (chunk: Buffer) => chunks.push(chunk));
+      request.on("end", () => {
+        (async () => {
+          try {
+            const body = JSON.parse(Buffer.concat(chunks).toString("utf-8"));
+            const sentenceId = typeof body.sentenceId === "string" ? body.sentenceId : "";
+            if (!sentenceId) throw new Error("sentenceId is required");
+            const result = await handleRegenerate(sentenceId);
+            response.writeHead(200, { "Content-Type": "application/json" });
+            response.end(JSON.stringify({ ok: true, result }));
+          } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            console.error(red(`  regenerate rejected — ${message}`));
+            response.writeHead(400, { "Content-Type": "application/json" });
+            response.end(JSON.stringify({ ok: false, error: message }));
+          }
+        })();
+      });
+      return;
+    }
+
+    if (request.method === "POST" && url === "/regenerate-commit") {
+      const chunks: Buffer[] = [];
+      request.on("data", (chunk: Buffer) => chunks.push(chunk));
+      request.on("end", () => {
+        try {
+          const body = JSON.parse(Buffer.concat(chunks).toString("utf-8"));
+          const sentenceId = typeof body.sentenceId === "string" ? body.sentenceId : "";
+          const candidateId = typeof body.candidateId === "string" ? body.candidateId : "";
+          const confirmed = body.confirmed === true;
+          if (!sentenceId || !candidateId) throw new Error("sentenceId and candidateId are required");
+          handleRegenerateCommit(sentenceId, candidateId, confirmed);
+          response.writeHead(200, { "Content-Type": "application/json" });
+          response.end(JSON.stringify({ ok: true, data }));
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          console.error(red(`  regenerate-commit rejected — ${message}`));
+          response.writeHead(400, { "Content-Type": "application/json" });
+          response.end(JSON.stringify({ ok: false, error: message }));
+        }
+      });
+      return;
+    }
+
+    if (request.method === "GET" && url.startsWith("/regenerate-original.mp3")) {
+      try {
+        const sentenceId = new URL(url, "http://localhost").searchParams.get("sentenceId") ?? "";
+        const current = edits.sentences[sentenceId] ?? timings.sentences[sentenceId];
+        if (!current) throw new Error(`no timing found for ${sentenceId}`);
+        const slicePath = path.join(regenTmpDir, `${sentenceId}-slice-${Date.now()}.mp3`);
+        runFfmpeg(
+          ["-y", "-ss", String(current.start), "-to", String(current.end), "-i", audioPath, "-c", "copy", slicePath],
+          "extract the current slice"
+        );
+        const stat = fs.statSync(slicePath);
+        response.writeHead(200, { "Content-Type": "audio/mpeg", "Content-Length": stat.size, "Cache-Control": "no-store" });
+        fs.createReadStream(slicePath).pipe(response);
+      } catch (error) {
+        response.writeHead(400);
+        response.end(error instanceof Error ? error.message : String(error));
+      }
+      return;
+    }
+
+    if (request.method === "GET" && url.startsWith("/regenerate-candidate.mp3")) {
+      const candidateId = new URL(url, "http://localhost").searchParams.get("candidateId") ?? "";
+      const candidate = candidates.get(candidateId);
+      if (!candidate) {
+        response.writeHead(404);
+        response.end("candidate not found");
+        return;
+      }
+      const stat = fs.statSync(candidate.filePath);
+      response.writeHead(200, { "Content-Type": "audio/mpeg", "Content-Length": stat.size, "Cache-Control": "no-store" });
+      fs.createReadStream(candidate.filePath).pipe(response);
       return;
     }
 
@@ -416,7 +822,7 @@ function main() {
     console.log(bold(`\n  ${url}`));
     console.log(dim("  Ctrl-C when finished\n"));
     if (!argv.includes("--no-open") && process.platform === "darwin") {
-      spawn("open", [url], { stdio: "ignore", detached: true }).unref();
+      spawn("open", ["-a", "Google Chrome", url], { stdio: "ignore", detached: true }).unref();
     }
   });
 }

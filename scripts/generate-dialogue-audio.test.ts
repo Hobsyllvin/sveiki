@@ -43,7 +43,7 @@ describe("whole-lesson dialogue scripts", () => {
       expect(checkScriptAgainstLesson(script, lessonSentences(lesson))).toEqual([]);
       expect(dialogueCharacterCount(resolveVoices(script, voices))).toBeLessThanOrEqual(2_000);
       expect(voices.settings).toEqual({
-        stability: 0.6,
+        stability: 1,
         similarity_boost: 0.75,
         use_speaker_boost: true,
         style: 0,

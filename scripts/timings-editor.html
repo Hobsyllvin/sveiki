@@ -15,6 +15,7 @@
     --edited: #b4531a;
     --sel-row: #f3eee5;
     --warn: #b3261e;
+    --warn-bg: rgba(179, 38, 30, .07);
   }
   * { box-sizing: border-box; }
   body {
@@ -62,6 +63,28 @@
   .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
   .hint { padding: 7px 16px; font-size: 12px; color: var(--muted); }
   .row-actions button { padding: 1px 7px; font-size: 11px; }
+
+  #regenPanel {
+    display: none; flex-direction: column; gap: 10px;
+    border-top: 2px solid var(--accent); background: var(--panel);
+    padding: 12px 16px; position: sticky; bottom: 0; z-index: 6;
+    box-shadow: 0 -2px 8px rgba(42, 36, 29, .08);
+  }
+  #regenPanel.open { display: flex; }
+  #regenPanel .row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  #regenPanel .clip { display: flex; flex-direction: column; gap: 4px; }
+  #regenPanel .clip .label { color: var(--muted); font-size: 11px; }
+  #regenPanel .warn {
+    display: none; gap: 8px; align-items: center; flex-wrap: wrap;
+    background: var(--warn-bg); border: 1px solid var(--warn); color: var(--warn);
+    border-radius: 4px; padding: 8px 10px;
+  }
+  #regenPanel .warn.show { display: flex; }
+  #regenPanel .warn input {
+    font: inherit; border: 1px solid var(--warn); border-radius: 4px; padding: 2px 6px; width: 4ch;
+  }
+  #regenPanel button.danger { border-color: var(--warn); color: var(--warn); }
+  #regenStatus { color: var(--muted); min-height: 1.6em; }
 </style>
 </head>
 <body>
@@ -101,6 +124,33 @@
   <tbody id="rows"></tbody>
 </table>
 
+<div id="regenPanel">
+  <div class="row">
+    <strong id="regenId"></strong>
+    <span id="regenText" style="color: var(--muted);"></span>
+  </div>
+  <div class="row">
+    <div class="clip">
+      <span class="label">current audio (<span id="regenOldDuration"></span>)</span>
+      <audio id="regenOldAudio" controls preload="none"></audio>
+    </div>
+    <div class="clip">
+      <span class="label">candidate take (<span id="regenNewDuration"></span>)</span>
+      <audio id="regenNewAudio" controls preload="none"></audio>
+    </div>
+    <button id="regenAgain">regenerate again</button>
+  </div>
+  <div class="warn" id="regenWarn">
+    <span>this boundary has never been human-reviewed — cutting here could clip into the neighbouring sentence.</span>
+    type <input id="regenConfirm" maxlength="1" autocomplete="off"> to proceed anyway
+  </div>
+  <div class="row">
+    <button id="regenCommit" class="danger">commit — splice this in</button>
+    <button id="regenCancel">cancel</button>
+    <span id="regenStatus"></span>
+  </div>
+</div>
+
 <script>
 // Canvas cannot read CSS custom properties, so the light palette is mirrored here.
 const COLORS = {
@@ -134,6 +184,17 @@ const clockEl = document.getElementById('clock');
 const saveBtn = document.getElementById('save');
 const linkedBtn = document.getElementById('linked');
 const snapBtn = document.getElementById('snap');
+const regenPanel = document.getElementById('regenPanel');
+const regenIdEl = document.getElementById('regenId');
+const regenTextEl = document.getElementById('regenText');
+const regenOldAudio = document.getElementById('regenOldAudio');
+const regenNewAudio = document.getElementById('regenNewAudio');
+const regenOldDurationEl = document.getElementById('regenOldDuration');
+const regenNewDurationEl = document.getElementById('regenNewDuration');
+const regenWarnEl = document.getElementById('regenWarn');
+const regenConfirmInput = document.getElementById('regenConfirm');
+const regenCommitBtn = document.getElementById('regenCommit');
+const regenStatusEl = document.getElementById('regenStatus');
 
 let data = null;
 let peaks = null;            // [min, max] pairs per peak bucket
@@ -154,6 +215,7 @@ let dragging = null;         // { kind: 'boundary'|'start'|'end', index }
 let dirty = false;
 let lastPlayhead = -1;       // tracks playhead moves so the highlight follows it
                               // without fighting explicit row/handle selections
+let regenActive = null;      // { sentenceId, candidateId, edited }
 
 const fmt = (t) => {
   const m = Math.floor(t / 60);
@@ -570,6 +632,9 @@ function renderRows() {
       renderRows();
     });
     add('‖+', 'insert silence after this sentence', () => insertSilenceAfter(s.id));
+    add('↻', s.scriptText ? 'regenerate this sentence’s audio' : 'missing from the audio script — cannot regenerate', () => {
+      if (s.scriptText) regenerateSentence(s.id);
+    });
     tr.onclick = () => setSelected(i);
     rowsBody.appendChild(tr);
   });
@@ -681,6 +746,87 @@ async function insertSilenceAfter(id) {
     alert(`could not insert silence: ${error.message}`);
   }
 }
+
+async function regenerateSentence(sentenceId) {
+  try {
+    if (dirty) await saveEdits();
+  } catch (error) {
+    alert(`could not save pending corrections first: ${error.message}`);
+    return;
+  }
+  regenPanel.classList.remove('open');
+  regenStatusEl.textContent = '';
+  statusEl.textContent = `generating ${sentenceId}…`;
+  try {
+    const response = await fetch('/regenerate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sentenceId }),
+    });
+    const result = await response.json();
+    if (!result.ok) throw new Error(result.error || 'rejected');
+    openRegenPanel(sentenceId, result.result);
+    statusEl.textContent = '';
+  } catch (error) {
+    statusEl.textContent = 'generate failed';
+    alert(`could not generate a replacement: ${error.message}`);
+  }
+}
+
+function openRegenPanel(sentenceId, result) {
+  regenActive = { sentenceId, candidateId: result.candidateId, edited: result.edited };
+  regenIdEl.textContent = sentenceId;
+  regenTextEl.textContent = result.text;
+  regenOldAudio.src = `/regenerate-original.mp3?sentenceId=${encodeURIComponent(sentenceId)}&t=${Date.now()}`;
+  regenNewAudio.src = `/regenerate-candidate.mp3?candidateId=${encodeURIComponent(result.candidateId)}`;
+  regenOldDurationEl.textContent = `${result.oldDuration.toFixed(3)}s`;
+  regenNewDurationEl.textContent = `${result.newDuration.toFixed(3)}s`;
+  regenWarnEl.classList.toggle('show', !result.edited);
+  regenConfirmInput.value = '';
+  regenStatusEl.textContent = '';
+  updateRegenCommitEnabled();
+  regenPanel.classList.add('open');
+}
+
+function updateRegenCommitEnabled() {
+  if (!regenActive) { regenCommitBtn.disabled = true; return; }
+  regenCommitBtn.disabled = !regenActive.edited && regenConfirmInput.value.trim().toLowerCase() !== 'y';
+}
+
+regenConfirmInput.addEventListener('input', updateRegenCommitEnabled);
+
+document.getElementById('regenAgain').onclick = () => {
+  if (regenActive) regenerateSentence(regenActive.sentenceId);
+};
+
+document.getElementById('regenCancel').onclick = () => {
+  regenActive = null;
+  regenPanel.classList.remove('open');
+};
+
+regenCommitBtn.onclick = async () => {
+  if (!regenActive) return;
+  const confirmed = regenConfirmInput.value.trim().toLowerCase() === 'y';
+  regenCommitBtn.disabled = true;
+  regenStatusEl.textContent = 'splicing…';
+  try {
+    const response = await fetch('/regenerate-commit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sentenceId: regenActive.sentenceId, candidateId: regenActive.candidateId, confirmed }),
+    });
+    const result = await response.json();
+    if (!result.ok) throw new Error(result.error || 'rejected');
+    const patchedId = regenActive.sentenceId;
+    regenActive = null;
+    regenPanel.classList.remove('open');
+    await reload(result.data);
+    statusEl.textContent = `regenerated ${patchedId} — re-check it (and anything after it) by ear`;
+  } catch (error) {
+    regenStatusEl.textContent = `commit failed: ${error.message}`;
+    updateRegenCommitEnabled();
+  }
+};
 
 window.addEventListener('beforeunload', (event) => {
   if (dirty) event.preventDefault();
