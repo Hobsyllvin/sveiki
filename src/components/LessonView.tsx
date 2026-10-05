@@ -59,12 +59,15 @@ export default function LessonView({ lesson, timings = null, audioSrc = null }: 
           return (
             <section key={section.title} className={`lesson-section section-${section.format}`}>
               <div className={`${section.format}-block`}>
-                {section.sentences.map((sentence) => (
+                {section.sentences.map((sentence, index) => {
+                  const repeatsSpeaker =
+                    index > 0 && sentence.speaker === section.sentences[index - 1].speaker;
+                  return (
                   <InterlinearSentence
                     key={sentence.id}
                     sentence={sentence}
                     mode={mode}
-                    showSpeaker={useSpeakerGutter}
+                    showSpeaker={useSpeakerGutter && !repeatsSpeaker}
                     showGutter={useSpeakerGutter}
                     openNoteId={openNoteId}
                     onToggleNote={handleToggleNote}
@@ -74,7 +77,8 @@ export default function LessonView({ lesson, timings = null, audioSrc = null }: 
                     onPlayFrom={hasAudio ? () => audio.playFrom(sentence.id) : undefined}
                     shouldAutoScroll={audio.shouldAutoScroll}
                   />
-                ))}
+                  );
+                })}
               </div>
             </section>
           );

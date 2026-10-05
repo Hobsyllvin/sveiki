@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { Sentence } from "@/lib/content/schema";
+import { markForSpeaker } from "@/lib/presentation/speakerIcons";
 
 export type ViewMode = "decode" | "natural" | "latvian";
 
@@ -59,9 +60,14 @@ export default function InterlinearSentence({
       onClick={handleBodyClick}
     >
       <div className="sentence-gutter">
-        {showSpeaker && sentence.speaker && (
-          <span className="speaker-label">{sentence.speaker}</span>
-        )}
+        {showSpeaker && sentence.speaker && (() => {
+          const Mark = markForSpeaker(sentence.speaker);
+          return Mark ? (
+            <Mark className="speaker-mark" />
+          ) : (
+            <span className="speaker-label">{sentence.speaker}</span>
+          );
+        })()}
       </div>
 
       <div className="sentence-content">

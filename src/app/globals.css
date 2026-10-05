@@ -13,7 +13,7 @@
   --rule: #b8cec4;
   --note-bg: #e5f0e9;
   --active-bg: #dcece4;
-  --sentence-gutter: clamp(5.75rem, 14vw, 7.5rem);
+  --sentence-gutter: clamp(2.75rem, 6vw, 3.5rem);
   --font-lv: "Newsreader", Georgia, "Times New Roman", serif;
   --font-gloss: "Manrope", system-ui, sans-serif;
   --font-meta: "DM Mono", ui-monospace, monospace;
@@ -81,30 +81,36 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible { outline: 
 .mode-btn--active { color: var(--paper); background: var(--accent-strong); transform: translateY(-1px); }
 
 /* ── Interlinear study ───────────────────────────────────────── */
-.lesson-section { margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+.lesson-section { margin-bottom: 1.35rem; }
 .section-title { display: flex; align-items: center; gap: .75rem; margin: 0 0 1.35rem; color: var(--gloss); font-family: var(--font-meta); font-size: .68rem; font-weight: 400; letter-spacing: .07em; line-height: 1.3; text-transform: uppercase; }
 .section-title::after { height: 1px; flex: 1; background: var(--rule); content: ""; }
 .dialogue-block, .narration-block, .drill-block { display: flex; flex-direction: column; gap: 1.35rem; }
 .sentence-block { position: relative; display: grid; grid-template-columns: var(--sentence-gutter) minmax(0, 1fr); column-gap: clamp(.65rem, 2vw, 1rem); align-items: start; transition: background 200ms ease; }
 .sentence-block--seekable { cursor: pointer; }
 .sentence-block--unguttered { grid-template-columns: minmax(0, 1fr); }
-.sentence-block--active { background: linear-gradient(90deg, var(--active-bg), color-mix(in srgb, var(--active-bg) 45%, transparent)); }
-.sentence-gutter { display: flex; align-items: flex-start; gap: .4rem; min-width: 0; min-height: 1.6rem; padding-top: .12rem; }
+.sentence-block--active { background: linear-gradient(90deg, var(--active-bg), color-mix(in srgb, var(--active-bg) 45%, transparent)); border-radius: .75rem; }
+.sentence-gutter { display: flex; align-items: center; justify-content: flex-end; align-self: center; gap: .4rem; min-width: 0; min-height: 1.6rem; }
 .sentence-content { min-width: 0; }
 .speaker-label { min-width: 0; overflow: hidden; color: var(--gloss); font-family: var(--font-meta); font-size: .64rem; font-weight: 500; letter-spacing: .06em; line-height: 1.75; text-align: right; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+.speaker-mark { flex-shrink: 0; width: 2.35rem; height: 2.35rem; color: var(--gloss); transition: color 200ms ease; }
+.sentence-block--active .speaker-label, .sentence-block--active .speaker-mark { color: var(--accent-strong); }
 .token-row { display: flex; flex-wrap: wrap; gap: .35rem .9rem; align-items: flex-start; }
 .token-pair { position: relative; display: inline-flex; flex-direction: column; align-items: flex-start; }
 .lv-line { white-space: nowrap; }
 .lv-word, .lv-punct, .lv-sentence { color: var(--ink); font-family: var(--font-lv); font-size: clamp(1.25rem, 2.7vw, 1.55rem); font-weight: 500; line-height: 1.12; }
 .lv-word.has-note { cursor: pointer; text-decoration: underline dotted var(--accent); text-decoration-thickness: 1px; text-underline-offset: .25em; }
 .gloss-word { color: var(--gloss); font-family: var(--font-meta); font-size: .64rem; letter-spacing: .015em; line-height: 1.65; white-space: nowrap; }
-.note-bubble { position: absolute; top: calc(100% + .32rem); left: 0; z-index: 10; padding: .3rem .55rem; color: var(--ink); background: var(--note-bg); border: 1px solid var(--rule); border-radius: .2rem; box-shadow: 0 .6rem 1.5rem color-mix(in srgb, var(--ink) 14%, transparent); font-family: var(--font-meta); font-size: .63rem; line-height: 1.4; pointer-events: none; white-space: nowrap; }
+.note-bubble { position: absolute; top: calc(100% + .32rem); left: 0; z-index: 10; padding: .3rem .55rem; color: var(--ink); background: var(--note-bg); border: 1px solid var(--rule); border-radius: .45rem; box-shadow: 0 .6rem 1.5rem color-mix(in srgb, var(--ink) 14%, transparent); font-family: var(--font-meta); font-size: .63rem; line-height: 1.4; pointer-events: none; white-space: nowrap; }
 .natural-mode-sentence { display: flex; flex-direction: column; gap: 0; }
 .lv-sentence { margin: 0; }
 .natural-translation { margin: 0; color: var(--gloss); font-family: var(--font-meta); font-size: .72rem; line-height: 1.65; }
 
 /* ── Audio ───────────────────────────────────────────────────── */
 .audio-bar { position: sticky; bottom: 0; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; padding: .68rem 0; background: color-mix(in srgb, var(--paper) 92%, transparent); border-top: 1px solid var(--ink); backdrop-filter: blur(12px); }
+/* Hints that a sentence is only partly visible above the sticky bar, rather than
+   ending in a hard cut, without needing a dedicated scroll container (the lesson
+   list scrolls with the page, not a nested box). */
+.audio-bar::before { position: absolute; right: 0; bottom: 100%; left: 0; height: 3.5rem; background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--paper) 92%, transparent)); content: ""; pointer-events: none; }
 .audio-play { width: 2.2rem; height: 2.2rem; flex-shrink: 0; padding: 0; color: var(--paper); background: var(--accent-strong); border: 1px solid var(--accent-strong); border-radius: 50%; cursor: pointer; font-size: .68rem; line-height: 1; transition: transform 180ms var(--ease), background 180ms ease; }
 .audio-play:hover { background: var(--signal); border-color: var(--signal); transform: scale(1.05); }
 .audio-time, .audio-rate, .audio-repeat { color: var(--gloss); font-family: var(--font-meta); font-size: .66rem; letter-spacing: .02em; }
@@ -138,6 +144,7 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible { outline: 
   .mode-btn { padding-inline: .65rem; }
   .sentence-block { column-gap: .6rem; }
   .speaker-label { font-size: .58rem; }
+  .speaker-mark { width: 1.9rem; height: 1.9rem; }
   .token-row { gap: .3rem .7rem; }
   .audio-bar { gap: .35rem; }
   .audio-repeat { padding-inline: .35rem; font-size: .6rem; }

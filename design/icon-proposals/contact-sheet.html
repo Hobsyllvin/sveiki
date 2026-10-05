@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sveiki — speaker mark proposal</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap");
+:root {
+  --ink:#17312e; --paper:#f8f8f2; --canvas:#eef3ed; --margin:#dce9e2;
+  --gloss:#52645f; --accent:#0a7068; --accent-strong:#07534e; --signal:#c96043;
+  --rule:#b8cec4; --active-bg:#dcece4;
+  --font-lv:"Newsreader",Georgia,serif; --font-gloss:"Manrope",system-ui,sans-serif;
+  --font-meta:"DM Mono",ui-monospace,monospace;
+}
+body.dark {
+  --ink:#e5eee6; --paper:#122522; --canvas:#0e1d1b; --margin:#1b3632;
+  --gloss:#bfd0c6; --accent:#7bd0c2; --accent-strong:#b2e6db; --signal:#f09a77;
+  --rule:#38554e; --active-bg:#1a3732;
+}
+*{box-sizing:border-box}
+body{margin:0;padding:clamp(1.5rem,4vw,3.5rem);background:var(--canvas);color:var(--ink);
+ font-family:var(--font-gloss);line-height:1.6;transition:background .2s,color .2s}
+.wrap{max-width:64rem;margin:0 auto}
+.eyebrow{font-family:var(--font-meta);font-size:.69rem;letter-spacing:.08em;
+ text-transform:uppercase;color:var(--accent);margin:0 0 1rem}
+h1{font-family:var(--font-lv);font-weight:500;font-size:clamp(2.2rem,5vw,3.4rem);
+ letter-spacing:-.05em;line-height:.95;margin:0 0 .6rem}
+.sub{color:var(--gloss);max-width:42rem;margin:0 0 2rem;font-size:.95rem}
+h2{font-family:var(--font-lv);font-weight:500;font-size:1.5rem;letter-spacing:-.03em;
+ margin:3.5rem 0 .3rem;padding-top:1.6rem;border-top:1px solid var(--rule)}
+.h2note{color:var(--gloss);font-size:.86rem;margin:0 0 1.4rem;max-width:42rem}
+button{font-family:var(--font-meta);font-size:.68rem;letter-spacing:.04em;padding:.5rem .9rem;
+ border:1px solid var(--rule);border-radius:999px;background:var(--paper);color:var(--ink);
+ cursor:pointer;text-transform:uppercase}
+button:hover{border-color:var(--accent);color:var(--accent-strong)}
+.mk{display:inline-flex;width:var(--s);height:var(--s);color:var(--gloss);
+ vertical-align:middle;flex:0 0 auto}
+.mk svg{width:100%;height:100%;display:block}
+table{width:100%;border-collapse:collapse;background:var(--paper);border-radius:.5rem;overflow:hidden}
+th,td{padding:.7rem .6rem;text-align:center;border-bottom:1px solid var(--rule);vertical-align:middle}
+tr:last-child th,tr:last-child td{border-bottom:0}
+th{text-align:left;font-family:var(--font-lv);font-weight:500;font-size:1.05rem;
+ padding-left:1.1rem;white-space:nowrap}
+thead td{font-family:var(--font-meta);font-size:.64rem;color:var(--gloss);letter-spacing:.04em}
+td.note{text-align:left;color:var(--gloss);font-size:.78rem;line-height:1.5;
+ max-width:20rem;padding-right:1.1rem}
+.band{background:var(--paper);border-radius:.5rem;padding:1.6rem;display:flex;
+ gap:1.6rem;align-items:center;flex-wrap:wrap}
+.band.tight{gap:.9rem}
+.swatch{display:flex;gap:1.4rem;flex-wrap:wrap}
+.sw{display:flex;flex-direction:column;align-items:center;gap:.5rem;
+ font-family:var(--font-meta);font-size:.6rem;color:var(--gloss)}
+.on-accent .mk{color:var(--accent)} .on-strong .mk{color:var(--accent-strong)}
+.on-signal .mk{color:var(--signal)} .on-ink .mk{color:var(--ink)}
+.sim{background:var(--paper);border-radius:.5rem;padding:1.4rem 1.6rem}
+.sim h3{font-family:var(--font-meta);font-size:.63rem;letter-spacing:.07em;
+ text-transform:uppercase;color:var(--accent);margin:0 0 1rem;font-weight:400}
+.sent{display:grid;grid-template-columns:6.6rem minmax(0,1fr);gap:1rem;
+ padding:.55rem .5rem;border-radius:.3rem;align-items:start}
+.sent.is-active{background:var(--active-bg)}
+.sent.is-active .mk{color:var(--accent)}
+.gut{display:flex;justify-content:flex-end;align-items:center;padding-top:.15rem;min-width:0}
+.gut-both{gap:.42rem}
+.lbl{font-family:var(--font-meta);font-size:.64rem;font-weight:500;letter-spacing:.06em;
+ line-height:1.75;text-transform:uppercase;color:var(--gloss);white-space:nowrap;
+ overflow:hidden;text-overflow:ellipsis}
+.lv{font-family:var(--font-lv);font-size:1.12rem;line-height:1.35}
+.en{font-size:.76rem;color:var(--gloss);line-height:1.4}
+.sims{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(20rem,1fr))}
+.caption{font-family:var(--font-meta);font-size:.62rem;color:var(--gloss);
+ letter-spacing:.03em;margin:.7rem 0 0}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap}
+</style></head><body>
+<div class="wrap">
+<div class="top">
+  <div><p class="eyebrow">Proposal — not wired in</p><h1>Speaker marks</h1></div>
+  <button onclick="document.body.classList.toggle('dark')">Toggle dark</button>
+</div>
+<p class="sub">Five marks for the dialogue gutter. Two-tone: the head-and-shoulders
+chassis sits at 33% opacity, the identifying layer at full strength. Both layers are
+<code>currentColor</code>, so each mark inherits whatever colour the surrounding text
+already uses and dark mode needs no separate artwork. The Narrator has no mark by
+design — it is not a character.</p>
+
+<h2>The set</h2>
+<p class="h2note">Every mark at every size it might plausibly be used. The 20px column
+is the one that matters — that is the dialogue gutter.</p>
+<table>
+<thead><tr><td></td><td>16px</td><td>20px</td><td>24px</td><td>32px</td><td>48px</td><td>96px</td><td class="note"></td></tr></thead>
+<tbody><tr><th>Paula</th><td><span class="mk" style="--s:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:24px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:48px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:96px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span></td><td class="note">Long, full, falls past the shoulders. Widest mark in the set — she is the protagonist and carries the most visual weight.</td></tr><tr><th>Marta</th><td><span class="mk" style="--s:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Marta">
+  <title>Marta</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M6.4 14.6 C5.8 12.2 5.7 9.8 6.0 8.4 C6.6 5.4 9.0 3.6 12 3.6 C15.0 3.6 17.4 5.4 18.0 8.4 C18.3 9.8 18.2 12.2 17.6 14.6 L15.6 14.6 C16.1 12.8 16.2 10.6 16.0 9.0 L8.0 9.0 C7.8 10.6 7.9 12.8 8.4 14.6 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Marta">
+  <title>Marta</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M6.4 14.6 C5.8 12.2 5.7 9.8 6.0 8.4 C6.6 5.4 9.0 3.6 12 3.6 C15.0 3.6 17.4 5.4 18.0 8.4 C18.3 9.8 18.2 12.2 17.6 14.6 L15.6 14.6 C16.1 12.8 16.2 10.6 16.0 9.0 L8.0 9.0 C7.8 10.6 7.9 12.8 8.4 14.6 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:24px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Marta">
+  <title>Marta</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M6.4 14.6 C5.8 12.2 5.7 9.8 6.0 8.4 C6.6 5.4 9.0 3.6 12 3.6 C15.0 3.6 17.4 5.4 18.0 8.4 C18.3 9.8 18.2 12.2 17.6 14.6 L15.6 14.6 C16.1 12.8 16.2 10.6 16.0 9.0 L8.0 9.0 C7.8 10.6 7.9 12.8 8.4 14.6 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Marta">
+  <title>Marta</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M6.4 14.6 C5.8 12.2 5.7 9.8 6.0 8.4 C6.6 5.4 9.0 3.6 12 3.6 C15.0 3.6 17.4 5.4 18.0 8.4 C18.3 9.8 18.2 12.2 17.6 14.6 L15.6 14.6 C16.1 12.8 16.2 10.6 16.0 9.0 L8.0 9.0 C7.8 10.6 7.9 12.8 8.4 14.6 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:48px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Marta">
+  <title>Marta</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M6.4 14.6 C5.8 12.2 5.7 9.8 6.0 8.4 C6.6 5.4 9.0 3.6 12 3.6 C15.0 3.6 17.4 5.4 18.0 8.4 C18.3 9.8 18.2 12.2 17.6 14.6 L15.6 14.6 C16.1 12.8 16.2 10.6 16.0 9.0 L8.0 9.0 C7.8 10.6 7.9 12.8 8.4 14.6 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:96px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Marta">
+  <title>Marta</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M6.4 14.6 C5.8 12.2 5.7 9.8 6.0 8.4 C6.6 5.4 9.0 3.6 12 3.6 C15.0 3.6 17.4 5.4 18.0 8.4 C18.3 9.8 18.2 12.2 17.6 14.6 L15.6 14.6 C16.1 12.8 16.2 10.6 16.0 9.0 L8.0 9.0 C7.8 10.6 7.9 12.8 8.4 14.6 Z"/>
+  </g>
+</svg></span></td><td class="note">Blunt bob with a straight fringe. Deliberately the shortest hair of the two women so she can never be confused with Paula.</td></tr><tr><th>Pēteris</th><td><span class="mk" style="--s:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Pēteris">
+  <title>Pēteris</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C6.94 16.0 2.80 19.60 2.80 24 L21.20 24 C21.20 19.60 17.06 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.05 11.2 C6.8 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.2 6.8 16.95 11.2 C16.6 9.6 16.2 8.6 15.7 8.0 C14.5 8.9 13.3 9.3 12 9.3 C10.7 9.3 9.5 8.9 8.3 8.0 C7.8 8.6 7.4 9.6 7.05 11.2 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Pēteris">
+  <title>Pēteris</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C6.94 16.0 2.80 19.60 2.80 24 L21.20 24 C21.20 19.60 17.06 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.05 11.2 C6.8 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.2 6.8 16.95 11.2 C16.6 9.6 16.2 8.6 15.7 8.0 C14.5 8.9 13.3 9.3 12 9.3 C10.7 9.3 9.5 8.9 8.3 8.0 C7.8 8.6 7.4 9.6 7.05 11.2 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:24px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Pēteris">
+  <title>Pēteris</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C6.94 16.0 2.80 19.60 2.80 24 L21.20 24 C21.20 19.60 17.06 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.05 11.2 C6.8 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.2 6.8 16.95 11.2 C16.6 9.6 16.2 8.6 15.7 8.0 C14.5 8.9 13.3 9.3 12 9.3 C10.7 9.3 9.5 8.9 8.3 8.0 C7.8 8.6 7.4 9.6 7.05 11.2 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Pēteris">
+  <title>Pēteris</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C6.94 16.0 2.80 19.60 2.80 24 L21.20 24 C21.20 19.60 17.06 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.05 11.2 C6.8 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.2 6.8 16.95 11.2 C16.6 9.6 16.2 8.6 15.7 8.0 C14.5 8.9 13.3 9.3 12 9.3 C10.7 9.3 9.5 8.9 8.3 8.0 C7.8 8.6 7.4 9.6 7.05 11.2 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:48px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Pēteris">
+  <title>Pēteris</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C6.94 16.0 2.80 19.60 2.80 24 L21.20 24 C21.20 19.60 17.06 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.05 11.2 C6.8 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.2 6.8 16.95 11.2 C16.6 9.6 16.2 8.6 15.7 8.0 C14.5 8.9 13.3 9.3 12 9.3 C10.7 9.3 9.5 8.9 8.3 8.0 C7.8 8.6 7.4 9.6 7.05 11.2 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:96px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Pēteris">
+  <title>Pēteris</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C6.94 16.0 2.80 19.60 2.80 24 L21.20 24 C21.20 19.60 17.06 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.05 11.2 C6.8 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.2 6.8 16.95 11.2 C16.6 9.6 16.2 8.6 15.7 8.0 C14.5 8.9 13.3 9.3 12 9.3 C10.7 9.3 9.5 8.9 8.3 8.0 C7.8 8.6 7.4 9.6 7.05 11.2 Z"/>
+  </g>
+</svg></span></td><td class="note">Short even crop, no part. The plainest head in the set — nothing fussy, which suits him.</td></tr><tr><th>Jānis</th><td><span class="mk" style="--s:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Jānis">
+  <title>Jānis</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.65 16.0 4.10 19.60 4.10 24 L19.90 24 C19.90 19.60 16.34 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.2 10.8 C6.9 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.1 6.8 16.9 10.8 C16.7 9.4 16.5 8.2 16.2 7.4 C14.2 9.0 10.8 10.2 7.6 9.8 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Jānis">
+  <title>Jānis</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.65 16.0 4.10 19.60 4.10 24 L19.90 24 C19.90 19.60 16.34 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.2 10.8 C6.9 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.1 6.8 16.9 10.8 C16.7 9.4 16.5 8.2 16.2 7.4 C14.2 9.0 10.8 10.2 7.6 9.8 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:24px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Jānis">
+  <title>Jānis</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.65 16.0 4.10 19.60 4.10 24 L19.90 24 C19.90 19.60 16.34 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.2 10.8 C6.9 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.1 6.8 16.9 10.8 C16.7 9.4 16.5 8.2 16.2 7.4 C14.2 9.0 10.8 10.2 7.6 9.8 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Jānis">
+  <title>Jānis</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.65 16.0 4.10 19.60 4.10 24 L19.90 24 C19.90 19.60 16.34 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.2 10.8 C6.9 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.1 6.8 16.9 10.8 C16.7 9.4 16.5 8.2 16.2 7.4 C14.2 9.0 10.8 10.2 7.6 9.8 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:48px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Jānis">
+  <title>Jānis</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.65 16.0 4.10 19.60 4.10 24 L19.90 24 C19.90 19.60 16.34 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.2 10.8 C6.9 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.1 6.8 16.9 10.8 C16.7 9.4 16.5 8.2 16.2 7.4 C14.2 9.0 10.8 10.2 7.6 9.8 Z"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:96px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Jānis">
+  <title>Jānis</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.65 16.0 4.10 19.60 4.10 24 L19.90 24 C19.90 19.60 16.34 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.2 10.8 C6.9 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.1 6.8 16.9 10.8 C16.7 9.4 16.5 8.2 16.2 7.4 C14.2 9.0 10.8 10.2 7.6 9.8 Z"/>
+  </g>
+</svg></span></td><td class="note">Same short length, but swept into a hard side part. Formality rendered as grooming.</td></tr><tr><th>Waiter</th><td><span class="mk" style="--s:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:24px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:48px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span></td><td><span class="mk" style="--s:96px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span></td><td class="note">Forward-facing like everyone else. Identified by the apron — a narrow bib stepping out to a wide skirt — not by hair. The only mark in the set that carries its identity on the body.</td></tr></tbody></table>
+
+<h2>Confusability check</h2>
+<p class="h2note">The real test: all five side by side at gutter size. If any two read
+as the same person here, the set has failed. Pēteris and Jānis are the closest pair —
+same hair length, separated only by the side part.</p>
+<div class="band tight"><span class="mk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span><span class="mk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Marta">
+  <title>Marta</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M6.4 14.6 C5.8 12.2 5.7 9.8 6.0 8.4 C6.6 5.4 9.0 3.6 12 3.6 C15.0 3.6 17.4 5.4 18.0 8.4 C18.3 9.8 18.2 12.2 17.6 14.6 L15.6 14.6 C16.1 12.8 16.2 10.6 16.0 9.0 L8.0 9.0 C7.8 10.6 7.9 12.8 8.4 14.6 Z"/>
+  </g>
+</svg></span><span class="mk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Pēteris">
+  <title>Pēteris</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C6.94 16.0 2.80 19.60 2.80 24 L21.20 24 C21.20 19.60 17.06 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.05 11.2 C6.8 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.2 6.8 16.95 11.2 C16.6 9.6 16.2 8.6 15.7 8.0 C14.5 8.9 13.3 9.3 12 9.3 C10.7 9.3 9.5 8.9 8.3 8.0 C7.8 8.6 7.4 9.6 7.05 11.2 Z"/>
+  </g>
+</svg></span><span class="mk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Jānis">
+  <title>Jānis</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.65 16.0 4.10 19.60 4.10 24 L19.90 24 C19.90 19.60 16.34 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.2 10.8 C6.9 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.1 6.8 16.9 10.8 C16.7 9.4 16.5 8.2 16.2 7.4 C14.2 9.0 10.8 10.2 7.6 9.8 Z"/>
+  </g>
+</svg></span><span class="mk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span></div>
+<p class="caption">↑ 20px, true size · ↓ 24px</p>
+<div class="band tight"><span class="mk" style="--s:24px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span><span class="mk" style="--s:24px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Marta">
+  <title>Marta</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M6.4 14.6 C5.8 12.2 5.7 9.8 6.0 8.4 C6.6 5.4 9.0 3.6 12 3.6 C15.0 3.6 17.4 5.4 18.0 8.4 C18.3 9.8 18.2 12.2 17.6 14.6 L15.6 14.6 C16.1 12.8 16.2 10.6 16.0 9.0 L8.0 9.0 C7.8 10.6 7.9 12.8 8.4 14.6 Z"/>
+  </g>
+</svg></span><span class="mk" style="--s:24px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Pēteris">
+  <title>Pēteris</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C6.94 16.0 2.80 19.60 2.80 24 L21.20 24 C21.20 19.60 17.06 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.05 11.2 C6.8 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.2 6.8 16.95 11.2 C16.6 9.6 16.2 8.6 15.7 8.0 C14.5 8.9 13.3 9.3 12 9.3 C10.7 9.3 9.5 8.9 8.3 8.0 C7.8 8.6 7.4 9.6 7.05 11.2 Z"/>
+  </g>
+</svg></span><span class="mk" style="--s:24px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Jānis">
+  <title>Jānis</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.65 16.0 4.10 19.60 4.10 24 L19.90 24 C19.90 19.60 16.34 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.2 10.8 C6.9 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.1 6.8 16.9 10.8 C16.7 9.4 16.5 8.2 16.2 7.4 C14.2 9.0 10.8 10.2 7.6 9.8 Z"/>
+  </g>
+</svg></span><span class="mk" style="--s:24px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span></div>
+
+<h2>In the gutter</h2>
+<p class="h2note">Three ways to use them, in a mock of the real lesson layout. The
+fourth row is styled as the active sentence, where the mark picks up
+<code>--accent</code> automatically. The fifth row is the Narrator, which has no mark
+and falls back to the text label — worth checking that the mix does not look broken.</p>
+<div class="sims">
+  <div class="sim"><h3>Mark only</h3><div class="sent"><span class="gut"><span class="mk gmk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Jānis">
+  <title>Jānis</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.65 16.0 4.10 19.60 4.10 24 L19.90 24 C19.90 19.60 16.34 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.2 10.8 C6.9 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.1 6.8 16.9 10.8 C16.7 9.4 16.5 8.2 16.2 7.4 C14.2 9.0 10.8 10.2 7.6 9.8 Z"/>
+  </g>
+</svg></span></span><div class="txt"><div class="lv">Labdien! Kā jūs sauc?</div><div class="en">Good day! What are you called?</div></div></div><div class="sent"><span class="gut"><span class="mk gmk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span></span><div class="txt"><div class="lv">Mani sauc Paula.</div><div class="en">I am called Paula.</div></div></div><div class="sent"><span class="gut"><span class="mk gmk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span></span><div class="txt"><div class="lv">Ko jūs vēlaties?</div><div class="en">What would you like?</div></div></div><div class="sent is-active"><span class="gut"><span class="mk gmk" style="--s:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span></span><div class="txt"><div class="lv">Man arī. Es esmu no Lietuvas.</div><div class="en">Me too. I am from Lithuania.</div></div></div><div class="sent"><span class="gut"><span class="lbl">Narrator</span></span><div class="txt"><div class="lv">Viņi apsēžas pie galda.</div><div class="en">They sit down at the table.</div></div></div>
+    <p class="caption">Quietest. Needs the aria-label to carry the name.</p></div>
+  <div class="sim"><h3>Mark + label</h3><div class="sent"><span class="gut gut-both"><span class="mk gmk" style="--s:18px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Jānis">
+  <title>Jānis</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.65 16.0 4.10 19.60 4.10 24 L19.90 24 C19.90 19.60 16.34 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M7.2 10.8 C6.9 6.8 9.1 4.1 12 4.1 C14.9 4.1 17.1 6.8 16.9 10.8 C16.7 9.4 16.5 8.2 16.2 7.4 C14.2 9.0 10.8 10.2 7.6 9.8 Z"/>
+  </g>
+</svg></span><span class="lbl">Jānis</span></span><div class="txt"><div class="lv">Labdien! Kā jūs sauc?</div><div class="en">Good day! What are you called?</div></div></div><div class="sent"><span class="gut gut-both"><span class="mk gmk" style="--s:18px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span><span class="lbl">Paula</span></span><div class="txt"><div class="lv">Mani sauc Paula.</div><div class="en">I am called Paula.</div></div></div><div class="sent"><span class="gut gut-both"><span class="mk gmk" style="--s:18px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span><span class="lbl">Waiter</span></span><div class="txt"><div class="lv">Ko jūs vēlaties?</div><div class="en">What would you like?</div></div></div><div class="sent is-active"><span class="gut gut-both"><span class="mk gmk" style="--s:18px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Paula">
+  <title>Paula</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.27 16.0 3.40 19.60 3.40 24 L20.60 24 C20.60 19.60 16.73 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M5.2 19.4 C4.4 15.0 4.3 11.0 4.8 8.6 C5.5 5.0 8.3 2.8 12 2.8 C15.7 2.8 18.5 5.0 19.2 8.6 C19.7 11.0 19.6 15.0 18.8 19.4 C17.8 17.6 17.2 15.0 17.0 12.0 C16.6 9.6 16.2 8.4 15.6 7.6 C14.4 8.4 13.2 8.8 12 8.8 C10.8 8.8 9.6 8.4 8.4 7.6 C7.8 8.4 7.4 9.6 7.0 12.0 C6.8 15.0 6.2 17.6 5.2 19.4 Z"/>
+  </g>
+</svg></span><span class="lbl">Paula</span></span><div class="txt"><div class="lv">Man arī. Es esmu no Lietuvas.</div><div class="en">Me too. I am from Lithuania.</div></div></div><div class="sent"><span class="gut"><span class="lbl">Narrator</span></span><div class="txt"><div class="lv">Viņi apsēžas pie galda.</div><div class="en">They sit down at the table.</div></div></div>
+    <p class="caption">Belt and braces. Best for a learner meeting a character for the first time.</p></div>
+  <div class="sim"><h3>Label only — today</h3><div class="sent"><span class="gut"><span class="lbl">Jānis</span></span><div class="txt"><div class="lv">Labdien! Kā jūs sauc?</div><div class="en">Good day! What are you called?</div></div></div><div class="sent"><span class="gut"><span class="lbl">Paula</span></span><div class="txt"><div class="lv">Mani sauc Paula.</div><div class="en">I am called Paula.</div></div></div><div class="sent"><span class="gut"><span class="lbl">Waiter</span></span><div class="txt"><div class="lv">Ko jūs vēlaties?</div><div class="en">What would you like?</div></div></div><div class="sent is-active"><span class="gut"><span class="lbl">Paula</span></span><div class="txt"><div class="lv">Man arī. Es esmu no Lietuvas.</div><div class="en">Me too. I am from Lithuania.</div></div></div><div class="sent"><span class="gut"><span class="lbl">Narrator</span></span><div class="txt"><div class="lv">Viņi apsēžas pie galda.</div><div class="en">They sit down at the table.</div></div></div>
+    <p class="caption">Current behaviour, for comparison.</p></div>
+</div>
+
+<h2>Palette safety</h2>
+<p class="h2note">The marks introduce no colour of their own. Here is the same mark
+inheriting each existing token — nothing was added to the palette.</p>
+<div class="band"><div class="swatch">
+  <div class="sw"><span class="mk" style="--s:40px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span>--gloss</div>
+  <div class="sw on-ink"><span class="mk" style="--s:40px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span>--ink</div>
+  <div class="sw on-accent"><span class="mk" style="--s:40px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span>--accent</div>
+  <div class="sw on-strong"><span class="mk" style="--s:40px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span>--accent-strong</div>
+  <div class="sw on-signal"><span class="mk" style="--s:40px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Waiter">
+  <title>Waiter</title>
+  <g fill="currentColor" opacity="0.33">
+    <circle cx="12" cy="9.2" r="5"/>
+    <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M7.3 10.0 C7.1 6.5 9.2 4.1 12 4.1 C14.8 4.1 16.9 6.5 16.7 10.0 C16.5 8.4 16.1 7.3 15.6 6.8 C14.4 7.2 13.3 7.4 12 7.4 C10.7 7.4 9.6 7.2 8.4 6.8 C7.9 7.3 7.5 8.4 7.3 10.0 Z"/>
+    <rect x="10.7" y="16.8" width="2.6" height="3.6" rx=".5"/>
+    <rect x="6.5" y="19.2" width="11" height="6" rx=".7"/>
+  </g>
+</svg></span>--signal</div>
+</div></div>
+</div></body></html>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" role="img" aria-label="Marta">
+  <title>Marta</title>
+  <g fill="currentColor" opacity="0.33">
+  <circle cx="12" cy="9.2" r="5"/>
+  <path d="M12 16.0 C7.43 16.0 3.70 19.60 3.70 24 L20.30 24 C20.30 19.60 16.57 16.0 12 16.0 Z"/>
+  </g>
+  <g fill="currentColor">
+  <path d="M6.4 14.6 C5.8 12.2 5.7 9.8 6.0 8.4 C6.6 5.4 9.0 3.6 12 3.6 C15.0 3.6 17.4 5.4 18.0 8.4 C18.3 9.8 18.2 12.2 17.6 14.6 L15.6 14.6 C16.1 12.8 16.2 10.6 16.0 9.0 L8.0 9.0 C7.8 10.6 7.9 12.8 8.4 14.6 Z"/>
+  </g>
+</svg>
